@@ -1,0 +1,3 @@
+include ':annotations'
+include ':application'
+include ':compile'
