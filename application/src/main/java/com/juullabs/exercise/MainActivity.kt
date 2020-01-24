@@ -2,6 +2,11 @@ package com.juullabs.exercise
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.juullabs.exercise.activities.intentForNoExtrasActivity
+import com.juullabs.exercise.activities.intentForOptionalActivity
+import com.juullabs.exercise.activities.intentForStandardActivity
+import com.juullabs.exercise.activities.intentForSubclassActivity
+import kotlinx.android.synthetic.main.activity_main.toFragmentContainer
 import kotlinx.android.synthetic.main.activity_main.toNoExtrasActivity
 import kotlinx.android.synthetic.main.activity_main.toOptionalActivity
 import kotlinx.android.synthetic.main.activity_main.toStandardActivity
@@ -13,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toFragmentContainer.setOnClickListener {
+            startActivity(intentForFragmentContainerActivity())
+        }
         toNoExtrasActivity.setOnClickListener {
             startActivity(intentForNoExtrasActivity())
         }

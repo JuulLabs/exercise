@@ -23,8 +23,8 @@ allprojects {
 
 subprojects {
     // group = 'com.juullabs.exercise'
-    group = 'com.github.juullabs-oss.exercise'
-    version = '0.1.0'
+    group = 'com.github.juullabs-oss.android-exercise'
+    version = '0.2.0'
 }
 
 task clean(type: Delete) {

@@ -19,10 +19,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NoExtrasActivity" />
-        <activity android:name=".OptionalActivity" />
-        <activity android:name=".StandardActivity" />
-        <activity android:name=".SubclassActivity" />
+        <activity android:name=".FragmentContainerActivity" />
+
+        <activity android:name=".activities.NoExtrasActivity" />
+        <activity android:name=".activities.OptionalActivity" />
+        <activity android:name=".activities.StandardActivity" />
+        <activity android:name=".activities.SubclassActivity" />
 
     </application>
 

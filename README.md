@@ -54,20 +54,22 @@ Instead, it's the kind of boilerplate you might write by hand.
 
 ```kotlin
 internal class YourActivityExtras(
-  private val activity: YourActivity
+  private val instance: YourActivity
 ) {
   val someNumber: Int
-    get() = with (activity) {
-      intent?.extras?.get(packageName + ".someNumber") as kotlin.Int
+    get() = with (instance) {
+      intent?.extras?.get("$packageName.someNumber") as kotlin.Int
     }
 }
 
 internal val YourActivity.extras: YourActivityExtras
   get() = YourActivityExtras(this)
 
-fun Context.intentForYourActivity(someNumber: Int): Intent = Intent(this,
-    YourActivity::class.java).apply {
-  putExtra(packageName + ".someNumber", someNumber)
+fun Context.intentForYourActivity(someNumber: Int): Intent {
+  val intent = Intent(this, YourActivity::class.java)
+  return intent.apply {
+    replaceExtras(bundleOf("$packageName.someNumber" to someNumber))
+  }
 }
 ```
 

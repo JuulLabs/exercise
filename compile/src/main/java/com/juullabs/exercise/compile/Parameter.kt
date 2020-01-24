@@ -6,7 +6,7 @@ import com.squareup.kotlinpoet.asTypeName
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.type.TypeMirror
 
-internal class Extra(
+internal class Parameter(
     val name: String,
     val nonNullTypeName: TypeName,
     val optional: Boolean
@@ -26,9 +26,9 @@ internal class Extra(
             }
         }
 
-        fun fromAnnotation(annotation: AnnotationMirror): Extra {
+        fun fromAnnotation(annotation: AnnotationMirror): Parameter {
             val values = annotation.elementValues.mapKeys { (k, _) -> k.simpleName.toString() }
-            return Extra(
+            return Parameter(
                 name = checkNotNull(values["name"]).value as String,
                 nonNullTypeName = adjustTypeName(checkNotNull(values["type"]).value as TypeMirror),
                 optional = values["optional"]?.value == true

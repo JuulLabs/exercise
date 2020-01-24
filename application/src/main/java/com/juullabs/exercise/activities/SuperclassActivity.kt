@@ -1,4 +1,4 @@
-package com.juullabs.exercise
+package com.juullabs.exercise.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.juullabs.exercise.annotations.Exercise
