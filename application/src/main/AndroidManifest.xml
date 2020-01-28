@@ -21,6 +21,7 @@
 
         <activity android:name=".FragmentContainerActivity" />
 
+        <activity android:name=".activities.ListActivity" />
         <activity android:name=".activities.NoExtrasActivity" />
         <activity android:name=".activities.OptionalActivity" />
         <activity android:name=".activities.StandardActivity" />

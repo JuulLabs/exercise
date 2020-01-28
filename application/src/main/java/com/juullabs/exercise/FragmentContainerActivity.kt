@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.juullabs.exercise.annotations.Exercise
 import com.juullabs.exercise.fragments.newInstanceOfLegacyFragment
+import com.juullabs.exercise.fragments.newInstanceOfListFragment
 import com.juullabs.exercise.fragments.newInstanceOfNoExtrasFragment
 import com.juullabs.exercise.fragments.newInstanceOfOptionalFragment
 import com.juullabs.exercise.fragments.newInstanceOfStandardFragment
 import com.juullabs.exercise.fragments.newInstanceOfSubclassFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showLegacyFragment
+import kotlinx.android.synthetic.main.activity_fragment_container.showListFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showNoExtrasFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showOptionalFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showStandardFragment
@@ -27,6 +29,11 @@ class FragmentContainerActivity : AppCompatActivity() {
         showLegacyFragment.setOnClickListener {
             removeAllFragments()
             addLegacyFragment(newInstanceOfLegacyFragment(15))
+        }
+        showListFragment.setOnClickListener {
+            removeAllFragments()
+            val data = listOf(Datum("First"), Datum("Second"), Datum("Third"))
+            addFragment(newInstanceOfListFragment(data))
         }
         showNoExtrasFragment.setOnClickListener {
             removeAllFragments()

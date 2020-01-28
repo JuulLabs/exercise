@@ -9,6 +9,7 @@ import kotlin.reflect.KClass
 annotation class ExerciseParameter(
     val name: String,
     val type: KClass<*>,
+    vararg val typeArguments: KClass<*>,
     val optional: Boolean = false
 )
 

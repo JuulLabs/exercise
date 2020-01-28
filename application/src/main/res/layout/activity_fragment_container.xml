@@ -16,6 +16,13 @@
         />
 
     <Button
+        android:id="@+id/showListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show List Fragment"
+        />
+
+    <Button
         android:id="@+id/showNoExtrasFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
