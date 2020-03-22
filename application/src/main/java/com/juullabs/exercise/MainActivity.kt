@@ -2,11 +2,13 @@ package com.juullabs.exercise
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.juullabs.exercise.activities.intentForListActivity
-import com.juullabs.exercise.activities.intentForNoExtrasActivity
-import com.juullabs.exercise.activities.intentForOptionalActivity
-import com.juullabs.exercise.activities.intentForStandardActivity
-import com.juullabs.exercise.activities.intentForSubclassActivity
+import com.juullabs.exercise.activities.CalculatorParentActivityIntent
+import com.juullabs.exercise.activities.ListActivityIntent
+import com.juullabs.exercise.activities.NoExtrasActivityIntent
+import com.juullabs.exercise.activities.OptionalActivityIntent
+import com.juullabs.exercise.activities.StandardActivityIntent
+import com.juullabs.exercise.activities.SubclassActivityIntent
+import kotlinx.android.synthetic.main.activity_main.toCalculatorParentActivity
 import kotlinx.android.synthetic.main.activity_main.toFragmentContainer
 import kotlinx.android.synthetic.main.activity_main.toListActivity
 import kotlinx.android.synthetic.main.activity_main.toNoExtrasActivity
@@ -21,30 +23,33 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         toFragmentContainer.setOnClickListener {
-            startActivity(intentForFragmentContainerActivity())
+            startActivity(FragmentContainerActivityIntent())
+        }
+        toCalculatorParentActivity.setOnClickListener {
+            startActivity(CalculatorParentActivityIntent())
         }
         toListActivity.setOnClickListener {
             val data = listOf(Datum("First"), Datum("Second"), Datum("Third"))
-            startActivity(intentForListActivity(data))
+            startActivity(ListActivityIntent(data))
         }
         toNoExtrasActivity.setOnClickListener {
-            startActivity(intentForNoExtrasActivity())
+            startActivity(NoExtrasActivityIntent())
         }
         toOptionalActivity.setOnClickListener {
             // Optionals have a default value of null.
             val intent = if (Random.nextBoolean()) {
-                intentForOptionalActivity("Passed a value")
+                OptionalActivityIntent("Passed a value")
             } else {
-                intentForOptionalActivity()
+                OptionalActivityIntent()
             }
             startActivity(intent)
         }
         toStandardActivity.setOnClickListener {
-            startActivity(intentForStandardActivity(50))
+            startActivity(StandardActivityIntent(50))
         }
         toSubclassActivity.setOnClickListener {
             startActivity(
-                intentForSubclassActivity(
+                SubclassActivityIntent(
                     superclassString = "super",
                     subclassString = "sub"
                 )

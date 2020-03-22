@@ -3,8 +3,9 @@ apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation files("${System.properties['java.home']}/../lib/tools.jar")
+    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
+        implementation files("${System.properties['java.home']}/../lib/tools.jar")
+    }
     implementation project(":annotations")
     implementation "com.squareup:kotlinpoet:1.5.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

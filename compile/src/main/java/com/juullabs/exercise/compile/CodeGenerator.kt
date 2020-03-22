@@ -2,9 +2,7 @@ package com.juullabs.exercise.compile
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
@@ -14,8 +12,8 @@ import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
 
 internal abstract class CodeGenerator(
-    environment: ProcessingEnvironment,
-    type: TypeElement
+    protected val environment: ProcessingEnvironment,
+    protected val type: TypeElement
 ) {
     protected val parameters: Parameters = Parameters(environment, type)
 
@@ -23,10 +21,10 @@ internal abstract class CodeGenerator(
 
     protected val typeName: String = type.simpleName.toString()
 
-    private val typePackage: String =
-        environment.elementUtils.getPackageOf(type).qualifiedName.toString()
+    protected val typeIsAbstract: Boolean = type.modifiers.contains(Modifier.ABSTRACT)
 
-    private val typeIsAbstract: Boolean = type.modifiers.contains(Modifier.ABSTRACT)
+    protected val typePackage: String =
+        environment.elementUtils.getPackageOf(type).qualifiedName.toString()
 
     private val fileSpecBuilder: FileSpec.Builder =
         FileSpec.builder(typePackage, "${typeName}Exercise")
@@ -37,85 +35,63 @@ internal abstract class CodeGenerator(
 
     /** Name of the generated class. */
     protected abstract val exerciseClassName: String
+
     /** Name of the generated extension function. */
     protected abstract val exerciseSugarName: String
+
     /** Code snippet for generated class to get stored value. */
-    protected abstract val codeToGetFromBundle: String
+    protected abstract val codeToRetrieveFromInstance: String
 
-    /** Function creates an `Intent` for activities or an instance of a `Fragment` w/ args set. */
-    protected abstract fun generateBuilderFunction(): FunSpec
+    protected abstract fun onBuild(fileSpecBuilder: FileSpec.Builder)
 
-    /** Helper function for [generateBuilderFunction]. */
-    protected fun FunSpec.Builder.addExerciseParameters() = this.apply {
-        for (arg in this@CodeGenerator.parameters.all.sortedBy { it.optional }) {
-            val parameterBuilder = ParameterSpec.builder(arg.name, arg.combinedTypeName)
-            if (arg.optional) {
-                parameterBuilder.defaultValue("null")
+    protected fun TypeSpec.Builder.addExerciseParameter(param: Parameter, codeSnippet: String, instance: String) {
+        addProperty(param.name, param.combinedTypeName) {
+            getter {
+                if (param.isParameterized) {
+                    addStatement("@Suppress(\"UNCHECKED_CAST\")")
+                }
+                addStatement("return $codeSnippet as %T", instance, param.name, param.combinedTypeName)
             }
-            addParameter(parameterBuilder.build())
+        }
+        if (param.optional) {
+            addFunction(param.name) {
+                returns(param.nonNullTypeName)
+                addParameter("default", param.nonNullTypeName)
+                if (param.isParameterized) {
+                    addStatement("@Suppress(\"UNCHECKED_CAST\")")
+                }
+                addStatement("return ($codeSnippet as? %T) ?: default", instance, param.name, param.nonNullTypeName)
+            }
         }
     }
 
     /** Creates class which gets stored extras or arguments. */
-    private fun generateParameterClass(): TypeSpec {
-        val classBuilder = run {
-            val constructorBuilder = FunSpec.constructorBuilder()
-                .addParameter("instance", typeClassName)
-            val propertyBuilder = PropertySpec.builder("instance", typeClassName)
-                .addModifiers(KModifier.PRIVATE)
-                .initializer("instance")
-            TypeSpec.classBuilder(exerciseClassName)
-                .addModifiers(KModifier.INTERNAL)
-                .primaryConstructor(constructorBuilder.build())
-                .addProperty(propertyBuilder.build())
+    private fun generateParameterClass(): TypeSpec = TypeSpec.buildClass(exerciseClassName) {
+        addModifiers(KModifier.INTERNAL)
+        primaryConstructor { addParameter("instance", typeClassName) }
+        addProperty("instance", typeClassName, KModifier.PRIVATE) { initializer("instance") }
+        for (param in parameters.all) {
+            addExerciseParameter(param, codeToRetrieveFromInstance, "instance")
         }
-        for (arg in parameters.all) {
-            val propertyBuilder = run {
-                val getterBuilder = FunSpec.getterBuilder()
-                    .beginControlFlow("return with (instance) {")
-                    .addStatement(
-                        "$codeToGetFromBundle as %L",
-                        arg.name,
-                        arg.combinedTypeName
-                    ).endControlFlow()
-                PropertySpec.builder(arg.name, arg.combinedTypeName)
-                    .getter(getterBuilder.build())
-            }
-            classBuilder.addProperty(propertyBuilder.build())
-            if (arg.optional) {
-                val functionBuilder = FunSpec.builder(arg.name)
-                    .returns(arg.nonNullTypeName)
-                    .addParameter("default", arg.nonNullTypeName)
-                    .beginControlFlow("return with (instance) {")
-                    .addStatement(
-                        "($codeToGetFromBundle as? %L) ?: default",
-                        arg.name,
-                        arg.nonNullTypeName
-                    ).endControlFlow()
-                classBuilder.addFunction(functionBuilder.build())
-            }
-        }
-        return classBuilder.build()
     }
 
-    private fun generateParameterSugar(): PropertySpec {
-        val getterBuilder = FunSpec.getterBuilder()
-            .addStatement("return $exerciseClassName(this)")
-        val extensionBuilder = PropertySpec.builder(exerciseSugarName, ClassName(typePackage, exerciseClassName))
-                .addModifiers(KModifier.INTERNAL)
-                .receiver(typeClassName)
-                .getter(getterBuilder.build())
-        return extensionBuilder.build()
+    private fun generateParameterSugar() = PropertySpec.build(
+        name = exerciseSugarName,
+        type = ClassName(typePackage, exerciseClassName)
+    ) {
+        addModifiers(KModifier.INTERNAL)
+        receiver(typeClassName)
+        getter { addStatement("return $exerciseClassName(this)") }
     }
 
     /** Call at-most once per instance. */
     fun build() {
         check(fileSpec == null)
-        fileSpecBuilder.addType(generateParameterClass())
-        fileSpecBuilder.addProperty(generateParameterSugar())
-        if (!typeIsAbstract) {
-            fileSpecBuilder.addImport("androidx.core.os", "bundleOf")
-            fileSpecBuilder.addFunction(generateBuilderFunction())
+        fileSpecBuilder.indent("    ")
+        onBuild(fileSpecBuilder)
+        if (parameters.all.isNotEmpty()) {
+            fileSpecBuilder.addType(generateParameterClass())
+            fileSpecBuilder.addProperty(generateParameterSugar())
         }
         fileSpec = fileSpecBuilder.build()
     }
