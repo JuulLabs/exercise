@@ -11,7 +11,7 @@ import javax.lang.model.element.TypeElement
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("com.juullabs.exercise.annotations.Exercise")
-@SupportedOptions(OPTION_PACKAGE_NAME)
+@SupportedOptions(OPTION_BUILD_CONFIG_PACKAGE)
 class ExerciseProcessor : AbstractProcessor() {
 
     private fun TypeElement.isSubtypeOf(supertype: String): Boolean = with(processingEnv) {

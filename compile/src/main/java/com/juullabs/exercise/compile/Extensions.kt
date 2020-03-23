@@ -12,10 +12,15 @@ internal fun List<Parameter>.toBundle(
     prefix: String? = null
 ): CodeBlock = if (isEmpty()) {
     CodeBlock.of("bundleOf()")
+} else if (prefix == null) {
+    CodeBlock.of(
+        "bundleOf(⇥\n%L\n⇤)",
+        joinToString(",\n") { "\"${it.name}\" to ${it.name}" }
+    )
 } else {
     CodeBlock.of(
         "bundleOf(⇥\n%L\n⇤)",
-        joinToString(",\n") { "\"${prefix ?: ""}${it.name}\" to ${it.name}" }
+        joinToString(",\n") { "\"\${$prefix}.${it.name}\" to ${it.name}" }
     )
 }
 

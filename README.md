@@ -18,10 +18,11 @@ allprojects {
 // In your application build.gradle
 android {
   defaultConfig {
-    applicationId "your.application.id"
     javaCompileOptions {
       annotationProcessorOptions {
-        arguments = [ "exercise.packageName": "your.application.id" ]
+        // Replace "com.example.app" with the package declared at the top
+        // of your generated BuildConfig file.
+        arguments = [ "exercise.buildConfigPackage": "com.example.app" ]
       }
     }
   }

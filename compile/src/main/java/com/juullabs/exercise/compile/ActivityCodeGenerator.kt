@@ -15,16 +15,17 @@ internal class ActivityCodeGenerator(
     type: TypeElement
 ) : CodeGenerator(environment, type) {
 
-    private val packageName = environment.options().packageName
+    private val applicationIdCode = "BuildConfig.APPLICATION_ID"
 
     override val exerciseClassName: String = "${typeName}Extras"
     override val exerciseSugarName: String = "extras"
-    override val codeToRetrieveFromInstance: String = "%N.intent?.extras?.get(\"$packageName.%L\")"
-    private val codeToRetrieveFromResult: String = "%N.get(\"$packageName.%L\")"
+    override val codeToRetrieveFromInstance: String = "%N.intent?.extras?.get(\"\${$applicationIdCode}.%L\")"
+    private val codeToRetrieveFromResult: String = "%N.get(\"\${$applicationIdCode}.%L\")"
     private val generatedIntentTypeName = ClassName(typePackage, "${typeName}Intent")
     private val resultTypeName = ClassName(typePackage, "${typeName}Result")
 
     override fun onBuild(fileSpecBuilder: FileSpec.Builder) {
+        fileSpecBuilder.addImport(environment.options().buildConfigPackage, "BuildConfig")
         if (!typeIsAbstract) {
             fileSpecBuilder.addImport("android.app", "Activity")
             fileSpecBuilder.addImport("android.content", "ComponentName")
@@ -51,9 +52,9 @@ internal class ActivityCodeGenerator(
             superclass(intentTypeName)
             primaryConstructor { addParameters(extras.asParameterSpecs()) }
             addInitializerBlock {
-                add("component = ComponentName(⇥\n%S,\n%S\n⇤)\n", packageName, typeClassName)
+                add("component = ComponentName(⇥\n%L,\n%S\n⇤)\n", applicationIdCode, typeClassName)
                 if (extras.isNotEmpty()) {
-                    add("replaceExtras(%L)\n", extras.toBundle(prefix = "$packageName."))
+                    add("replaceExtras(%L)\n", extras.toBundle(applicationIdCode))
                 }
             }
         }
@@ -76,7 +77,7 @@ internal class ActivityCodeGenerator(
                     addConstructor {
                         addModifiers(KModifier.INTERNAL)
                         addParameters(kind.params.asParameterSpecs())
-                        callThisConstructor(kind.params.toBundle(prefix = "$packageName."))
+                        callThisConstructor(kind.params.toBundle(applicationIdCode))
                     }
                     for (param in kind.params) {
                         addExerciseParameter(param, codeToRetrieveFromResult, "data")
