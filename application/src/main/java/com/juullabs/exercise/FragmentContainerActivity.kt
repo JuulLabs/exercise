@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.juullabs.exercise.annotations.Exercise
-import com.juullabs.exercise.fragments.newInstanceOfLegacyFragment
-import com.juullabs.exercise.fragments.newInstanceOfListFragment
-import com.juullabs.exercise.fragments.newInstanceOfNoExtrasFragment
-import com.juullabs.exercise.fragments.newInstanceOfOptionalFragment
-import com.juullabs.exercise.fragments.newInstanceOfStandardFragment
-import com.juullabs.exercise.fragments.newInstanceOfSubclassFragment
+import com.juullabs.exercise.fragments.newLegacyFragment
+import com.juullabs.exercise.fragments.newListFragment
+import com.juullabs.exercise.fragments.newNoExtrasFragment
+import com.juullabs.exercise.fragments.newOptionalFragment
+import com.juullabs.exercise.fragments.newStandardFragment
+import com.juullabs.exercise.fragments.newSubclassFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showLegacyFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showListFragment
 import kotlinx.android.synthetic.main.activity_fragment_container.showNoExtrasFragment
@@ -20,6 +20,7 @@ import kotlin.random.Random
 
 private const val fragmentTag = "fragmentTag"
 
+@Suppress("DEPRECATION")
 @Exercise
 class FragmentContainerActivity : AppCompatActivity() {
 
@@ -28,33 +29,33 @@ class FragmentContainerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fragment_container)
         showLegacyFragment.setOnClickListener {
             removeAllFragments()
-            addLegacyFragment(newInstanceOfLegacyFragment(15))
+            addLegacyFragment(newLegacyFragment(15))
         }
         showListFragment.setOnClickListener {
             removeAllFragments()
             val data = listOf(Datum("First"), Datum("Second"), Datum("Third"))
-            addFragment(newInstanceOfListFragment(data))
+            addFragment(newListFragment(data))
         }
         showNoExtrasFragment.setOnClickListener {
             removeAllFragments()
-            addFragment(newInstanceOfNoExtrasFragment())
+            addFragment(newNoExtrasFragment())
         }
         showOptionalFragment.setOnClickListener {
             removeAllFragments()
             val fragment = if (Random.nextBoolean()) {
-                newInstanceOfOptionalFragment("Passed a value")
+                newOptionalFragment("Passed a value")
             } else {
-                newInstanceOfOptionalFragment()
+                newOptionalFragment()
             }
             addFragment(fragment)
         }
         showStandardFragment.setOnClickListener {
             removeAllFragments()
-            addFragment(newInstanceOfStandardFragment(25))
+            addFragment(newStandardFragment(25))
         }
         showSubclassFragment.setOnClickListener {
             removeAllFragments()
-            addFragment(newInstanceOfSubclassFragment("super string", "sub string"))
+            addFragment(newSubclassFragment("super string", "sub string"))
         }
         showLegacyFragment.performClick()
     }

@@ -11,14 +11,23 @@ First, add it to gradle.
 // In your root build.gradle
 allprojects {
   repositories {
-    // ...
     maven { url 'https://jitpack.io' }
   }
 }
 
 // In your application build.gradle
+android {
+  defaultConfig {
+    applicationId "your.application.id"
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [ "exercise.packageName": "your.application.id" ]
+      }
+    }
+  }
+}
+
 dependencies {
-  // ...
   implementation "com.github.juullabs-oss.android-exercise:annotations:$version"
   kapt "com.github.juullabs-oss.android-exercise:compile:$version"
 }
@@ -42,35 +51,39 @@ class FromActivity : AppCompatActivity() {
   // ...
 
   fun navigate() {
-    startActivity(intentForYourActivity(someNumber = 25))
+    startActivity(YourActivityIntent(someNumber = 25))
   }
 }
 ```
 ## Under the Hood
 
 Sometimes, the easiest way to learn is to know what's happening behind the scenes.
-Exercise does not generate absurd amounts of complicated code.
-Instead, it's the kind of boilerplate you might write by hand.
+Exercise works just like vanilla Android, using `Intent` passing and `Bundle`s.
 
 ```kotlin
-internal class YourActivityExtras(
-  private val instance: YourActivity
-) {
-  val someNumber: Int
-    get() = with (instance) {
-      intent?.extras?.get("$packageName.someNumber") as kotlin.Int
+class YourActivityIntent(
+    someNumber: Int
+) : Intent() {
+    init {
+        component = ComponentName(
+            "com.juullabs.exercise",
+            "com.juullabs.exercise.activities.YourActivity"
+        )
+        replaceExtras(bundleOf(
+            "com.juullabs.exercise.someNumber" to someNumber
+        ))
     }
 }
 
-internal val YourActivity.extras: YourActivityExtras
-  get() = YourActivityExtras(this)
-
-fun Context.intentForYourActivity(someNumber: Int): Intent {
-  val intent = Intent(this, YourActivity::class.java)
-  return intent.apply {
-    replaceExtras(bundleOf("$packageName.someNumber" to someNumber))
-  }
+internal class YourActivityExtras(
+    private val instance: YourActivity
+) {
+    val someNumber: Int
+        get() = instance.intent?.extras?.get("com.juullabs.exercise.someNumber") as Int
 }
+
+internal val YourActivity.extras: YourActivityExtras
+    get() = YourActivityExtras(this)
 ```
 
 # License

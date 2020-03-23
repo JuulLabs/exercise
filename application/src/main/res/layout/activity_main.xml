@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical"
-    tools:ignore="HardcodedText"
-    >
+    tools:ignore="HardcodedText">
 
     <Button
         android:id="@+id/toFragmentContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Fragment Container Activity"
         android:layout_marginBottom="24dp"
-        />
+        android:text="To Fragment Container Activity" />
+
+    <Button
+        android:id="@+id/toCalculatorParentActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To Calculator Parent Activity" />
 
     <Button
         android:id="@+id/toListActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To List Activity"
-        />
+        android:text="To List Activity" />
 
     <Button
         android:id="@+id/toNoExtrasActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To No Extras Activity"
-        />
+        android:text="To No Extras Activity" />
 
     <Button
         android:id="@+id/toOptionalActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Optional Activity"
-        />
+        android:text="To Optional Activity" />
 
     <Button
         android:id="@+id/toStandardActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Standard Activity"
-        />
+        android:text="To Standard Activity" />
 
     <Button
         android:id="@+id/toSubclassActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Subclass Activity"
-        />
+        android:text="To Subclass Activity" />
 
 </LinearLayout>
