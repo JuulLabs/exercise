@@ -10,6 +10,7 @@ import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
+import javax.tools.Diagnostic
 
 internal abstract class CodeGenerator(
     protected val environment: ProcessingEnvironment,
@@ -39,7 +40,11 @@ internal abstract class CodeGenerator(
     /** Name of the generated extension function. */
     protected abstract val exerciseSugarName: String
 
-    /** Code snippet for generated class to get stored value. */
+    /**
+     * Code snippet for generated class to get stored value. Must have two positional args:
+     * 1. is the receiver name
+     * 2. is the argument string
+     */
     protected abstract val codeToRetrieveFromInstance: String
 
     protected abstract fun onBuild(fileSpecBuilder: FileSpec.Builder)
@@ -50,7 +55,7 @@ internal abstract class CodeGenerator(
                 if (param.isParameterized) {
                     addStatement("@Suppress(\"UNCHECKED_CAST\")")
                 }
-                addStatement("return $codeSnippet as %T", instance, param.name, param.combinedTypeName)
+                addStatement("return $codeSnippet as %3T", instance, param.name, param.combinedTypeName)
             }
         }
         if (param.optional) {
@@ -60,7 +65,7 @@ internal abstract class CodeGenerator(
                 if (param.isParameterized) {
                     addStatement("@Suppress(\"UNCHECKED_CAST\")")
                 }
-                addStatement("return ($codeSnippet as? %T) ?: default", instance, param.name, param.nonNullTypeName)
+                addStatement("return ($codeSnippet as? %3T) ?: default", instance, param.name, param.nonNullTypeName)
             }
         }
     }

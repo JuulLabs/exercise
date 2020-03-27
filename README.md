@@ -16,18 +16,6 @@ allprojects {
 }
 
 // In your application build.gradle
-android {
-  defaultConfig {
-    javaCompileOptions {
-      annotationProcessorOptions {
-        // Replace "com.example.app" with the package declared at the top
-        // of your generated BuildConfig file.
-        arguments = [ "exercise.buildConfigPackage": "com.example.app" ]
-      }
-    }
-  }
-}
-
 dependencies {
   implementation "com.github.juullabs-oss.android-exercise:annotations:$version"
   kapt "com.github.juullabs-oss.android-exercise:compile:$version"
@@ -52,39 +40,9 @@ class FromActivity : AppCompatActivity() {
   // ...
 
   fun navigate() {
-    startActivity(YourActivityIntent(someNumber = 25))
+    startActivity(YourActivityIntent(this, someNumber = 25))
   }
 }
-```
-## Under the Hood
-
-Sometimes, the easiest way to learn is to know what's happening behind the scenes.
-Exercise works just like vanilla Android, using `Intent` passing and `Bundle`s.
-
-```kotlin
-class YourActivityIntent(
-    someNumber: Int
-) : Intent() {
-    init {
-        component = ComponentName(
-            "com.juullabs.exercise",
-            "com.juullabs.exercise.activities.YourActivity"
-        )
-        replaceExtras(bundleOf(
-            "com.juullabs.exercise.someNumber" to someNumber
-        ))
-    }
-}
-
-internal class YourActivityExtras(
-    private val instance: YourActivity
-) {
-    val someNumber: Int
-        get() = instance.intent?.extras?.get("com.juullabs.exercise.someNumber") as Int
-}
-
-internal val YourActivity.extras: YourActivityExtras
-    get() = YourActivityExtras(this)
 ```
 
 # License

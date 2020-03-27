@@ -20,8 +20,8 @@ class CalculatorChildActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calc_child)
         inputTextView.text = extras.input.toString()
-        plus1.setOnClickListener { finish(CalculatorChildActivityResult.Ok(extras.input + 1)) }
-        times3.setOnClickListener { finish(CalculatorChildActivityResult.Ok(extras.input * 3)) }
-        cancel.setOnClickListener { finish(CalculatorChildActivityResult.Canceled()) }
+        plus1.setOnClickListener { finishWithOk(extras.input + 1) }
+        times3.setOnClickListener { finishWithOk(extras.input * 3) }
+        cancel.setOnClickListener { finishWithCanceled() }
     }
 }

@@ -12,7 +12,7 @@ internal class FragmentCodeGenerator(
 
     override val exerciseClassName: String = "${typeName}Arguments"
     override val exerciseSugarName: String = "args"
-    override val codeToRetrieveFromInstance: String = "%N.arguments?.get(%S)"
+    override val codeToRetrieveFromInstance: String = "%1N.arguments?.get(%2S)"
 
     override fun onBuild(fileSpecBuilder: FileSpec.Builder) {
         if (!typeIsAbstract) {

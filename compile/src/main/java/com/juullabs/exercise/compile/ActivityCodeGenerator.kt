@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
@@ -15,20 +16,16 @@ internal class ActivityCodeGenerator(
     type: TypeElement
 ) : CodeGenerator(environment, type) {
 
-    private val applicationIdCode = "BuildConfig.APPLICATION_ID"
-
     override val exerciseClassName: String = "${typeName}Extras"
     override val exerciseSugarName: String = "extras"
-    override val codeToRetrieveFromInstance: String = "%N.intent?.extras?.get(\"\${$applicationIdCode}.%L\")"
-    private val codeToRetrieveFromResult: String = "%N.get(\"\${$applicationIdCode}.%L\")"
+    override val codeToRetrieveFromInstance: String = "%1N.intent?.extras?.get(\"\${%1N.packageName}.%2L\")"
+    private val codeToRetrieveFromResult: String = "%1N.get(\"\$packageName.%2L\")"
     private val generatedIntentTypeName = ClassName(typePackage, "${typeName}Intent")
     private val resultTypeName = ClassName(typePackage, "${typeName}Result")
 
     override fun onBuild(fileSpecBuilder: FileSpec.Builder) {
-        fileSpecBuilder.addImport(environment.options().buildConfigPackage, "BuildConfig")
         if (!typeIsAbstract) {
             fileSpecBuilder.addImport("android.app", "Activity")
-            fileSpecBuilder.addImport("android.content", "ComponentName")
             fileSpecBuilder.addImport("androidx.core.os", "bundleOf")
             fileSpecBuilder.addType(generateIntentClass())
         }
@@ -50,13 +47,23 @@ internal class ActivityCodeGenerator(
         val extras = parameters.all
         return TypeSpec.buildClass(generatedIntentTypeName.simpleName) {
             superclass(intentTypeName)
-            primaryConstructor { addParameters(extras.asParameterSpecs()) }
-            addInitializerBlock {
-                add("component = ComponentName(⇥\n%L,\n%S\n⇤)\n", applicationIdCode, typeClassName)
-                if (extras.isNotEmpty()) {
-                    add("replaceExtras(%L)\n", extras.toBundle(applicationIdCode))
+            fun addConstructor(
+                packageNameElement: String,
+                packageNameElementType: TypeName,
+                prefix: String
+            ) {
+                addConstructor {
+                    callSuperConstructor()
+                    addParameter(packageNameElement, packageNameElementType)
+                    addParameters(extras.asParameterSpecs())
+                    addStatement("setClassName(%L, %S)", packageNameElement, typeClassName)
+                    if (extras.isNotEmpty()) {
+                        addCode("replaceExtras(%L)\n", extras.toBundle(prefix))
+                    }
                 }
             }
+            addConstructor("context", contextTypeName, "context.packageName")
+            addConstructor("packageName", stringTypeName, "packageName")
         }
     }
 
@@ -64,20 +71,22 @@ internal class ActivityCodeGenerator(
         fileSpecBuilder.addClass(resultTypeName.simpleName) {
             addModifiers(KModifier.SEALED)
             primaryConstructor { addParameter("data", bundleTypeName) }
-            addProperty("data", bundleTypeName, KModifier.INTERNAL) { initializer("data") }
+            addProperty("data", bundleTypeName) { initializer("data") }
 
             for (kind in resultKinds) {
                 addClass(kind.name) {
                     superclass(resultTypeName)
                     primaryConstructor {
                         addModifiers(KModifier.INTERNAL)
+                        addParameter("packageName", stringTypeName)
                         addParameter("data", bundleTypeName)
-                        addSuperclassConstructorParameter("data")
                     }
+                    addSuperclassConstructorParameter("data")
+                    addProperty("packageName", stringTypeName) { initializer("packageName") }
                     addConstructor {
-                        addModifiers(KModifier.INTERNAL)
+                        addParameter("packageName", stringTypeName)
                         addParameters(kind.params.asParameterSpecs())
-                        callThisConstructor(kind.params.toBundle(applicationIdCode))
+                        callThisConstructor("packageName", kind.params.toBundle("packageName").toString())
                     }
                     for (param in kind.params) {
                         addExerciseParameter(param, codeToRetrieveFromResult, "data")
@@ -104,6 +113,20 @@ internal class ActivityCodeGenerator(
             addStatement("setResult(code, data)")
             addStatement("finish()")
         }
+
+        for (kind in resultKinds) {
+            fileSpecBuilder.addFunction("finishWith${kind.name}") {
+                receiver(typeClassName)
+                for (param in kind.params) {
+                    addParameter(param.name, param.combinedTypeName)
+                }
+                addCode(
+                    "finish(%T(packageName, %L))",
+                    resultTypeName.nestedClass(kind.name),
+                    kind.params.toBundle("packageName")
+                )
+            }
+        }
     }
 
     private fun generateResultContract(fileSpecBuilder: FileSpec.Builder, resultKinds: List<ResultKind>) {
@@ -112,6 +135,9 @@ internal class ActivityCodeGenerator(
             superclass(with(ParameterizedTypeName.Companion) {
                 activityResultContractTypeName.parameterizedBy(generatedIntentTypeName, nullableResultType)
             })
+
+            primaryConstructor { addParameter("context", contextTypeName) }
+            addProperty("context", contextTypeName, KModifier.PRIVATE) { initializer("context") }
 
             addFunction("createIntent") {
                 addModifiers(KModifier.OVERRIDE)
@@ -129,7 +155,7 @@ internal class ActivityCodeGenerator(
                 beginControlFlow("return when (resultCode) {")
                 for (kind in resultKinds) {
                     addStatement(
-                        "%L -> %T(data)",
+                        "%L -> %T(context.packageName, data)",
                         reifyResultCode(kind.code),
                         resultTypeName.nestedClass(kind.name)
                     )
@@ -141,23 +167,6 @@ internal class ActivityCodeGenerator(
                 endControlFlow()
             }
         }
-        /*
-
-class FunctionalActivityContract :
-    ActivityResultContract<FunctionalActivityIntent, FunctionalActivityResult?>() {
-    override fun createIntent(input: FunctionalActivityIntent): Intent = input
-    override fun parseResult(resultCode: Int, intent: Intent?): FunctionalActivityResult? {
-        return when (resultCode) {
-            Activity.RESULT_CANCELED -> when (intent) {
-                null -> null
-                else -> FunctionalActivityResult.Canceled(intent)
-            }
-            Activity.RESULT_OK -> FunctionalActivityResult.Ok(checkNotNull(intent))
-            else -> throw IllegalStateException("FunctionalActivity finished with unknown result code.")
-        }
-    }
-}
-         */
     }
 
     private fun reifyResultCode(code: Int): String = when (code) {

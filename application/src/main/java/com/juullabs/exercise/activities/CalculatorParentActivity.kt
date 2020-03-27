@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_calc_parent.resultTextView
 @Exercise
 class CalculatorParentActivity : AppCompatActivity() {
 
-    private val calculator = prepareCall(CalculatorChildActivityContract()) { result ->
+    private val calculator = prepareCall(CalculatorChildActivityContract(this)) { result ->
         resultTextView.text = when (result) {
             null -> "Implicitly canceled"
             is CalculatorChildActivityResult.Canceled -> "Explicitly canceled"
@@ -24,10 +24,10 @@ class CalculatorParentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calc_parent)
-        initialValue3.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(3)) }
-        initialValue5.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(5)) }
-        initialValue7.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(7)) }
-        initialValue11.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(11)) }
+        initialValue3.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 3)) }
+        initialValue5.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 5)) }
+        initialValue7.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 7)) }
+        initialValue11.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 11)) }
     }
 
 }
