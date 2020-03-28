@@ -4,6 +4,7 @@ package com.juullabs.exercise.compile
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import com.sun.tools.javac.code.Attribute
@@ -15,7 +16,7 @@ internal class Parameter(
     val nonNullTypeName: TypeName,
     val optional: Boolean
 ) {
-    val nullableTypeName = nonNullTypeName.copy(nullable = true)
+    val nullableTypeName = nonNullTypeName.asNullable
 
     /** Either of [nullableTypeName] or [nonNullTypeName] depending on [optional]. */
     val combinedTypeName = if (optional) nullableTypeName else nonNullTypeName
@@ -36,16 +37,15 @@ internal class Parameter(
             }
 
         fun fromAnnotation(annotation: AnnotationMirror): Parameter {
-            val rawNonNullTypeName = adjustTypeName(annotation["type"] as TypeMirror)
+            @Suppress("UNCHECKED_CAST")
             val arguments = annotation["typeArguments"] as List<Attribute.Class>
+            val rawNonNullTypeName = adjustTypeName(annotation["type"] as TypeMirror)
             val nonNullTypeName = if (arguments.isEmpty()) {
                 rawNonNullTypeName
             } else {
                 val parameters = arguments.map { adjustTypeName(it.classType.asTypeName()) }
-                with(ParameterizedTypeName.Companion) {
-                    check(rawNonNullTypeName is ClassName)
-                    rawNonNullTypeName.parameterizedBy(parameters)
-                }
+                check(rawNonNullTypeName is ClassName)
+                rawNonNullTypeName.parameterizedBy(parameters)
             }
             return Parameter(
                 name = annotation["name"] as String,

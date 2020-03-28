@@ -17,7 +17,7 @@ internal data class ResultKind(
     val params: List<Parameter>
 )
 
-internal fun getResultKindsForMirror(mirror: AnnotationMirror): List<ResultKind> {
+internal fun getResultKinds(mirror: AnnotationMirror): List<ResultKind> {
     var nextResultId = ACTIVITY_RESULT_FIRST_USER
 
     @Suppress("UNCHECKED_CAST")

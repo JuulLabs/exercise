@@ -10,7 +10,6 @@ import com.juullabs.exercise.activities.OptionalActivityIntent
 import com.juullabs.exercise.activities.StandardActivityIntent
 import com.juullabs.exercise.activities.SubclassActivityIntent
 import kotlinx.android.synthetic.main.activity_main.toCalculatorParentActivity
-import kotlinx.android.synthetic.main.activity_main.toDynamicActivity
 import kotlinx.android.synthetic.main.activity_main.toFragmentContainer
 import kotlinx.android.synthetic.main.activity_main.toListActivity
 import kotlinx.android.synthetic.main.activity_main.toNoExtrasActivity
