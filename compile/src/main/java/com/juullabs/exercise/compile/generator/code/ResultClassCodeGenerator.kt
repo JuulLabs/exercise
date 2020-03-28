@@ -28,7 +28,7 @@ internal class ResultClassCodeGenerator(
         fileSpec.addClass(className) {
             addModifiers(KModifier.SEALED)
             primaryConstructor { addParameter("data", bundleTypeName) }
-            addProperty("data", bundleTypeName, KModifier.INTERNAL) { initializer("data") }
+            addProperty("data", bundleTypeName) { initializer("data") }
 
             for (kind in resultKinds) {
                 addResultSubclass(className, kind)

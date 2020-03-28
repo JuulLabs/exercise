@@ -1,5 +1,6 @@
 package com.juullabs.exercise.compile.generator.file
 
+import com.juullabs.exercise.annotations.Exercise
 import com.juullabs.exercise.annotations.FromStub
 import com.juullabs.exercise.annotations.ResultContract
 import com.juullabs.exercise.compile.Parameters
@@ -33,7 +34,7 @@ internal class FromStubFileGenerator(
         return FileSpec.build(targetClass.packageName, "${targetClass.simpleName}Exercise") {
             addFrom(GetExtrasClassCodeGenerator(targetClass, parameters))
 
-            val resultContractMirror = element.getAnnotation<ResultContract>()
+            val resultContractMirror = source.getAnnotation<ResultContract>()
             if (resultContractMirror != null) {
                 val kinds = getResultKinds(resultContractMirror)
                 addFrom(ResultSugarFunctionsCodeGenerator(targetClass, kinds))

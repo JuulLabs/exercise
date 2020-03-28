@@ -23,13 +23,12 @@ internal class ParameterizedIntentClassCodeGenerator(
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Intent")
         fileSpec.addClass(className) {
             superclass(intentTypeName)
-            addIntentConstructor(className, "context", contextTypeName, CodeBlock.of("context.packageName"))
-            addIntentConstructor(className, "packageName", stringTypeName, CodeBlock.of("packageName"))
+            addIntentConstructor("context", contextTypeName, CodeBlock.of("context.packageName"))
+            addIntentConstructor("packageName", stringTypeName, CodeBlock.of("packageName"))
         }
     }
 
     private fun TypeSpec.Builder.addIntentConstructor(
-        className: ClassName,
         packageNameArgument: String,
         packageNameArgumentType: TypeName,
         argumentToPackageName: CodeBlock
@@ -37,7 +36,7 @@ internal class ParameterizedIntentClassCodeGenerator(
         callSuperConstructor()
         addParameter(packageNameArgument, packageNameArgumentType)
         addParameters(params.asParameterSpecs())
-        addStatement("setClassName(%L, %S)", packageNameArgument, className)
+        addStatement("setClassName(%L, %S)", packageNameArgument, targetClass)
         if (params.all.isNotEmpty()) {
             addCode("replaceExtras(%L)\n", params.asBundleOf(argumentToPackageName))
         }

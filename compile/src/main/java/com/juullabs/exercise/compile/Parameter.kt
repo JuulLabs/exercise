@@ -11,7 +11,7 @@ import com.sun.tools.javac.code.Attribute
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.type.TypeMirror
 
-internal class Parameter(
+internal data class Parameter(
     val name: String,
     val nonNullTypeName: TypeName,
     val optional: Boolean

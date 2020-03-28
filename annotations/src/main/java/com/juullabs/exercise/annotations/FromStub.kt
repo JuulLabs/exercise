@@ -4,6 +4,6 @@ import kotlin.reflect.KClass
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.BINARY)
 annotation class FromStub(val source: KClass<*>)
 

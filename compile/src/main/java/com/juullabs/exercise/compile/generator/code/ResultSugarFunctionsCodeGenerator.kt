@@ -3,6 +3,7 @@ package com.juullabs.exercise.compile.generator.code
 import com.juullabs.exercise.compile.ResultKind
 import com.juullabs.exercise.compile.addFunction
 import com.juullabs.exercise.compile.asBundleOf
+import com.juullabs.exercise.compile.intentTypeName
 import com.juullabs.exercise.compile.reifyResultCode
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -53,7 +54,7 @@ internal class ResultSugarFunctionsCodeGenerator(
                 addStatement("is %T -> %L", className.nestedClass(kind.name), reifyResultCode(kind.code))
             }
             endControlFlow()
-            addStatement("setResult(code, Intent().apply { replaceExtras(result.data) })")
+            addStatement("setResult(code, %T().apply { replaceExtras(result.data) })", intentTypeName)
             addStatement("finish()")
         }
 

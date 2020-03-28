@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Exercise Demo</string>
+    <string name="title_dynamic_feature">Dynamic Feature</string>
 </resources>

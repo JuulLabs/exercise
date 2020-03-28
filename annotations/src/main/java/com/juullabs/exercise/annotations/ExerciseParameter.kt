@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 /** Actual type used by [Exercise]. Usually, use [Extra] or [Argument] aliases instead. */
 @Target
 @MustBeDocumented
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.BINARY)
 annotation class ExerciseParameter(
     val name: String,
     val type: KClass<*>,

@@ -2,6 +2,9 @@ package com.juullabs.exercise.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.juullabs.dynamicfeature.CalculatorChildActivityContract
+import com.juullabs.dynamicfeature.CalculatorChildActivityIntent
+import com.juullabs.dynamicfeature.CalculatorChildActivityResult
 import com.juullabs.exercise.R
 import com.juullabs.exercise.annotations.Exercise
 import kotlinx.android.synthetic.main.activity_calc_parent.initialValue11
@@ -29,5 +32,4 @@ class CalculatorParentActivity : AppCompatActivity() {
         initialValue7.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 7)) }
         initialValue11.setOnClickListener { calculator.launch(CalculatorChildActivityIntent(this, 11)) }
     }
-
 }
