@@ -21,7 +21,6 @@
 
         <activity android:name=".FragmentContainerActivity" />
 
-        <activity android:name=".activities.CalculatorChildActivity" />
         <activity android:name=".activities.CalculatorParentActivity" />
         <activity android:name=".activities.ListActivity" />
         <activity android:name=".activities.NoExtrasActivity" />

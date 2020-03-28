@@ -1,5 +1,6 @@
 package com.juullabs.exercise
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.juullabs.exercise.activities.CalculatorParentActivityIntent
@@ -23,33 +24,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         toFragmentContainer.setOnClickListener {
-            startActivity(FragmentContainerActivityIntent())
+            startActivity(FragmentContainerActivityIntent(this))
         }
         toCalculatorParentActivity.setOnClickListener {
-            startActivity(CalculatorParentActivityIntent())
+            startActivity(CalculatorParentActivityIntent(this))
         }
         toListActivity.setOnClickListener {
             val data = listOf(Datum("First"), Datum("Second"), Datum("Third"))
-            startActivity(ListActivityIntent(data))
+            startActivity(ListActivityIntent(this, data))
         }
         toNoExtrasActivity.setOnClickListener {
-            startActivity(NoExtrasActivityIntent())
+            startActivity(NoExtrasActivityIntent(this))
         }
         toOptionalActivity.setOnClickListener {
             // Optionals have a default value of null.
             val intent = if (Random.nextBoolean()) {
-                OptionalActivityIntent("Passed a value")
+                OptionalActivityIntent(this, "Passed a value")
             } else {
-                OptionalActivityIntent()
+                OptionalActivityIntent(this)
             }
             startActivity(intent)
         }
         toStandardActivity.setOnClickListener {
-            startActivity(StandardActivityIntent(50))
+            startActivity(StandardActivityIntent(this, 50))
         }
         toSubclassActivity.setOnClickListener {
             startActivity(
                 SubclassActivityIntent(
+                    this,
                     superclassString = "super",
                     subclassString = "sub"
                 )
