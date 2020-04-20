@@ -26,7 +26,6 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
         val file = result.getGeneratedFile("NoExtrasActivityExercise.kt")
-        assertThat(file.name).isEqualTo("NoExtrasActivityExercise.kt")
         assertThat(file.readText().trim()).isEqualToKotlin(
             """
             package com.juul.exercise.tests
