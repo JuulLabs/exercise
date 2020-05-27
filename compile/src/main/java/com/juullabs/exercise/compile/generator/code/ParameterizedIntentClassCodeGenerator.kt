@@ -13,8 +13,10 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import javax.lang.model.element.Element
 
 internal class ParameterizedIntentClassCodeGenerator(
+    private val originatingElement: Element,
     private val targetClass: ClassName,
     private val params: Parameters
 ) : CodeGenerator {
@@ -22,6 +24,7 @@ internal class ParameterizedIntentClassCodeGenerator(
     override fun addTo(fileSpec: FileSpec.Builder) {
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Intent")
         fileSpec.addClass(className) {
+            originatingElements += originatingElement
             superclass(intentTypeName)
             addIntentConstructor("context", contextTypeName, CodeBlock.of("context.packageName"))
             addIntentConstructor("packageName", stringTypeName, CodeBlock.of("packageName"))

@@ -7,11 +7,12 @@ import com.juullabs.exercise.compile.addProperty
 import com.juullabs.exercise.compile.getter
 import com.juullabs.exercise.compile.primaryConstructor
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
+import javax.lang.model.element.Element
 
 internal abstract class GetParameterClassCodeGenerator(
+    private val originatingElement: Element,
     private val targetClass: ClassName,
     private val params: Parameters
 ) : CodeGenerator {
@@ -22,6 +23,7 @@ internal abstract class GetParameterClassCodeGenerator(
     override fun addTo(fileSpec: FileSpec.Builder) {
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Params")
         fileSpec.addClass(className) {
+            originatingElements += originatingElement
             primaryConstructor { addParameter("instance", targetClass) }
             addProperty("instance", targetClass, KModifier.PRIVATE) { initializer("instance") }
             for (param in params.all) {
@@ -42,6 +44,7 @@ internal abstract class GetParameterClassCodeGenerator(
             }
         }
         fileSpec.addProperty(extensionName, className) {
+            originatingElements += originatingElement
             receiver(targetClass)
             getter { addStatement("return %T(this)", className) }
         }
@@ -49,17 +52,19 @@ internal abstract class GetParameterClassCodeGenerator(
 }
 
 internal class GetArgumentsClassCodeGenerator(
+    originatingElement: Element,
     targetClass: ClassName,
     params: Parameters
-) : GetParameterClassCodeGenerator(targetClass, params) {
+) : GetParameterClassCodeGenerator(originatingElement, targetClass, params) {
     override val extensionName = "args"
     override val retriever = "instance.arguments?.get(%1S)"
 }
 
 internal class GetExtrasClassCodeGenerator(
+    originatingElement: Element,
     targetClass: ClassName,
     params: Parameters
-) : GetParameterClassCodeGenerator(targetClass, params) {
+) : GetParameterClassCodeGenerator(originatingElement, targetClass, params) {
     override val extensionName = "extras"
     override val retriever = "instance.intent?.extras?.get(\"\${instance.packageName}.%1L\")"
 }

@@ -31,16 +31,16 @@ internal class ActivityFileGenerator(
         val targetClass = element.asClassName()
         return FileSpec.build(targetClass.packageName, "${targetClass.simpleName}Exercise") {
             if (!element.modifiers.contains(Modifier.ABSTRACT)) {
-                addFrom(ParameterizedIntentClassCodeGenerator(targetClass, parameters))
+                addFrom(ParameterizedIntentClassCodeGenerator(element, targetClass, parameters))
             }
-            addFrom(GetExtrasClassCodeGenerator(targetClass, parameters))
+            addFrom(GetExtrasClassCodeGenerator(element, targetClass, parameters))
 
             val resultContractMirror = element.getAnnotation<ResultContract>()
             if (resultContractMirror != null) {
                 val kinds = getResultKinds(resultContractMirror)
-                addFrom(ResultContractClassCodeGenerator(targetClass, kinds))
-                addFrom(ResultClassCodeGenerator(targetClass, kinds))
-                addFrom(ResultSugarFunctionsCodeGenerator(targetClass, kinds))
+                addFrom(ResultContractClassCodeGenerator(element, targetClass, kinds))
+                addFrom(ResultClassCodeGenerator(element, targetClass, kinds))
+                addFrom(ResultSugarFunctionsCodeGenerator(element, targetClass, kinds))
             }
         }
     }
