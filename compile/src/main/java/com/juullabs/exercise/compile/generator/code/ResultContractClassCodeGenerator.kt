@@ -14,8 +14,10 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import javax.lang.model.element.Element
 
 internal class ResultContractClassCodeGenerator(
+    private val originatingElement: Element,
     private val targetClass: ClassName,
     private val resultKinds: List<ResultKind>
 ): CodeGenerator {
@@ -24,6 +26,7 @@ internal class ResultContractClassCodeGenerator(
         val intentName = ClassName(fileSpec.packageName, "${targetClass.simpleName}Intent")
         val resultName = ClassName(fileSpec.packageName, "${targetClass.simpleName}Result")
         fileSpec.addClass(className) {
+            originatingElements += originatingElement
             superclass(activityResultContractTypeName.parameterizedBy(intentName, resultName.asNullable))
 
             primaryConstructor { addParameter("context", contextTypeName) }
@@ -56,7 +59,6 @@ internal class ResultContractClassCodeGenerator(
                 )
                 endControlFlow()
             }
-
         }
     }
 }

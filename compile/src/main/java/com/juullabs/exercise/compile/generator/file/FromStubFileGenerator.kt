@@ -32,12 +32,12 @@ internal class FromStubFileGenerator(
         val parameters = Parameters(environment, source)
         val targetClass = element.asClassName()
         return FileSpec.build(targetClass.packageName, "${targetClass.simpleName}Exercise") {
-            addFrom(GetExtrasClassCodeGenerator(targetClass, parameters))
+            addFrom(GetExtrasClassCodeGenerator(element, targetClass, parameters))
 
             val resultContractMirror = source.getAnnotation<ResultContract>()
             if (resultContractMirror != null) {
                 val kinds = getResultKinds(resultContractMirror)
-                addFrom(ResultSugarFunctionsCodeGenerator(targetClass, kinds))
+                addFrom(ResultSugarFunctionsCodeGenerator(element, targetClass, kinds))
             }
         }
     }

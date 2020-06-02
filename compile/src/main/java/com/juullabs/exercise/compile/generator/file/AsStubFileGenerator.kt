@@ -30,13 +30,13 @@ internal class AsStubFileGenerator(
         val annotation = checkNotNull(element.getAnnotation<AsStub>())
         val targetClass = ClassName(annotation["packageName"] as String, annotation["className"] as String)
         return FileSpec.build(targetClass.packageName, "${targetClass.simpleName}ExerciseStubs") {
-            addFrom(ParameterizedIntentClassCodeGenerator(targetClass, parameters))
+            addFrom(ParameterizedIntentClassCodeGenerator(element, targetClass, parameters))
 
             val resultContractMirror = element.getAnnotation<ResultContract>()
             if (resultContractMirror != null) {
                 val kinds = getResultKinds(resultContractMirror)
-                addFrom(ResultContractClassCodeGenerator(targetClass, kinds))
-                addFrom(ResultClassCodeGenerator(targetClass, kinds))
+                addFrom(ResultContractClassCodeGenerator(element, targetClass, kinds))
+                addFrom(ResultClassCodeGenerator(element, targetClass, kinds))
             }
         }
     }

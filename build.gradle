@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0-beta04'
+        classpath 'com.android.tools.build:gradle:4.0.0-rc01'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -24,7 +24,7 @@ allprojects {
 subprojects {
     // group = 'com.juullabs.exercise'
     group = 'com.github.juullabs-oss.android-exercise'
-    version = '0.6.0'
+    version = '0.6.1'
 }
 
 task clean(type: Delete) {

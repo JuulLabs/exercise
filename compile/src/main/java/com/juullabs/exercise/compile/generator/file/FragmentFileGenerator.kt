@@ -4,11 +4,8 @@ import com.juullabs.exercise.compile.Parameters
 import com.juullabs.exercise.compile.build
 import com.juullabs.exercise.compile.generator.code.GetArgumentsClassCodeGenerator
 import com.juullabs.exercise.compile.generator.code.NewFragmentFunctionCodeGenerator
-import com.juullabs.exercise.compile.generator.code.GetParameterClassCodeGenerator
 import com.juullabs.exercise.compile.generator.code.addFrom
 import com.juullabs.exercise.compile.isSubtypeOfAny
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
@@ -28,9 +25,9 @@ internal class FragmentFileGenerator(
         val targetClass = element.asClassName()
         return FileSpec.build(targetClass.packageName, "${targetClass.simpleName}Exercise") {
             if (!element.modifiers.contains(Modifier.ABSTRACT)) {
-                addFrom(NewFragmentFunctionCodeGenerator(targetClass, parameters))
+                addFrom(NewFragmentFunctionCodeGenerator(element, targetClass, parameters))
             }
-            addFrom(GetArgumentsClassCodeGenerator(targetClass, parameters))
+            addFrom(GetArgumentsClassCodeGenerator(element, targetClass, parameters))
         }
     }
 }

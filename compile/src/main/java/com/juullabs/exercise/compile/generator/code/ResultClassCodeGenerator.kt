@@ -16,16 +16,19 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
+import javax.lang.model.element.Element
 
 private const val RETRIEVER = "data.get(\"\$packageName.%1L\")"
 
 internal class ResultClassCodeGenerator(
+    private val originatingElement: Element,
     private val targetClass: ClassName,
     private val resultKinds: List<ResultKind>
 ) : CodeGenerator {
     override fun addTo(fileSpec: FileSpec.Builder) {
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Result")
         fileSpec.addClass(className) {
+            originatingElements += originatingElement
             addModifiers(KModifier.SEALED)
             primaryConstructor { addParameter("data", bundleTypeName) }
             addProperty("data", bundleTypeName) { initializer("data") }
