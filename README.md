@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/JuulLabs-OSS/android-exercise/branch/master/graph/badge.svg)](https://codecov.io/gh/JuulLabs-OSS/android-exercise)
+
 # Exercise
 
 Exercise is an annotation processor for Kotlin Android projects.
