@@ -9,6 +9,10 @@
 name: CI
 on: push
 
+env:
+  SONATYPE_NEXUS_USERNAME: ${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}
+  SONATYPE_NEXUS_PASSWORD: ${{ secrets.OSS_SONATYPE_NEXUS_PASSWORD }}
+
 jobs:
   build:
     runs-on: ubuntu-16.04
@@ -16,6 +20,7 @@ jobs:
       GRADLE_ARGS: >-
         --stacktrace
         --no-daemon
+        --no-parallel
         --max-workers 2
         -Pkotlin.incremental=false
 
@@ -36,3 +41,30 @@ jobs:
 
       - name: Check
         run: ./gradlew $GRADLE_ARGS check
+
+      - name: Snapshot
+        if: startsWith(github.ref, 'refs/heads/') && endsWith(github.ref, '-SNAPSHOT')
+        run: >-
+          ./gradlew
+          $GRADLE_ARGS
+          --no-parallel
+          uploadArchives
+          -PVERSION_NAME="${GITHUB_REF/refs\/heads\//}"
+
+      - name: Keyring
+        if: startsWith(github.ref, 'refs/tags/')
+        run: mkdir -p ~/.gnupg && echo "${{ secrets.SIGNING_SECRET_KEY_RING }}" | base64 --decode > ~/.gnupg/secring.gpg
+
+      - name: Publish
+        # https://github.community/t5/GitHub-Actions/Run-step-only-for-new-tags/m-p/32448/highlight/true#M1138
+        if: startsWith(github.ref, 'refs/tags/')
+        # https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32167/highlight/true#M1027
+        run: >-
+          ./gradlew
+          $GRADLE_ARGS
+          --no-parallel
+          uploadArchives
+          -PVERSION_NAME=${GITHUB_REF/refs\/tags\//}
+          -Psigning.keyId="${{ secrets.SIGNING_KEY_ID }}"
+          -Psigning.password="${{ secrets.SIGNING_PASSWORD }}"
+          -Psigning.secretKeyRingFile="$HOME/.gnupg/secring.gpg"

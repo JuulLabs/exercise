@@ -1,6 +1,6 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
-apply plugin: 'maven-publish'
+apply plugin: "com.vanniktech.maven.publish"
 
 dependencies {
     if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
@@ -8,7 +8,7 @@ dependencies {
     }
     implementation project(":annotations")
     implementation "com.squareup:kotlinpoet:1.5.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 sourceCompatibility = "1.8"
@@ -24,14 +24,5 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifactId = 'compile'
-            from components.java
-        }
     }
 }
