@@ -5,20 +5,18 @@ Exercise makes it possible to pass intent extras easily and correctly.
 
 # Getting started
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.juul.exercise/compile/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.juul.exercise/compile)
+
 First, add it to gradle.
 
 ```gradle
-// In your root build.gradle
-allprojects {
-  repositories {
-    maven { url 'https://jitpack.io' }
-  }
+repositories {
+  jcenter() // or mavenCentral()
 }
 
-// In your application build.gradle
 dependencies {
-  implementation "com.github.juullabs-oss.android-exercise:annotations:$version"
-  kapt "com.github.juullabs-oss.android-exercise:compile:$version"
+  implementation "com.juul.exercise:annotations:$version"
+  kapt "com.juul.exercise:compile:$version"
 }
 ```
 
