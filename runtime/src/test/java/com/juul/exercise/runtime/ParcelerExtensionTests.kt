@@ -22,23 +22,17 @@ object SampleParceler : Parceler<Sample> {
 class ParcelerExtensionTests {
 
     @Test
-    fun `round trip parcel creation returns same object`() {
+    fun `round trip through extension functions returns same object`() {
         val expected = Sample("expected")
-        val parcel = SampleParceler.writeToParcel(expected)
-        val actual = SampleParceler.create(parcel)
-        parcel.recycle()
+        val data = SampleParceler.writeToMarshalledBytes(expected)
+        val actual = SampleParceler.createFromMarshalledBytes(data)
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `null input creates a null parcel`() {
+    fun `null input marshals to null byte array`() {
         val expected: Sample? = null
-        val parcel = SampleParceler.writeToParcel(expected)
-        try {
-            assertThat(parcel).isNull()
-        } finally {
-            // If the test fails we actually have cleanup to do.
-            parcel?.recycle()
-        }
+        val data = SampleParceler.writeToMarshalledBytes(expected)
+        assertThat(data).isNull()
     }
 }

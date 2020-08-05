@@ -44,7 +44,8 @@ internal fun List<Parameter>.asBundleOf(
             val value = if (param.parceler == null) {
                 CodeBlock.of(param.name)
             } else {
-                CodeBlock.of("%T.%M(%L)", param.parceler, writeToParcelMemberName, param.name)
+                val writeMemberName = if (param.optional) writeToMarshalledBytesOrNullMemberName else writeToMarshalledBytesMemberName
+                CodeBlock.of("%T.%M(%L)", param.parceler, writeMemberName, param.name)
             }
             add("\"%L\" to %L", key, value)
             if (index + 1 != size) add(",\n")

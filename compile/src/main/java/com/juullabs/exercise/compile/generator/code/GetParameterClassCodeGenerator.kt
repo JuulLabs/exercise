@@ -6,8 +6,10 @@ import com.juullabs.exercise.compile.addClass
 import com.juullabs.exercise.compile.addFunction
 import com.juullabs.exercise.compile.addProperty
 import com.juullabs.exercise.compile.asNullable
+import com.juullabs.exercise.compile.byteArrayTypeName
+import com.juullabs.exercise.compile.createFromMarshalledBytesMemberName
+import com.juullabs.exercise.compile.createFromMarshalledBytesOrNullMemberName
 import com.juullabs.exercise.compile.getter
-import com.juullabs.exercise.compile.parcelTypeName
 import com.juullabs.exercise.compile.primaryConstructor
 import com.juullabs.exercise.compile.suppressTypeName
 import com.squareup.kotlinpoet.ClassName
@@ -31,7 +33,8 @@ internal abstract class GetParameterClassCodeGenerator(
             primaryConstructor { addParameter("instance", targetClass) }
             addProperty("instance", targetClass, KModifier.PRIVATE) { initializer("instance") }
             for (param in params.all) {
-                val parcelTypeName = if (param.optional) parcelTypeName.asNullable else parcelTypeName
+                val byteArrayTypeName = if (param.optional) byteArrayTypeName.asNullable else byteArrayTypeName
+                val createMemberName = if (param.optional) createFromMarshalledBytesOrNullMemberName else createFromMarshalledBytesMemberName
                 addProperty(param.name, param.combinedTypeName) {
                     getter {
                         if (param.isParameterized) {
@@ -40,9 +43,8 @@ internal abstract class GetParameterClassCodeGenerator(
                         if (param.parceler == null) {
                             addStatement("return $retriever as %2T", param.name, param.combinedTypeName)
                         } else {
-                            addStatement("val parcel = $retriever as %2T", param.name, parcelTypeName)
-                            val returnStatement = if (param.optional) "return parcel?.run(%1T::create)" else "return %1T.create(parcel)"
-                            addStatement(returnStatement, param.parceler)
+                            addStatement("val data = $retriever as %2T", param.name, byteArrayTypeName)
+                            addStatement("return %1T.%2M(data)", param.parceler, createMemberName)
                         }
                     }
                 }
@@ -56,8 +58,8 @@ internal abstract class GetParameterClassCodeGenerator(
                         if (param.parceler == null) {
                             addStatement("return ($retriever as? %2T) ?: default", param.name, param.nullableTypeName)
                         } else {
-                            addStatement("val parcel = $retriever as %2T", param.name, parcelTypeName)
-                            addStatement("return parcel?.run(%1T::create) ?: default", param.parceler)
+                            addStatement("val data = $retriever as %2T", param.name, byteArrayTypeName)
+                            addStatement("return %1T.%2M(data) ?: default", param.parceler, createMemberName)
                         }
                     }
                 }

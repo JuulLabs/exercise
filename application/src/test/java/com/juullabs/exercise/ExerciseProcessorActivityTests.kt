@@ -406,9 +406,12 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
 
             import android.content.Context
             import android.content.Intent
-            import android.os.Parcel
             import androidx.core.os.bundleOf
-            import com.juul.exercise.runtime.writeToParcel
+            import com.juul.exercise.runtime.createFromMarshalledBytes
+            import com.juul.exercise.runtime.createFromMarshalledBytesOrNull
+            import com.juul.exercise.runtime.writeToMarshalledBytes
+            import com.juul.exercise.runtime.writeToMarshalledBytesOrNull
+            import kotlin.ByteArray
             import kotlin.String
             
             class ParcelerActivityIntent : Intent {
@@ -419,8 +422,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.ParcelerActivity")
                 replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.requiredValue" to ThirdPartyTypeParceler.writeToParcel(requiredValue),
-                  "${"$"}{context.packageName}.optionalValue" to ThirdPartyTypeParceler.writeToParcel(optionalValue)
+                  "${"$"}{context.packageName}.requiredValue" to
+                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+                  "${"$"}{context.packageName}.optionalValue" to
+                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
                 ))
               }
             
@@ -431,8 +436,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ParcelerActivity")
                 replaceExtras(bundleOf(
-                  "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToParcel(requiredValue),
-                  "${"$"}{packageName}.optionalValue" to ThirdPartyTypeParceler.writeToParcel(optionalValue)
+                  "${"$"}{packageName}.requiredValue" to
+                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+                  "${"$"}{packageName}.optionalValue" to
+                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
                 ))
               }
             }
@@ -442,19 +449,19 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             ) {
               val requiredValue: ThirdPartyType
                 get() {
-                  val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.requiredValue") as Parcel
-                  return ThirdPartyTypeParceler.create(parcel)
+                  val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.requiredValue") as ByteArray
+                  return ThirdPartyTypeParceler.createFromMarshalledBytes(data)
                 }
             
               val optionalValue: ThirdPartyType?
                 get() {
-                  val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as Parcel?
-                  return parcel?.run(ThirdPartyTypeParceler::create)
+                  val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as ByteArray?
+                  return ThirdPartyTypeParceler.createFromMarshalledBytesOrNull(data)
                 }
             
               fun optionalValue(default: ThirdPartyType): ThirdPartyType {
-                val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as Parcel?
-                return parcel?.run(ThirdPartyTypeParceler::create) ?: default
+                val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as ByteArray?
+                return ThirdPartyTypeParceler.createFromMarshalledBytesOrNull(data) ?: default
               }
             }
             
