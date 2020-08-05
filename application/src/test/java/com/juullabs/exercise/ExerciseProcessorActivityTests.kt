@@ -186,6 +186,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
+            import kotlin.Suppress
             import kotlin.collections.List
             
             class ListActivityIntent : Intent {
@@ -208,10 +209,8 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               private val instance: ListActivity
             ) {
               val listOfInt: List<Int>
-                get() {
-                  @Suppress("UNCHECKED_CAST")
-                  return instance.intent?.extras?.get("${"$"}{instance.packageName}.listOfInt") as List<Int>
-                }
+                @Suppress("UNCHECKED_CAST")
+                get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.listOfInt") as List<Int>
             }
             
             val ListActivity.extras: ListActivityParams
@@ -361,6 +360,106 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             val StubbedActivity.extras: StubbedActivityParams
               get() = StubbedActivityParams(this)
+            """
+        )
+    }
+
+
+    @Test
+    fun `test activity generation with parceler`() {
+        val result = compile(
+            kotlin(
+                "ParcelerActivity.kt",
+                """
+                package com.juul.exercise.tests
+                
+                import android.app.Activity
+                import android.os.Parcel
+                import com.juullabs.exercise.annotations.Exercise
+                import com.juullabs.exercise.annotations.Extra
+                import kotlinx.android.parcel.Parceler
+                
+                data class ThirdPartyType(val value: String)
+                
+                object ThirdPartyTypeParceler : Parceler<ThirdPartyType> {
+                    override fun create(parcel: Parcel) = ThirdPartyType(checkNotNull(parcel.readString()))
+                    
+                    override fun ThirdPartyType.write(parcel: Parcel, flags: Int) {
+                        parcel.writeString(this.value)
+                    }
+                }
+                
+                @Exercise(
+                    Extra("requiredValue", ThirdPartyType::class, parceler = ThirdPartyTypeParceler::class),
+                    Extra("optionalValue", ThirdPartyType::class, optional = true, parceler = ThirdPartyTypeParceler::class)
+                )
+                class ParcelerActivity : Activity()
+                """
+            )
+        )
+        assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val file = result.getGeneratedFile("ParcelerActivityExercise.kt")
+        assertThat(file.readText().trim()).isEqualToKotlin(
+            """
+            package com.juul.exercise.tests
+
+            import android.content.Context
+            import android.content.Intent
+            import android.os.Parcel
+            import androidx.core.os.bundleOf
+            import com.juul.exercise.runtime.writeToParcel
+            import kotlin.String
+            
+            class ParcelerActivityIntent : Intent {
+              constructor(
+                context: Context,
+                requiredValue: ThirdPartyType,
+                optionalValue: ThirdPartyType? = null
+              ) : super() {
+                setClassName(context, "com.juul.exercise.tests.ParcelerActivity")
+                replaceExtras(bundleOf(
+                  "${"$"}{context.packageName}.requiredValue" to ThirdPartyTypeParceler.writeToParcel(requiredValue),
+                  "${"$"}{context.packageName}.optionalValue" to ThirdPartyTypeParceler.writeToParcel(optionalValue)
+                ))
+              }
+            
+              constructor(
+                packageName: String,
+                requiredValue: ThirdPartyType,
+                optionalValue: ThirdPartyType? = null
+              ) : super() {
+                setClassName(packageName, "com.juul.exercise.tests.ParcelerActivity")
+                replaceExtras(bundleOf(
+                  "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToParcel(requiredValue),
+                  "${"$"}{packageName}.optionalValue" to ThirdPartyTypeParceler.writeToParcel(optionalValue)
+                ))
+              }
+            }
+            
+            class ParcelerActivityParams(
+              private val instance: ParcelerActivity
+            ) {
+              val requiredValue: ThirdPartyType
+                get() {
+                  val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.requiredValue") as Parcel
+                  return ThirdPartyTypeParceler.create(parcel)
+                }
+            
+              val optionalValue: ThirdPartyType?
+                get() {
+                  val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as Parcel?
+                  return parcel?.run(ThirdPartyTypeParceler::create)
+                }
+            
+              fun optionalValue(default: ThirdPartyType): ThirdPartyType {
+                val parcel = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as Parcel?
+                return parcel?.run(ThirdPartyTypeParceler::create) ?: default
+              }
+            }
+            
+            val ParcelerActivity.extras: ParcelerActivityParams
+              get() = ParcelerActivityParams(this)
             """
         )
     }

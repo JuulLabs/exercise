@@ -1,5 +1,6 @@
 package com.juullabs.exercise.compile
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
@@ -31,6 +32,11 @@ internal fun FileSpec.Companion.build(
     fileName: String,
     builderActions: FileSpec.Builder.() -> Unit
 ) = builder(packageName, fileName).apply(builderActions).build()
+
+internal fun FunSpec.Builder.addAnnotation(
+    type: ClassName,
+    builderActions: AnnotationSpec.Builder.() -> Unit
+) = addAnnotation(AnnotationSpec.builder(type).apply(builderActions).build())
 
 internal fun FunSpec.Builder.addParameter(
     name: String,

@@ -3,6 +3,7 @@ package com.juullabs.exercise.compile
 import com.juullabs.exercise.annotations.Exercise
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.buildCodeBlock
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.element.TypeElement
@@ -36,21 +37,24 @@ internal fun List<Parameter>.asBundleOf(
     prefix: CodeBlock? = null
 ): CodeBlock = when {
     isEmpty() -> CodeBlock.of("%M()", bundleOfMemberName)
-    prefix == null -> CodeBlock.of(
-        "%M(⇥\n%L\n⇤)",
-        bundleOfMemberName,
-        joinToString(",\n") { "\"${it.name}\" to ${it.name}" }
-    )
-    else -> CodeBlock.of(
-        "%M(⇥\n%L\n⇤)",
-        bundleOfMemberName,
-        joinToString(",\n") { "\"\${$prefix}.${it.name}\" to ${it.name}" }
-    )
+    else -> buildCodeBlock {
+        add("%M(⇥\n", bundleOfMemberName)
+        for ((index, param) in withIndex()) {
+            val key = if (prefix == null) param.name else "\${$prefix}.${param.name}"
+            val value = if (param.parceler == null) {
+                CodeBlock.of(param.name)
+            } else {
+                CodeBlock.of("%T.%M(%L)", param.parceler, writeToParcelMemberName, param.name)
+            }
+            add("\"%L\" to %L", key, value)
+            if (index + 1 != size) add(",\n")
+        }
+        add("\n⇤)")
+    }
 }
 
 internal fun Parameters.asParameterSpecs(): List<ParameterSpec> = all.asParameterSpecs()
 
-@OptIn(ExperimentalStdlibApi::class)
 internal fun List<Parameter>.asParameterSpecs(): List<ParameterSpec> = asSequence()
     .sortedBy { it.optional }
     .map { arg ->

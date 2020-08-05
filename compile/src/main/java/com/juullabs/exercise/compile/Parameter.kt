@@ -14,7 +14,8 @@ import javax.lang.model.type.TypeMirror
 internal data class Parameter(
     val name: String,
     val nonNullTypeName: TypeName,
-    val optional: Boolean
+    val optional: Boolean,
+    val parceler: TypeName?
 ) {
     val nullableTypeName = nonNullTypeName.asNullable
 
@@ -47,10 +48,16 @@ internal data class Parameter(
                 check(rawNonNullTypeName is ClassName)
                 rawNonNullTypeName.parameterizedBy(parameters)
             }
+            val parcelerTypeName = run {
+                val parceler = annotation["parceler"] as TypeMirror?
+                val typeName = if (parceler != null) adjustTypeName(parceler) else Nothing::class.asTypeName()
+                typeName.takeUnless { it == Nothing::class.asTypeName() }
+            }
             return Parameter(
                 name = annotation["name"] as String,
                 nonNullTypeName = nonNullTypeName,
-                optional = annotation["optional"] == true
+                optional = annotation["optional"] == true,
+                parceler = parcelerTypeName
             )
         }
     }
