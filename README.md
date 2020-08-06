@@ -44,6 +44,73 @@ class FromActivity : AppCompatActivity() {
 }
 ```
 
+## Nullables and Optionals
+
+To make an `Extra` nullable, you mark it as `optional`. Declaration and use:
+
+```kotlin
+@Exercise(Extra("anyString", String::class, optional = true))
+class OptionalsActivity : AppCompatActivity() {
+  // ...
+
+  fun useExtras() {
+    println(extras.anyString) // nullable
+    println(extras.anyString ?: "someDefault") // non-null with elvis operator 
+    println(extras.anyString(default = "someDefault")) // non-null with function call
+  }
+}
+```
+
+Creating the intent:
+
+```kotlin
+// Works with a nullable argument
+fun getString(): String? = TODO()
+OptionalsActivityIntent(context, anyString = getString())
+
+// Argument has a default value of null, so it can be left off.
+OptionalsActivityIntent(context)
+// The above is same as the below
+OptionalsActivityIntent(context, anyString = null)
+```
+
+## Parcelers
+
+Exercise works with KotlinX [`Parceler`](https://kotlinlang.org/docs/reference/compiler-plugins.html#custom-parcelers) The following example assumes you are consuming some external code:
+
+```kotlin
+data class ThirdPartyType(val value: String)
+```
+
+First, write a `Parceler` just like you would for a `@Parcelize` class (or reuse an existing one).
+
+```kotlin
+object ThirdPartyTypeParceler : Parceler<ThirdPartyType> {
+  override fun create(parcel: Parcel) = ThirdPartyType(checkNotNull(parcel.readString()))
+
+  override fun ThirdPartyType.write(parcel: Parcel, flags: Int) {
+    parcel.writeString(this.value)
+  }
+}
+```
+
+Declaration and use:
+
+```kotlin
+@Exercise(Extra("myThirdPartyType", ThirdPartyType::class, parceler = ThirdPartyTypeParceler::class))
+class ThirdPartyTypeActivity : AppCompatActivity() {
+  fun useExtras() {
+    println(extras.myThirdPartyType.value)
+  }
+}
+```
+
+Creating the intent:
+
+```kotlin
+ThirdPartyTypeActivityIntent(context, myThirdPartyType = ThirdPartyType("Some string"))
+```
+
 # License
 
 ```
