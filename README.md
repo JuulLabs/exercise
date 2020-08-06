@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
   implementation "com.juul.exercise:annotations:$version"
+  implementation "com.juul.exercise:runtime:$version"
   kapt "com.juul.exercise:compile:$version"
 }
 ```
