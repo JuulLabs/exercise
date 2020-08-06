@@ -32,7 +32,7 @@ class ParcelerExtensionTests {
     @Test
     fun `null input marshals to null byte array`() {
         val expected: Sample? = null
-        val data = SampleParceler.writeToMarshalledBytes(expected)
+        val data = SampleParceler.writeToMarshalledBytesOrNull(expected)
         assertThat(data).isNull()
     }
 }
