@@ -2,6 +2,9 @@ package com.juul.exercise.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.juul.dynamicfeature.CalculatorChildActivityContract
+import com.juul.dynamicfeature.CalculatorChildActivityIntent
+import com.juul.dynamicfeature.CalculatorChildActivityResult
 import com.juul.exercise.R
 import com.juul.exercise.annotations.Exercise
 import kotlinx.android.synthetic.main.activity_calc_parent.initialValue11
