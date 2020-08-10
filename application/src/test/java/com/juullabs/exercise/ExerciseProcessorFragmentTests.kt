@@ -1,9 +1,7 @@
 package com.juullabs.exercise
 
 import com.tschuchort.compiletesting.KotlinCompilation
-import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -162,6 +160,7 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             import androidx.core.os.bundleOf
             import kotlin.Int
+            import kotlin.Suppress
             import kotlin.collections.List
             
             fun newListFragment(listOfInt: List<Int>): ListFragment {
@@ -177,10 +176,8 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
               private val instance: ListFragment
             ) {
               val listOfInt: List<Int>
-                get() {
-                  @Suppress("UNCHECKED_CAST")
-                  return instance.arguments?.get("listOfInt") as List<Int>
-                }
+                @Suppress("UNCHECKED_CAST")
+                get() = instance.arguments?.get("listOfInt") as List<Int>
             }
             
             val ListFragment.args: ListFragmentParams

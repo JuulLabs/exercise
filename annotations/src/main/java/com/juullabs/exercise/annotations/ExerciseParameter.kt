@@ -10,7 +10,8 @@ annotation class ExerciseParameter(
     val name: String,
     val type: KClass<*>,
     vararg val typeArguments: KClass<*>,
-    val optional: Boolean = false
+    val optional: Boolean = false,
+    val parceler: KClass<*> = Nothing::class
 )
 
 /** Type used by [Exercise] on an `Activity`. */

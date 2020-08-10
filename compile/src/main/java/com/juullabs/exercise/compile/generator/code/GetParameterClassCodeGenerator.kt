@@ -1,11 +1,17 @@
 package com.juullabs.exercise.compile.generator.code
 
 import com.juullabs.exercise.compile.Parameters
+import com.juullabs.exercise.compile.addAnnotation
 import com.juullabs.exercise.compile.addClass
 import com.juullabs.exercise.compile.addFunction
 import com.juullabs.exercise.compile.addProperty
+import com.juullabs.exercise.compile.asNullable
+import com.juullabs.exercise.compile.byteArrayTypeName
+import com.juullabs.exercise.compile.createFromMarshalledBytesMemberName
+import com.juullabs.exercise.compile.createFromMarshalledBytesOrNullMemberName
 import com.juullabs.exercise.compile.getter
 import com.juullabs.exercise.compile.primaryConstructor
+import com.juullabs.exercise.compile.suppressTypeName
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
@@ -27,18 +33,34 @@ internal abstract class GetParameterClassCodeGenerator(
             primaryConstructor { addParameter("instance", targetClass) }
             addProperty("instance", targetClass, KModifier.PRIVATE) { initializer("instance") }
             for (param in params.all) {
+                val byteArrayTypeName = if (param.optional) byteArrayTypeName.asNullable else byteArrayTypeName
+                val createMemberName = if (param.optional) createFromMarshalledBytesOrNullMemberName else createFromMarshalledBytesMemberName
                 addProperty(param.name, param.combinedTypeName) {
                     getter {
-                        if (param.isParameterized) addStatement("""@Suppress("UNCHECKED_CAST")""")
-                        addStatement("return $retriever as %2T", param.name, param.combinedTypeName)
+                        if (param.isParameterized) {
+                            addAnnotation(suppressTypeName) { addMember("%S", "UNCHECKED_CAST") }
+                        }
+                        if (param.parceler == null) {
+                            addStatement("return $retriever as %2T", param.name, param.combinedTypeName)
+                        } else {
+                            addStatement("val data = $retriever as %2T", param.name, byteArrayTypeName)
+                            addStatement("return %1T.%2M(data)", param.parceler, createMemberName)
+                        }
                     }
                 }
                 if (param.optional) {
                     addFunction(param.name) {
+                        if (param.isParameterized) {
+                            addAnnotation(suppressTypeName) { addMember("%S", "UNCHECKED_CAST") }
+                        }
                         addParameter("default", param.nonNullTypeName)
                         returns(param.nonNullTypeName)
-                        if (param.isParameterized) addStatement("""@Suppress("UNCHECKED_CAST")""")
-                        addStatement("return ($retriever as? %2T) ?: default", param.name, param.nullableTypeName)
+                        if (param.parceler == null) {
+                            addStatement("return ($retriever as? %2T) ?: default", param.name, param.nullableTypeName)
+                        } else {
+                            addStatement("val data = $retriever as %2T", param.name, byteArrayTypeName)
+                            addStatement("return %1T.%2M(data) ?: default", param.parceler, createMemberName)
+                        }
                     }
                 }
             }
