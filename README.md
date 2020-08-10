@@ -55,7 +55,6 @@ class OptionalsActivity : AppCompatActivity() {
 
   fun useExtras() {
     println(extras.anyString) // nullable
-    println(extras.anyString ?: "someDefault") // non-null with elvis operator 
     println(extras.anyString(default = "someDefault")) // non-null with function call
   }
 }
@@ -99,8 +98,10 @@ Declaration and use:
 ```kotlin
 @Exercise(Extra("myThirdPartyType", ThirdPartyType::class, parceler = ThirdPartyTypeParceler::class))
 class ThirdPartyTypeActivity : AppCompatActivity() {
+  // ...
+
   fun useExtras() {
-    println(extras.myThirdPartyType.value)
+    println(extras.myThirdPartyType)
   }
 }
 ```
