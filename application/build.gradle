@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.juullabs.exercise"
+        applicationId "com.juul.exercise"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

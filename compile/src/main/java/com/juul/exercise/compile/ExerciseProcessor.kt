@@ -13,7 +13,7 @@ import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes("com.juullabs.exercise.annotations.Exercise")
+@SupportedAnnotationTypes("com.juul.exercise.annotations.Exercise")
 class ExerciseProcessor : AbstractProcessor() {
 
     override fun process(
