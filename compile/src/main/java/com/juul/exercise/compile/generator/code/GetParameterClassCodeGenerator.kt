@@ -10,6 +10,7 @@ import com.juul.exercise.compile.byteArrayTypeName
 import com.juul.exercise.compile.createFromMarshalledBytesMemberName
 import com.juul.exercise.compile.createFromMarshalledBytesOrNullMemberName
 import com.juul.exercise.compile.getter
+import com.juul.exercise.compile.intentTypeName
 import com.juul.exercise.compile.primaryConstructor
 import com.juul.exercise.compile.suppressTypeName
 import com.squareup.kotlinpoet.ClassName
@@ -25,16 +26,24 @@ internal abstract class GetParameterClassCodeGenerator(
 
     abstract val extensionName: String
     abstract val retriever: String
+    open val additionalParams: Map<String, ClassName> = emptyMap()
 
     override fun addTo(fileSpec: FileSpec.Builder) {
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Params")
         fileSpec.addClass(className) {
             originatingElements += originatingElement
-            primaryConstructor { addParameter("instance", targetClass) }
+            primaryConstructor {
+                addParameter("instance", targetClass)
+                additionalParams.forEach { (name, type) -> addParameter(name, type) }
+            }
             addProperty("instance", targetClass, KModifier.PRIVATE) { initializer("instance") }
+            additionalParams.forEach { (name, type) ->
+                addProperty(name, type, KModifier.PRIVATE) { initializer(name) }
+            }
             for (param in params.all) {
                 val byteArrayTypeName = if (param.optional) byteArrayTypeName.asNullable else byteArrayTypeName
-                val createMemberName = if (param.optional) createFromMarshalledBytesOrNullMemberName else createFromMarshalledBytesMemberName
+                val createMemberName =
+                    if (param.optional) createFromMarshalledBytesOrNullMemberName else createFromMarshalledBytesMemberName
                 addProperty(param.name, param.combinedTypeName) {
                     getter {
                         if (param.isParameterized) {
@@ -65,15 +74,25 @@ internal abstract class GetParameterClassCodeGenerator(
                 }
             }
         }
-        fileSpec.addProperty(extensionName, className) {
-            originatingElements += originatingElement
-            receiver(targetClass)
-            getter { addStatement("return %T(this)", className) }
+        if (additionalParams.isEmpty()) {
+            fileSpec.addProperty(extensionName, className) {
+                originatingElements += originatingElement
+                receiver(targetClass)
+                getter { addStatement("return %T(this)", className) }
+            }
+        } else {
+            fileSpec.addFunction(extensionName) {
+                originatingElements += originatingElement
+                receiver(targetClass)
+                returns(className)
+                additionalParams.forEach { (name, type) -> addParameter(name, type) }
+                addStatement("return %T(this, %L)", className, additionalParams.keys.joinToString())
+            }
         }
     }
 }
 
-internal class GetArgumentsClassCodeGenerator(
+internal class GetFragmentArgumentsClassCodeGenerator(
     originatingElement: Element,
     targetClass: ClassName,
     params: Parameters
@@ -82,11 +101,21 @@ internal class GetArgumentsClassCodeGenerator(
     override val retriever = "instance.arguments?.get(%1S)"
 }
 
-internal class GetExtrasClassCodeGenerator(
+internal class GetActivityExtrasClassCodeGenerator(
     originatingElement: Element,
     targetClass: ClassName,
     params: Parameters
 ) : GetParameterClassCodeGenerator(originatingElement, targetClass, params) {
     override val extensionName = "extras"
     override val retriever = "instance.intent?.extras?.get(\"\${instance.packageName}.%1L\")"
+}
+
+internal class GetServiceExtrasClassCodeGenerator(
+    originatingElement: Element,
+    targetClass: ClassName,
+    params: Parameters
+) : GetParameterClassCodeGenerator(originatingElement, targetClass, params) {
+    override val extensionName = "extras"
+    override val retriever = "intent.extras?.get(\"\${instance.packageName}.%1L\")"
+    override val additionalParams = mapOf("intent" to intentTypeName)
 }

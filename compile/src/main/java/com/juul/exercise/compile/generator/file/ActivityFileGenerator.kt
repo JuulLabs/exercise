@@ -3,7 +3,7 @@ package com.juul.exercise.compile.generator.file
 import com.juul.exercise.annotations.ResultContract
 import com.juul.exercise.compile.Parameters
 import com.juul.exercise.compile.build
-import com.juul.exercise.compile.generator.code.GetExtrasClassCodeGenerator
+import com.juul.exercise.compile.generator.code.GetActivityExtrasClassCodeGenerator
 import com.juul.exercise.compile.generator.code.ParameterizedIntentClassCodeGenerator
 import com.juul.exercise.compile.generator.code.ResultClassCodeGenerator
 import com.juul.exercise.compile.generator.code.ResultContractClassCodeGenerator
@@ -33,7 +33,7 @@ internal class ActivityFileGenerator(
             if (!element.modifiers.contains(Modifier.ABSTRACT)) {
                 addFrom(ParameterizedIntentClassCodeGenerator(element, targetClass, parameters))
             }
-            addFrom(GetExtrasClassCodeGenerator(element, targetClass, parameters))
+            addFrom(GetActivityExtrasClassCodeGenerator(element, targetClass, parameters))
 
             val resultContractMirror = element.getAnnotation<ResultContract>()
             if (resultContractMirror != null) {
