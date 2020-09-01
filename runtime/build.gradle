@@ -14,7 +14,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation "com.github.tschuchortdev:kotlin-compile-testing:1.2.7"
     testImplementation "org.assertj:assertj-core:3.15.0"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation 'org.robolectric:robolectric:4.3.1'
