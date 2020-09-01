@@ -2,7 +2,7 @@ package com.juul.exercise.compile.generator.file
 
 import com.juul.exercise.compile.Parameters
 import com.juul.exercise.compile.build
-import com.juul.exercise.compile.generator.code.GetArgumentsClassCodeGenerator
+import com.juul.exercise.compile.generator.code.GetFragmentArgumentsClassCodeGenerator
 import com.juul.exercise.compile.generator.code.NewFragmentFunctionCodeGenerator
 import com.juul.exercise.compile.generator.code.addFrom
 import com.juul.exercise.compile.isSubtypeOfAny
@@ -27,7 +27,7 @@ internal class FragmentFileGenerator(
             if (!element.modifiers.contains(Modifier.ABSTRACT)) {
                 addFrom(NewFragmentFunctionCodeGenerator(element, targetClass, parameters))
             }
-            addFrom(GetArgumentsClassCodeGenerator(element, targetClass, parameters))
+            addFrom(GetFragmentArgumentsClassCodeGenerator(element, targetClass, parameters))
         }
     }
 }

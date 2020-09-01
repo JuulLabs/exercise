@@ -112,6 +112,37 @@ Creating the intent:
 ThirdPartyTypeActivityIntent(context, myThirdPartyType = ThirdPartyType("Some string"))
 ```
 
+## Services
+
+Exercise supports intents for a `Service` much like an `Activity`.
+
+```kotlin
+@Exercise(Extra("someNumber", Int::class))
+class YourService : JobIntentService() {
+    override fun onHandleWork(intent: Intent) {
+        println("Some Number: ${extras(intent).someNumber}")
+    }
+}
+```
+
+Creating the intent:
+
+```kotlin
+val intent = YourServiceIntent(context, someNumber = 5)
+```
+
+Launching a `JobIntentService`:
+
+```kotlin
+JobIntentService.enqueueWork(context, YourService::class, jobId, intent)
+```
+
+Launching other `Service`s:
+
+```kotlin
+context.startService(intent)
+```
+
 # License
 
 ```
