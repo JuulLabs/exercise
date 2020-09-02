@@ -1,6 +1,5 @@
 package com.juul.exercise.compile
 
-import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.element.Element
@@ -16,9 +15,11 @@ internal inline fun <reified T : Annotation> Element.getAnnotation(): Annotation
     }.singleOrNull()
 }
 
+/** If the [supertype] cannot be found, returns `false`. */
 internal fun TypeElement.isSubtypeOf(env: ProcessingEnvironment, supertype: String): Boolean {
     val thisMirror = env.typeUtils.getDeclaredType(this)
-    val supertypeMirror = env.typeUtils.getDeclaredType(env.elementUtils.getTypeElement(supertype))
+    val supertypeElement = env.elementUtils.getTypeElement(supertype) ?: return false
+    val supertypeMirror = env.typeUtils.getDeclaredType(supertypeElement)
     return env.typeUtils.isAssignable(thisMirror, supertypeMirror)
 }
 

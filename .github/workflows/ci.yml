@@ -43,7 +43,12 @@ jobs:
           key: grade-${{ hashFiles('**/build.gradle') }}
 
       - name: Check
-        run: ./gradlew $GRADLE_ARGS check
+        run: ./gradlew $GRADLE_ARGS check jacocoTestReport
+
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
 
       - name: Snapshot
         if: startsWith(github.ref, 'refs/heads/') && endsWith(github.ref, '-SNAPSHOT')
