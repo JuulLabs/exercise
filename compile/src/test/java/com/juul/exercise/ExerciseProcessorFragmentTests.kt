@@ -30,13 +30,15 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.os.Bundle
             import androidx.core.os.bundleOf
+            
+            fun bundleForNoArgumentsFragment(): Bundle = bundleOf()
             
             fun newNoArgumentsFragment(): NoArgumentsFragment {
               val instance = NoArgumentsFragment()
-              return instance.apply {
-                arguments = bundleOf()
-              }
+              instance.arguments = bundleForNoArgumentsFragment()
+              return instance
             }
             
             class NoArgumentsFragmentParams(
@@ -104,18 +106,23 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
+ 
+            fun bundleForSubclassFragment(fromSuperclass: Int, fromSubclass: String): Bundle = bundleOf(
+              "fromSuperclass" to fromSuperclass,
+              "fromSubclass" to fromSubclass
+            )
             
             fun newSubclassFragment(fromSuperclass: Int, fromSubclass: String): SubclassFragment {
               val instance = SubclassFragment()
-              return instance.apply {
-                arguments = bundleOf(
-                  "fromSuperclass" to fromSuperclass,
-                  "fromSubclass" to fromSubclass
-                )
-              }
+              instance.arguments = bundleForSubclassFragment(
+                fromSuperclass,
+                fromSubclass
+              )
+              return instance
             }
             
             class SubclassFragmentParams(
@@ -158,18 +165,22 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.Suppress
             import kotlin.collections.List
             
+            fun bundleForListFragment(listOfInt: List<Int>): Bundle = bundleOf(
+              "listOfInt" to listOfInt
+            )
+            
             fun newListFragment(listOfInt: List<Int>): ListFragment {
               val instance = ListFragment()
-              return instance.apply {
-                arguments = bundleOf(
-                  "listOfInt" to listOfInt
-                )
-              }
+              instance.arguments = bundleForListFragment(
+                listOfInt
+              )
+              return instance
             }
             
             class ListFragmentParams(
@@ -210,16 +221,20 @@ class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             
+            fun bundleForOptionalsFragment(optionalInt: Int? = null): Bundle = bundleOf(
+              "optionalInt" to optionalInt
+            )
+            
             fun newOptionalsFragment(optionalInt: Int? = null): OptionalsFragment {
               val instance = OptionalsFragment()
-              return instance.apply {
-                arguments = bundleOf(
-                  "optionalInt" to optionalInt
-                )
-              }
+              instance.arguments = bundleForOptionalsFragment(
+                optionalInt
+              )
+              return instance
             }
             
             class OptionalsFragmentParams(
