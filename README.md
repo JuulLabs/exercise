@@ -145,6 +145,22 @@ Launching other `Service`s:
 context.startService(intent)
 ```
 
+# Snapshots
+
+`SNAPSHOT` builds of `master` are available using the following Gradle configuration:
+
+```gradle
+repositories {
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+  implementation "com.juul.exercise:annotations:master-SNAPSHOT"
+  implementation "com.juul.exercise:runtime:master-SNAPSHOT"
+  kapt "com.juul.exercise:compile:master-SNAPSHOT"
+}
+```
+
 # License
 
 ```
