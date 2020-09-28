@@ -51,7 +51,7 @@ jobs:
           fail_ci_if_error: true
 
       - name: Snapshot
-        if: ${{ github.ref == 'ref/head/master' }}
+        if: github.ref == 'refs/heads/master'
         run: >-
           ./gradlew
           $GRADLE_ARGS
