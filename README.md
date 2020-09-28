@@ -149,7 +149,7 @@ context.startService(intent)
 
 `SNAPSHOT` builds of `master` are available using the following Gradle configuration:
 
-```
+```gradle
 repositories {
   maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
