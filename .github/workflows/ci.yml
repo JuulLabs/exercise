@@ -50,7 +50,15 @@ jobs:
         with:
           fail_ci_if_error: true
 
-      - name: Snapshot
+      - name: Snapshot (master)
+        if: ${{ github.ref == 'ref/head/master' }}
+        run: >-
+          ./gradlew
+          $GRADLE_ARGS
+          uploadArchives
+          -PVERSION_NAME=master-SNAPSHOT
+
+      - name: Snapshot (branch)
         if: startsWith(github.ref, 'refs/heads/') && endsWith(github.ref, '-SNAPSHOT')
         run: >-
           ./gradlew
