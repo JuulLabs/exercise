@@ -145,7 +145,7 @@ Launching other `Service`s:
 context.startService(intent)
 ```
 
-# SNAPSHOT builds
+# Snapshots
 
 `SNAPSHOT` builds of `master` are available using the following Gradle configuration:
 
