@@ -3,7 +3,6 @@ package com.juul.exercise.compile.generator.code
 import com.juul.exercise.compile.Parameters
 import com.juul.exercise.compile.addClass
 import com.juul.exercise.compile.addConstructor
-import com.juul.exercise.compile.asBundleOf
 import com.juul.exercise.compile.asParameterSpecs
 import com.juul.exercise.compile.contextTypeName
 import com.juul.exercise.compile.intentTypeName
@@ -11,6 +10,7 @@ import com.juul.exercise.compile.stringTypeName
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import javax.lang.model.element.Element
@@ -21,13 +21,24 @@ internal class ParameterizedIntentClassCodeGenerator(
     private val params: Parameters
 ) : CodeGenerator {
 
+    private val requiredParameterOptions = arrayOf(
+        ParameterSpec("context", contextTypeName) to CodeBlock.of("context.packageName"),
+        ParameterSpec("packageName", stringTypeName) to CodeBlock.of("packageName")
+    )
+
+    private val bundleCodeGenerator = BundleCodeGenerator(
+        originatingElement, targetClass, params, *requiredParameterOptions
+    )
+
     override fun addTo(fileSpec: FileSpec.Builder) {
+        bundleCodeGenerator.addTo(fileSpec)
         val className = ClassName(fileSpec.packageName, "${targetClass.simpleName}Intent")
         fileSpec.addClass(className) {
             originatingElements += originatingElement
             superclass(intentTypeName)
-            addIntentConstructor("context", contextTypeName, CodeBlock.of("context.packageName"))
-            addIntentConstructor("packageName", stringTypeName, CodeBlock.of("packageName"))
+            for ((parameter, prefix) in requiredParameterOptions) {
+                addIntentConstructor(parameter.name, parameter.type, prefix)
+            }
         }
     }
 
@@ -41,7 +52,7 @@ internal class ParameterizedIntentClassCodeGenerator(
         addParameters(params.asParameterSpecs())
         addStatement("setClassName(%L, %S)", packageNameArgument, targetClass)
         if (params.all.isNotEmpty()) {
-            addCode("replaceExtras(%L)\n", params.asBundleOf(argumentToPackageName))
+            addCode("replaceExtras(%L)\n", bundleCodeGenerator.getCallBlock(argumentToPackageName))
         }
     }
 }

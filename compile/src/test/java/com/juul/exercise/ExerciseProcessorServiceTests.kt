@@ -32,10 +32,16 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
         assertThat(file.readText().trim()).isEqualToKotlin(
             """
             package com.juul.exercise.tests
-            
+
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
+            import androidx.core.os.bundleOf
             import kotlin.String
+
+            fun bundleForNoExtrasService(context: Context): Bundle = bundleOf()
+
+            fun bundleForNoExtrasService(packageName: String): Bundle = bundleOf()
             
             class NoExtrasServiceIntent : Intent {
               constructor(context: Context) : super() {
@@ -120,10 +126,29 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
-            
+
+            fun bundleForSubclassService(
+              context: Context,
+              fromSuperclass: Int,
+              fromSubclass: String
+            ): Bundle = bundleOf(
+              "${"$"}{context.packageName}.fromSuperclass" to fromSuperclass,
+              "${"$"}{context.packageName}.fromSubclass" to fromSubclass
+            )
+
+            fun bundleForSubclassService(
+              packageName: String,
+              fromSuperclass: Int,
+              fromSubclass: String
+            ): Bundle = bundleOf(
+              "${"$"}{packageName}.fromSuperclass" to fromSuperclass,
+              "${"$"}{packageName}.fromSubclass" to fromSubclass
+            )
+
             class SubclassServiceIntent : Intent {
               constructor(
                 context: Context,
@@ -131,9 +156,10 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 fromSubclass: String
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.SubclassService")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.fromSuperclass" to fromSuperclass,
-                  "${"$"}{context.packageName}.fromSubclass" to fromSubclass
+                replaceExtras(bundleForSubclassService(
+                  context.packageName,
+                  fromSuperclass,
+                  fromSubclass
                 ))
               }
             
@@ -143,9 +169,10 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 fromSubclass: String
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.SubclassService")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.fromSuperclass" to fromSuperclass,
-                  "${"$"}{packageName}.fromSubclass" to fromSubclass
+                replaceExtras(bundleForSubclassService(
+                  packageName,
+                  fromSuperclass,
+                  fromSubclass
                 ))
               }
             }
@@ -196,24 +223,35 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             import kotlin.Suppress
             import kotlin.collections.List
+
+            fun bundleForListService(context: Context, listOfInt: List<Int>): Bundle = bundleOf(
+              "${"$"}{context.packageName}.listOfInt" to listOfInt
+            )
             
+            fun bundleForListService(packageName: String, listOfInt: List<Int>): Bundle = bundleOf(
+              "${"$"}{packageName}.listOfInt" to listOfInt
+            )
+
             class ListServiceIntent : Intent {
               constructor(context: Context, listOfInt: List<Int>) : super() {
                 setClassName(context, "com.juul.exercise.tests.ListService")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.listOfInt" to listOfInt
+                replaceExtras(bundleForListService(
+                  context.packageName,
+                  listOfInt
                 ))
               }
             
               constructor(packageName: String, listOfInt: List<Int>) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ListService")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.listOfInt" to listOfInt
+                replaceExtras(bundleForListService(
+                  packageName,
+                  listOfInt
                 ))
               }
             }
@@ -261,22 +299,33 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             
+            fun bundleForOptionalsService(context: Context, optionalInt: Int? = null): Bundle = bundleOf(
+              "${"$"}{context.packageName}.optionalInt" to optionalInt
+            )
+            
+            fun bundleForOptionalsService(packageName: String, optionalInt: Int? = null): Bundle = bundleOf(
+              "${"$"}{packageName}.optionalInt" to optionalInt
+            )
+            
             class OptionalsServiceIntent : Intent {
               constructor(context: Context, optionalInt: Int? = null) : super() {
                 setClassName(context, "com.juul.exercise.tests.OptionalsService")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.optionalInt" to optionalInt
+                replaceExtras(bundleForOptionalsService(
+                  context.packageName,
+                  optionalInt
                 ))
               }
             
               constructor(packageName: String, optionalInt: Int? = null) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.OptionalsService")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.optionalInt" to optionalInt
+                replaceExtras(bundleForOptionalsService(
+                  packageName,
+                  optionalInt
                 ))
               }
             }
@@ -342,6 +391,7 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
 
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import com.juul.exercise.runtime.createFromMarshalledBytes
             import com.juul.exercise.runtime.createFromMarshalledBytesOrNull
@@ -349,7 +399,28 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             import com.juul.exercise.runtime.writeToMarshalledBytesOrNull
             import kotlin.ByteArray
             import kotlin.String
+
+            fun bundleForParcelerService(
+              context: Context,
+              requiredValue: ThirdPartyType,
+              optionalValue: ThirdPartyType? = null
+            ): Bundle = bundleOf(
+              "${"$"}{context.packageName}.requiredValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{context.packageName}.optionalValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+            )
             
+            fun bundleForParcelerService(
+              packageName: String,
+              requiredValue: ThirdPartyType,
+              optionalValue: ThirdPartyType? = null
+            ): Bundle = bundleOf(
+              "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{packageName}.optionalValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+            )
+
             class ParcelerServiceIntent : Intent {
               constructor(
                 context: Context,
@@ -357,11 +428,10 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 optionalValue: ThirdPartyType? = null
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.ParcelerService")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.requiredValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-                  "${"$"}{context.packageName}.optionalValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+                replaceExtras(bundleForParcelerService(
+                  context.packageName,
+                  requiredValue,
+                  optionalValue
                 ))
               }
             
@@ -371,11 +441,10 @@ class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 optionalValue: ThirdPartyType? = null
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ParcelerService")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.requiredValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-                  "${"$"}{packageName}.optionalValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+                replaceExtras(bundleForParcelerService(
+                  packageName,
+                  requiredValue,
+                  optionalValue
                 ))
               }
             }

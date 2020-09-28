@@ -32,8 +32,14 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
+            import androidx.core.os.bundleOf
             import kotlin.String
-            
+
+            fun bundleForNoExtrasActivity(context: Context): Bundle = bundleOf()
+
+            fun bundleForNoExtrasActivity(packageName: String): Bundle = bundleOf()
+
             class NoExtrasActivityIntent : Intent {
               constructor(context: Context) : super() {
                 setClassName(context, "com.juul.exercise.tests.NoExtrasActivity")
@@ -111,10 +117,29 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             
+            fun bundleForSubclassActivity(
+              context: Context,
+              fromSuperclass: Int,
+              fromSubclass: String
+            ): Bundle = bundleOf(
+              "${"$"}{context.packageName}.fromSuperclass" to fromSuperclass,
+              "${"$"}{context.packageName}.fromSubclass" to fromSubclass
+            )
+
+            fun bundleForSubclassActivity(
+              packageName: String,
+              fromSuperclass: Int,
+              fromSubclass: String
+            ): Bundle = bundleOf(
+              "${"$"}{packageName}.fromSuperclass" to fromSuperclass,
+              "${"$"}{packageName}.fromSubclass" to fromSubclass
+            )
+
             class SubclassActivityIntent : Intent {
               constructor(
                 context: Context,
@@ -122,9 +147,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 fromSubclass: String
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.SubclassActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.fromSuperclass" to fromSuperclass,
-                  "${"$"}{context.packageName}.fromSubclass" to fromSubclass
+                replaceExtras(bundleForSubclassActivity(
+                  context.packageName,
+                  fromSuperclass,
+                  fromSubclass
                 ))
               }
             
@@ -134,9 +160,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 fromSubclass: String
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.SubclassActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.fromSuperclass" to fromSuperclass,
-                  "${"$"}{packageName}.fromSubclass" to fromSubclass
+                replaceExtras(bundleForSubclassActivity(
+                  packageName,
+                  fromSuperclass,
+                  fromSubclass
                 ))
               }
             }
@@ -183,24 +210,35 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             import kotlin.Suppress
             import kotlin.collections.List
             
+            fun bundleForListActivity(context: Context, listOfInt: List<Int>): Bundle = bundleOf(
+              "${"$"}{context.packageName}.listOfInt" to listOfInt
+            )
+
+            fun bundleForListActivity(packageName: String, listOfInt: List<Int>): Bundle = bundleOf(
+              "${"$"}{packageName}.listOfInt" to listOfInt
+            )
+ 
             class ListActivityIntent : Intent {
               constructor(context: Context, listOfInt: List<Int>) : super() {
                 setClassName(context, "com.juul.exercise.tests.ListActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.listOfInt" to listOfInt
+                replaceExtras(bundleForListActivity(
+                  context.packageName,
+                  listOfInt
                 ))
               }
             
               constructor(packageName: String, listOfInt: List<Int>) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ListActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.listOfInt" to listOfInt
+                replaceExtras(bundleForListActivity(
+                  packageName,
+                  listOfInt
                 ))
               }
             }
@@ -245,22 +283,33 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             
+            fun bundleForOptionalsActivity(context: Context, optionalInt: Int? = null): Bundle = bundleOf(
+              "${"$"}{context.packageName}.optionalInt" to optionalInt
+            )
+            
+            fun bundleForOptionalsActivity(packageName: String, optionalInt: Int? = null): Bundle = bundleOf(
+              "${"${'$'}"}{packageName}.optionalInt" to optionalInt
+            )
+            
             class OptionalsActivityIntent : Intent {
               constructor(context: Context, optionalInt: Int? = null) : super() {
                 setClassName(context, "com.juul.exercise.tests.OptionalsActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.optionalInt" to optionalInt
+                replaceExtras(bundleForOptionalsActivity(
+                  context.packageName,
+                  optionalInt
                 ))
               }
             
               constructor(packageName: String, optionalInt: Int? = null) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.OptionalsActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.optionalInt" to optionalInt
+                replaceExtras(bundleForOptionalsActivity(
+                  packageName,
+                  optionalInt
                 ))
               }
             }
@@ -322,22 +371,33 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import kotlin.Int
             import kotlin.String
             
+            fun bundleForStubbedActivity(context: Context, stubbed: Int): Bundle = bundleOf(
+              "${"$"}{context.packageName}.stubbed" to stubbed
+            )
+            
+            fun bundleForStubbedActivity(packageName: String, stubbed: Int): Bundle = bundleOf(
+              "${"$"}{packageName}.stubbed" to stubbed
+            )
+            
             class StubbedActivityIntent : Intent {
               constructor(context: Context, stubbed: Int) : super() {
                 setClassName(context, "com.juul.exercise.tests.StubbedActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.stubbed" to stubbed
+                replaceExtras(bundleForStubbedActivity(
+                  context.packageName,
+                  stubbed
                 ))
               }
             
               constructor(packageName: String, stubbed: Int) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.StubbedActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.stubbed" to stubbed
+                replaceExtras(bundleForStubbedActivity(
+                  packageName,
+                  stubbed
                 ))
               }
             }
@@ -363,7 +423,6 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
         )
     }
-
 
     @Test
     fun `test activity generation with parceler`() {
@@ -406,6 +465,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
 
             import android.content.Context
             import android.content.Intent
+            import android.os.Bundle
             import androidx.core.os.bundleOf
             import com.juul.exercise.runtime.createFromMarshalledBytes
             import com.juul.exercise.runtime.createFromMarshalledBytesOrNull
@@ -414,6 +474,27 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.ByteArray
             import kotlin.String
             
+            fun bundleForParcelerActivity(
+              context: Context,
+              requiredValue: ThirdPartyType,
+              optionalValue: ThirdPartyType? = null
+            ): Bundle = bundleOf(
+              "${"$"}{context.packageName}.requiredValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{context.packageName}.optionalValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+            )
+            
+            fun bundleForParcelerActivity(
+              packageName: String,
+              requiredValue: ThirdPartyType,
+              optionalValue: ThirdPartyType? = null
+            ): Bundle = bundleOf(
+              "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{packageName}.optionalValue" to
+                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+            )
+
             class ParcelerActivityIntent : Intent {
               constructor(
                 context: Context,
@@ -421,11 +502,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 optionalValue: ThirdPartyType? = null
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.ParcelerActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{context.packageName}.requiredValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-                  "${"$"}{context.packageName}.optionalValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+                replaceExtras(bundleForParcelerActivity(
+                  context.packageName,
+                  requiredValue,
+                  optionalValue
                 ))
               }
             
@@ -435,11 +515,10 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 optionalValue: ThirdPartyType? = null
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ParcelerActivity")
-                replaceExtras(bundleOf(
-                  "${"$"}{packageName}.requiredValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-                  "${"$"}{packageName}.optionalValue" to
-                      ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+                replaceExtras(bundleForParcelerActivity(
+                  packageName,
+                  requiredValue,
+                  optionalValue
                 ))
               }
             }
