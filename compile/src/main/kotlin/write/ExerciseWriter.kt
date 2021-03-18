@@ -13,10 +13,21 @@ internal class ExerciseWriter(
         val builder = FileSpec.builder(
             packageName = receiver.name.packageName,
             fileName = when (receiver) {
-                is Receiver.Stub ->  "${receiver.name.simpleName}ExerciseStubs"
+                is Receiver.Stub -> "${receiver.name.simpleName}ExerciseStubs"
                 else -> "${receiver.name.simpleName}Exercise"
             }
         )
+        when (receiver) {
+            is Receiver.Activity -> generateActivity(builder)
+        }
         return builder.build()
+    }
+
+    private fun generateActivity(builder: FileSpec.Builder) {
+        check(receiver is Receiver.Activity)
+        if (!receiver.isAbstract && !receiver.fromStub) {
+            ParameterizedIntentClassCodeGenerator(receiver, parameters).addTo(builder)
+        }
+        GetActivityExtrasClassCodeGenerator(receiver, parameters).addTo(builder)
     }
 }

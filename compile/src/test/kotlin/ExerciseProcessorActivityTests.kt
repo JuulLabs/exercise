@@ -38,25 +38,25 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import androidx.core.os.bundleOf
             import kotlin.String
 
-            fun bundleForNoExtrasActivity(context: Context): Bundle = bundleOf()
+            public fun bundleForNoExtrasActivity(context: Context): Bundle = bundleOf()
 
-            fun bundleForNoExtrasActivity(packageName: String): Bundle = bundleOf()
+            public fun bundleForNoExtrasActivity(packageName: String): Bundle = bundleOf()
 
-            class NoExtrasActivityIntent : Intent {
-              constructor(context: Context) : super() {
+            public class NoExtrasActivityIntent : Intent {
+              public constructor(context: Context) : super() {
                 setClassName(context, "com.juul.exercise.tests.NoExtrasActivity")
               }
             
-              constructor(packageName: String) : super() {
+              public constructor(packageName: String) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.NoExtrasActivity")
               }
             }
             
-            class NoExtrasActivityParams(
+            public class NoExtrasActivityParams(
               private val instance: NoExtrasActivity
             )
             
-            val NoExtrasActivity.extras: NoExtrasActivityParams
+            public val NoExtrasActivity.extras: NoExtrasActivityParams
               get() = NoExtrasActivityParams(this)
             """
         )
@@ -100,14 +100,14 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import kotlin.Int
             
-            class SuperclassActivityParams(
+            public class SuperclassActivityParams(
               private val instance: SuperclassActivity
             ) {
-              val fromSuperclass: Int
+              public val fromSuperclass: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
             }
             
-            val SuperclassActivity.extras: SuperclassActivityParams
+            public val SuperclassActivity.extras: SuperclassActivityParams
               get() = SuperclassActivityParams(this)
             """
         )
@@ -124,7 +124,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.Int
             import kotlin.String
             
-            fun bundleForSubclassActivity(
+            public fun bundleForSubclassActivity(
               context: Context,
               fromSuperclass: Int,
               fromSubclass: String
@@ -133,7 +133,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               "${"$"}{context.packageName}.fromSubclass" to fromSubclass
             )
 
-            fun bundleForSubclassActivity(
+            public fun bundleForSubclassActivity(
               packageName: String,
               fromSuperclass: Int,
               fromSubclass: String
@@ -142,8 +142,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               "${"$"}{packageName}.fromSubclass" to fromSubclass
             )
 
-            class SubclassActivityIntent : Intent {
-              constructor(
+            public class SubclassActivityIntent : Intent {
+              public constructor(
                 context: Context,
                 fromSuperclass: Int,
                 fromSubclass: String
@@ -156,7 +156,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             
-              constructor(
+              public constructor(
                 packageName: String,
                 fromSuperclass: Int,
                 fromSubclass: String
@@ -170,17 +170,17 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               }
             }
             
-            class SubclassActivityParams(
+            public class SubclassActivityParams(
               private val instance: SubclassActivity
             ) {
-              val fromSuperclass: Int
+              public val fromSuperclass: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
             
-              val fromSubclass: String
+              public val fromSubclass: String
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.fromSubclass") as String
             }
             
-            val SubclassActivity.extras: SubclassActivityParams
+            public val SubclassActivity.extras: SubclassActivityParams
               get() = SubclassActivityParams(this)
             """
         )
@@ -219,16 +219,16 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.Suppress
             import kotlin.collections.List
             
-            fun bundleForListActivity(context: Context, listOfInt: List<Int>): Bundle = bundleOf(
+            public fun bundleForListActivity(context: Context, listOfInt: List<Int>): Bundle = bundleOf(
               "${"$"}{context.packageName}.listOfInt" to listOfInt
             )
 
-            fun bundleForListActivity(packageName: String, listOfInt: List<Int>): Bundle = bundleOf(
+            public fun bundleForListActivity(packageName: String, listOfInt: List<Int>): Bundle = bundleOf(
               "${"$"}{packageName}.listOfInt" to listOfInt
             )
  
-            class ListActivityIntent : Intent {
-              constructor(context: Context, listOfInt: List<Int>) : super() {
+            public class ListActivityIntent : Intent {
+              public constructor(context: Context, listOfInt: List<Int>) : super() {
                 setClassName(context, "com.juul.exercise.tests.ListActivity")
                 replaceExtras(bundleForListActivity(
                   context.packageName,
@@ -236,7 +236,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             
-              constructor(packageName: String, listOfInt: List<Int>) : super() {
+              public constructor(packageName: String, listOfInt: List<Int>) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ListActivity")
                 replaceExtras(bundleForListActivity(
                   packageName,
@@ -245,15 +245,15 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               }
             }
             
-            class ListActivityParams(
+            public class ListActivityParams(
               private val instance: ListActivity
             ) {
-              val listOfInt: List<Int>
+              public val listOfInt: List<Int>
                 @Suppress("UNCHECKED_CAST")
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.listOfInt") as List<Int>
             }
             
-            val ListActivity.extras: ListActivityParams
+            public val ListActivity.extras: ListActivityParams
               get() = ListActivityParams(this)
             """
         )
@@ -290,16 +290,18 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.Int
             import kotlin.String
             
-            fun bundleForOptionalsActivity(context: Context, optionalInt: Int? = null): Bundle = bundleOf(
+            public fun bundleForOptionalsActivity(context: Context, optionalInt: Int? = null): Bundle =
+                bundleOf(
               "${"$"}{context.packageName}.optionalInt" to optionalInt
             )
             
-            fun bundleForOptionalsActivity(packageName: String, optionalInt: Int? = null): Bundle = bundleOf(
+            public fun bundleForOptionalsActivity(packageName: String, optionalInt: Int? = null): Bundle =
+                bundleOf(
               "${"${'$'}"}{packageName}.optionalInt" to optionalInt
             )
             
-            class OptionalsActivityIntent : Intent {
-              constructor(context: Context, optionalInt: Int? = null) : super() {
+            public class OptionalsActivityIntent : Intent {
+              public constructor(context: Context, optionalInt: Int? = null) : super() {
                 setClassName(context, "com.juul.exercise.tests.OptionalsActivity")
                 replaceExtras(bundleForOptionalsActivity(
                   context.packageName,
@@ -307,7 +309,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             
-              constructor(packageName: String, optionalInt: Int? = null) : super() {
+              public constructor(packageName: String, optionalInt: Int? = null) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.OptionalsActivity")
                 replaceExtras(bundleForOptionalsActivity(
                   packageName,
@@ -316,17 +318,17 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               }
             }
             
-            class OptionalsActivityParams(
+            public class OptionalsActivityParams(
               private val instance: OptionalsActivity
             ) {
-              val optionalInt: Int?
+              public val optionalInt: Int?
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as Int?
             
-              fun optionalInt(default: Int): Int =
+              public fun optionalInt(default: Int): Int =
                   (instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as? Int?) ?: default
             }
             
-            val OptionalsActivity.extras: OptionalsActivityParams
+            public val OptionalsActivity.extras: OptionalsActivityParams
               get() = OptionalsActivityParams(this)
             """
         )
@@ -378,16 +380,16 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.Int
             import kotlin.String
             
-            fun bundleForStubbedActivity(context: Context, stubbed: Int): Bundle = bundleOf(
+            public fun bundleForStubbedActivity(context: Context, stubbed: Int): Bundle = bundleOf(
               "${"$"}{context.packageName}.stubbed" to stubbed
             )
             
-            fun bundleForStubbedActivity(packageName: String, stubbed: Int): Bundle = bundleOf(
+            public fun bundleForStubbedActivity(packageName: String, stubbed: Int): Bundle = bundleOf(
               "${"$"}{packageName}.stubbed" to stubbed
             )
             
-            class StubbedActivityIntent : Intent {
-              constructor(context: Context, stubbed: Int) : super() {
+            public class StubbedActivityIntent : Intent {
+              public constructor(context: Context, stubbed: Int) : super() {
                 setClassName(context, "com.juul.exercise.tests.StubbedActivity")
                 replaceExtras(bundleForStubbedActivity(
                   context.packageName,
@@ -395,7 +397,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             
-              constructor(packageName: String, stubbed: Int) : super() {
+              public constructor(packageName: String, stubbed: Int) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.StubbedActivity")
                 replaceExtras(bundleForStubbedActivity(
                   packageName,
@@ -413,14 +415,14 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             import kotlin.Int
             
-            class StubbedActivityParams(
+            public class StubbedActivityParams(
               private val instance: StubbedActivity
             ) {
-              val stubbed: Int
+              public val stubbed: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.stubbed") as Int
             }
             
-            val StubbedActivity.extras: StubbedActivityParams
+            public val StubbedActivity.extras: StubbedActivityParams
               get() = StubbedActivityParams(this)
             """
         )
@@ -476,7 +478,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.ByteArray
             import kotlin.String
             
-            fun bundleForParcelerActivity(
+            public fun bundleForParcelerActivity(
               context: Context,
               requiredValue: ThirdPartyType,
               optionalValue: ThirdPartyType? = null
@@ -487,7 +489,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                   ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
             
-            fun bundleForParcelerActivity(
+            public fun bundleForParcelerActivity(
               packageName: String,
               requiredValue: ThirdPartyType,
               optionalValue: ThirdPartyType? = null
@@ -497,8 +499,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                   ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
 
-            class ParcelerActivityIntent : Intent {
-              constructor(
+            public class ParcelerActivityIntent : Intent {
+              public constructor(
                 context: Context,
                 requiredValue: ThirdPartyType,
                 optionalValue: ThirdPartyType? = null
@@ -511,7 +513,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             
-              constructor(
+              public constructor(
                 packageName: String,
                 requiredValue: ThirdPartyType,
                 optionalValue: ThirdPartyType? = null
@@ -525,28 +527,28 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               }
             }
             
-            class ParcelerActivityParams(
+            public class ParcelerActivityParams(
               private val instance: ParcelerActivity
             ) {
-              val requiredValue: ThirdPartyType
+              public val requiredValue: ThirdPartyType
                 get() {
                   val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.requiredValue") as ByteArray
                   return ThirdPartyTypeParceler.createFromMarshalledBytes(data)
                 }
             
-              val optionalValue: ThirdPartyType?
+              public val optionalValue: ThirdPartyType?
                 get() {
                   val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as ByteArray?
                   return ThirdPartyTypeParceler.createFromMarshalledBytesOrNull(data)
                 }
             
-              fun optionalValue(default: ThirdPartyType): ThirdPartyType {
+              public fun optionalValue(default: ThirdPartyType): ThirdPartyType {
                 val data = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalValue") as ByteArray?
                 return ThirdPartyTypeParceler.createFromMarshalledBytesOrNull(data) ?: default
               }
             }
             
-            val ParcelerActivity.extras: ParcelerActivityParams
+            public val ParcelerActivity.extras: ParcelerActivityParams
               get() = ParcelerActivityParams(this)
             """
         )
