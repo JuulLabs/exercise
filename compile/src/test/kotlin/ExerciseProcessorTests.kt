@@ -6,11 +6,11 @@ import com.tschuchort.compiletesting.symbolProcessors
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 
-abstract class ExerciseProcessorTests {
+public abstract class ExerciseProcessorTests {
 
     @Rule
     @JvmField
-    val temporaryFolder = TemporaryFolder()
+    public val temporaryFolder: TemporaryFolder = TemporaryFolder()
 
     protected fun compile(vararg files: SourceFile): Pair<KotlinCompilation, KotlinCompilation.Result> {
         val compilation = KotlinCompilation().apply {

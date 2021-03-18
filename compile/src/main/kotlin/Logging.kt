@@ -4,18 +4,17 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSNode
 import com.juul.tuulbox.logging.Logger
 
-/** Convert a [KSNode] into a special-case throwable so it can be included in a log without reporting an exception. */
-fun KSNode.loggable() = NonExceptionalNode(this)
-
 /** Interface indicating that a throwable has a [KSNode] for the logger to associate the message with. */
-interface HasKSNode {
+internal interface HasKSNode {
     val node: KSNode
 }
 
 /** Dirty hack to pass [KSNode] into Tuulbox logging for non-exceptional cases. */
-class NonExceptionalNode(override val node: KSNode) : Throwable(), HasKSNode
+internal class NonExceptionalNode(override val node: KSNode) : Throwable(), HasKSNode
 
-class KspTuulboxLogger(
+internal class ExceptionalNode(cause: Throwable, override val node: KSNode) : Exception(cause), HasKSNode
+
+internal class KspTuulboxLogger(
     private val backend: KSPLogger
 ) : Logger {
 
@@ -51,3 +50,9 @@ class KspTuulboxLogger(
         }
     }
 }
+
+/** Convert a [KSNode] into a special-case throwable so it can be included in a log without reporting an exception. */
+internal fun KSNode.loggable() = NonExceptionalNode(this)
+
+/** Convert a [KSNode] into a special-case throwable so it can be included in a log without reporting an exception. */
+internal fun Throwable.withNode(node: KSNode) = ExceptionalNode(this, node)

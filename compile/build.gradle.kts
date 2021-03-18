@@ -2,6 +2,10 @@ plugins {
     kotlin("jvm")
 }
 
+kotlin {
+    explicitApi()
+}
+
 dependencies {
     implementation(project(":annotations"))
     implementation(project(":stubs"))

@@ -7,10 +7,10 @@ import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
+public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
 
     @Test
-    fun `test activity generation with no extras`() {
+    public fun `test activity generation with no extras`() {
         val (compilation, result) = compile(
             kotlin(
                 "NoExtrasActivity.kt",
@@ -63,7 +63,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
     }
 
     @Test
-    fun `test activity generation with abstract superclass and subclass`() {
+    public fun `test activity generation with abstract superclass and subclass`() {
         val (compilation, result) = compile(
             kotlin(
                 "SuperclassActivity.kt",
@@ -187,7 +187,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
     }
 
     @Test
-    fun `test activity generation with generics`() {
+    public fun `test activity generation with generics`() {
         val (compilation, result) = compile(
             kotlin(
                 "ListActivity.kt",
@@ -260,7 +260,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
     }
 
     @Test
-    fun `test activity generation with optionals`() {
+    public fun `test activity generation with optionals`() {
         val (compilation, result) = compile(
             kotlin(
                 "OptionalsActivity.kt",
@@ -333,7 +333,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
     }
 
     @Test
-    fun `test activity generation with stubs`() {
+    public fun `test activity generation with stubs`() {
         val (compilation, result) = compile(
             kotlin(
                 "StubbedActivityStub.kt",
@@ -427,7 +427,7 @@ class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
     }
 
     @Test
-    fun `test activity generation with parceler`() {
+    public fun `test activity generation with parceler`() {
         val (compilation, result) = compile(
             kotlin(
                 "ParcelerActivity.kt",
