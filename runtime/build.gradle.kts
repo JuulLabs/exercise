@@ -2,10 +2,12 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("kotlin-parcelize")
-    // TODO:
-    // apply plugin: "com.vanniktech.maven.publish"
-    // apply from: rootProject.file('gradle/jacoco-android.gradle')
+    id("org.jmailen.kotlinter")
+    jacoco
+    id("com.vanniktech.maven.publish")
 }
+
+apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 android {
     compileSdkVersion(AndroidSdk.Compile)

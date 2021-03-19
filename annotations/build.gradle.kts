@@ -1,4 +1,8 @@
 plugins {
     kotlin("jvm")
-    // TODO: Reimplement publish and jacoco
+    id("org.jmailen.kotlinter")
+    jacoco
+    id("com.vanniktech.maven.publish")
 }
+
+apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
