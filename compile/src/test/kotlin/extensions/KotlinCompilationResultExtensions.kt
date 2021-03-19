@@ -9,7 +9,7 @@ internal fun getGeneratedFile(compilation: KotlinCompilation, name: String): Fil
         val directories = ArrayDeque<File>().apply { add(compilation.kspSourcesDir) }
         while (directories.isNotEmpty()) {
             val directory = directories.removeLast()
-            for (child in directory.listFiles()) {
+            for (child in directory.listFiles().orEmpty()) {
                 if (child.isDirectory) {
                     directories.addLast(child)
                 } else {

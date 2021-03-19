@@ -15,7 +15,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 
 internal class ParameterizedIntentClassCodeGenerator(
-    private val receiver: Receiver.Activity,
+    private val receiver: Receiver,
     private val params: List<Parameter>
 ) {
 

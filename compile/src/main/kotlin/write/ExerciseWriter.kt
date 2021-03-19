@@ -19,6 +19,9 @@ internal class ExerciseWriter(
         )
         when (receiver) {
             is Receiver.Activity -> generateActivity(builder)
+            is Receiver.Fragment -> generateFragment(builder)
+            is Receiver.Service -> generateService(builder)
+            is Receiver.Stub -> generateStub(builder)
         }
         return builder.build()
     }
@@ -29,5 +32,26 @@ internal class ExerciseWriter(
             ParameterizedIntentClassCodeGenerator(receiver, parameters).addTo(builder)
         }
         GetActivityExtrasClassCodeGenerator(receiver, parameters).addTo(builder)
+    }
+
+    private fun generateFragment(builder: FileSpec.Builder) {
+        check(receiver is Receiver.Fragment)
+        if (!receiver.isAbstract) {
+            NewFragmentFunctionCodeGenerator(receiver, parameters).addTo(builder)
+        }
+        GetFragmentArgumentsClassCodeGenerator(receiver, parameters).addTo(builder)
+    }
+
+    private fun generateService(builder: FileSpec.Builder) {
+        check(receiver is Receiver.Service)
+        if (!receiver.isAbstract) {
+            ParameterizedIntentClassCodeGenerator(receiver, parameters).addTo(builder)
+        }
+        GetServiceExtrasClassCodeGenerator(receiver, parameters).addTo(builder)
+    }
+
+    private fun generateStub(builder: FileSpec.Builder) {
+        check(receiver is Receiver.Stub)
+        ParameterizedIntentClassCodeGenerator(receiver, parameters).addTo(builder)
     }
 }

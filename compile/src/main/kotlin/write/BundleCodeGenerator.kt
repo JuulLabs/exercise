@@ -10,7 +10,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 
 internal class BundleCodeGenerator(
-    private val receiver: Receiver.Activity,
+    private val receiver: Receiver,
     private val params: List<Parameter>,
     vararg parameterToPrefix: Pair<ParameterSpec, CodeBlock>
 ) {
