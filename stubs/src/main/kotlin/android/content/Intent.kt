@@ -2,6 +2,7 @@ package android.content
 
 import android.os.Bundle
 
+@Suppress("UNUSED_PARAMETER") // This is a stub
 open class Intent {
 
     val extras: Bundle = throw NotImplementedError("Stub")
