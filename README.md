@@ -2,7 +2,7 @@
 
 # Exercise
 
-Exercise is an annotation processor for Kotlin Android projects.
+Exercise is an kotlin symbol processor for Android projects.
 Exercise makes it possible to pass intent extras easily and correctly.
 
 # Getting started
@@ -13,13 +13,13 @@ First, add it to gradle.
 
 ```gradle
 repositories {
-  jcenter() // or mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
   implementation "com.juul.exercise:annotations:$version"
   implementation "com.juul.exercise:runtime:$version"
-  kapt "com.juul.exercise:compile:$version"
+  ksp "com.juul.exercise:compile:$version"
 }
 ```
 
@@ -157,7 +157,7 @@ repositories {
 dependencies {
   implementation "com.juul.exercise:annotations:master-SNAPSHOT"
   implementation "com.juul.exercise:runtime:master-SNAPSHOT"
-  kapt "com.juul.exercise:compile:master-SNAPSHOT"
+  ksp "com.juul.exercise:compile:master-SNAPSHOT"
 }
 ```
 

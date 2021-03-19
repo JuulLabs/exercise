@@ -22,7 +22,6 @@ pluginManagement {
 include(
     "annotations",
     "compile",
-    "compile-kapt",
     "runtime",
     "stubs"
 )

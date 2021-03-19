@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    testImplementation("org.assertj:assertj-core:3.15.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.4.30")
-    testImplementation("org.robolectric:robolectric:4.3.1")
+    testImplementation(assertj("core"))
+    testImplementation(kotlin("test-junit"))
+    testImplementation(robolectric())
 }
