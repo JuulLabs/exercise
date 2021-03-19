@@ -21,7 +21,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 
-internal abstract class GetParameterClassCodeGenerator<R: Receiver>(
+internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
     private val receiver: R,
     private val params: List<Parameter>
 ) {

@@ -8,8 +8,6 @@ import com.juul.exercise.annotations.ExerciseParameter
 import com.juul.exercise.annotations.FromStub
 import com.juul.exercise.compile.asTypeName
 import com.juul.exercise.compile.data.Parameter
-import com.juul.exercise.compile.loggable
-import com.juul.tuulbox.logging.Log
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asTypeName
 

@@ -17,7 +17,6 @@ object SampleParceler : Parceler<Sample> {
     override fun Sample.write(parcel: Parcel, flags: Int) {
         parcel.writeString(value)
     }
-
 }
 
 @RunWith(RobolectricTestRunner::class)
