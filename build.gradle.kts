@@ -4,6 +4,7 @@ buildscript {
     repositories {
         mavenCentral()
         google()
+        gradlePluginPortal()
     }
     dependencies {
         classpath(kotlin("gradle-plugin", version = "1.4.30"))
@@ -23,8 +24,9 @@ plugins {
 
 subprojects {
     repositories {
-        google()
         mavenCentral()
+        google()
+        gradlePluginPortal()
     }
 
     tasks.withType<Test>().configureEach {
