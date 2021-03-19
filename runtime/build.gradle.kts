@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")
     // TODO:
     // apply plugin: "com.vanniktech.maven.publish"
     // apply from: rootProject.file('gradle/jacoco-android.gradle')
