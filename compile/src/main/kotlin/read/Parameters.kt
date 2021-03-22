@@ -31,17 +31,9 @@ internal fun KSClassDeclaration.findParameters(): List<Parameter> {
         ?.mapNotNull { (it as? KSAnnotation)?.toParameter() }
         .orEmpty()
 
-    val stub = getAnnotation<FromStub>()
-        ?.getArgument(SOURCE)
-        ?.let { it as KSType }
-        ?.declaration
-        ?.let { it as KSClassDeclaration }
-        ?.findParameters()
-        .orEmpty()
-
     val parent = superClass?.findParameters().orEmpty()
 
-    return parent + stub + direct
+    return parent + direct
 }
 
 internal fun KSAnnotation.toParameter(): Parameter {

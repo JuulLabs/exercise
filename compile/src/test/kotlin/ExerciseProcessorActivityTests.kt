@@ -32,6 +32,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -53,7 +54,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             }
             
             public class NoExtrasActivityParams(
-              private val instance: NoExtrasActivity
+              private val instance: Activity
             )
             
             public val NoExtrasActivity.extras: NoExtrasActivityParams
@@ -98,10 +99,11 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import kotlin.Int
             
             public class SuperclassActivityParams(
-              private val instance: SuperclassActivity
+              private val instance: Activity
             ) {
               public val fromSuperclass: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
@@ -117,6 +119,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -171,7 +174,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             }
             
             public class SubclassActivityParams(
-              private val instance: SubclassActivity
+              private val instance: Activity
             ) {
               public val fromSuperclass: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
@@ -210,6 +213,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -246,7 +250,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             }
             
             public class ListActivityParams(
-              private val instance: ListActivity
+              private val instance: Activity
             ) {
               public val listOfInt: List<Int>
                 @Suppress("UNCHECKED_CAST")
@@ -283,6 +287,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -319,7 +324,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             }
             
             public class OptionalsActivityParams(
-              private val instance: OptionalsActivity
+              private val instance: Activity
             ) {
               public val optionalInt: Int?
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as Int?
@@ -373,6 +378,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
             
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -405,6 +411,13 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 ))
               }
             }
+            
+            public class StubbedActivityParams(
+              private val instance: Activity
+            ) {
+              public val stubbed: Int
+                get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.stubbed") as Int
+            }
             """
         )
 
@@ -412,15 +425,6 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
         assertThat(paramsFile.readText().trim()).isEqualToKotlin(
             """
             package com.juul.exercise.tests
-            
-            import kotlin.Int
-            
-            public class StubbedActivityParams(
-              private val instance: StubbedActivity
-            ) {
-              public val stubbed: Int
-                get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.stubbed") as Int
-            }
             
             public val StubbedActivity.extras: StubbedActivityParams
               get() = StubbedActivityParams(this)
@@ -467,6 +471,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             """
             package com.juul.exercise.tests
 
+            import android.app.Activity
             import android.content.Context
             import android.content.Intent
             import android.os.Bundle
@@ -528,7 +533,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             }
             
             public class ParcelerActivityParams(
-              private val instance: ParcelerActivity
+              private val instance: Activity
             ) {
               public val requiredValue: ThirdPartyType
                 get() {

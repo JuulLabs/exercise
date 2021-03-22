@@ -1,5 +1,6 @@
 package com.juul.exercise.compile.write
 
+import com.juul.exercise.compile.activityTypeName
 import com.juul.exercise.compile.addAnnotation
 import com.juul.exercise.compile.addClass
 import com.juul.exercise.compile.addFunction
@@ -10,7 +11,6 @@ import com.juul.exercise.compile.createFromMarshalledBytesMemberName
 import com.juul.exercise.compile.createFromMarshalledBytesOrNullMemberName
 import com.juul.exercise.compile.data.Parameter
 import com.juul.exercise.compile.data.Receiver
-import com.juul.exercise.compile.data.Receiver.Activity
 import com.juul.exercise.compile.data.Receiver.Fragment
 import com.juul.exercise.compile.data.Receiver.Service
 import com.juul.exercise.compile.getter
@@ -20,6 +20,7 @@ import com.juul.exercise.compile.suppressTypeName
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeName
 
 internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
     private val receiver: R,
@@ -28,16 +29,17 @@ internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
 
     abstract val extensionName: String
     abstract val retriever: String
+    abstract val receiverType: TypeName
     open val additionalParams: Map<String, ClassName> = emptyMap()
 
-    fun addTo(fileSpec: FileSpec.Builder) {
+    fun addParamsTo(fileSpec: FileSpec.Builder) {
         val className = ClassName(fileSpec.packageName, "${receiver.name.simpleName}Params")
         fileSpec.addClass(className) {
             primaryConstructor {
-                addParameter("instance", receiver.name)
+                addParameter("instance", receiverType)
                 additionalParams.forEach { (name, type) -> addParameter(name, type) }
             }
-            addProperty("instance", receiver.name, KModifier.PRIVATE) { initializer("instance") }
+            addProperty("instance", receiverType, KModifier.PRIVATE) { initializer("instance") }
             additionalParams.forEach { (name, type) ->
                 addProperty(name, type, KModifier.PRIVATE) { initializer(name) }
             }
@@ -75,6 +77,10 @@ internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
                 }
             }
         }
+    }
+
+    fun addSugarTo(fileSpec: FileSpec.Builder) {
+        val className = ClassName(fileSpec.packageName, "${receiver.name.simpleName}Params")
         if (additionalParams.isEmpty()) {
             fileSpec.addProperty(extensionName, className) {
                 receiver(receiver.name)
@@ -97,14 +103,16 @@ internal class GetFragmentArgumentsClassCodeGenerator(
 ) : GetParameterClassCodeGenerator<Fragment>(receiver, params) {
     override val extensionName = "args"
     override val retriever = "instance.arguments?.get(%1S)"
+    override val receiverType = receiver.name
 }
 
 internal class GetActivityExtrasClassCodeGenerator(
-    receiver: Activity,
+    receiver: Receiver,
     params: List<Parameter>
-) : GetParameterClassCodeGenerator<Activity>(receiver, params) {
+) : GetParameterClassCodeGenerator<Receiver>(receiver, params) {
     override val extensionName = "extras"
     override val retriever = "instance.intent?.extras?.get(\"\${instance.packageName}.%1L\")"
+    override val receiverType = activityTypeName
 }
 
 internal class GetServiceExtrasClassCodeGenerator(
@@ -114,4 +122,5 @@ internal class GetServiceExtrasClassCodeGenerator(
     override val extensionName = "extras"
     override val retriever = "intent.extras?.get(\"\${instance.packageName}.%1L\")"
     override val additionalParams = mapOf("intent" to intentTypeName)
+    override val receiverType = receiver.name
 }
