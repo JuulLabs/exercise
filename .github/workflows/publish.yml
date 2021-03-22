@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
 
     env:
       GRADLE_ARGS: >-
@@ -44,7 +44,7 @@ jobs:
       - name: Keyring
         run: echo "${{ secrets.SIGNING_SECRET_KEY_RING }}" | base64 --decode > ~/secring.gpg
 
-      - name: Maven Publish
+      - name: Publish
         env:
           SONATYPE_NEXUS_USERNAME: ${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}
           SONATYPE_NEXUS_PASSWORD: ${{ secrets.OSS_SONATYPE_NEXUS_PASSWORD }}
@@ -57,11 +57,3 @@ jobs:
           -Psigning.password="${{ secrets.SIGNING_PASSWORD }}"
           -Psigning.secretKeyRingFile="$HOME/secring.gpg"
           uploadArchives
-
-      - name: NPM Publish
-        run: >-
-          ./gradlew
-          $GRADLE_ARGS
-          -Pnpm.publish.repository.github.authToken="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
-          -Pnpm.publish.version="${GITHUB_REF/refs\/tags\//}"
-          publishJsNpmPublicationToGithub

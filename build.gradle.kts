@@ -3,11 +3,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 buildscript {
     repositories {
         mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.30"))
     }
 }
 
@@ -26,7 +21,12 @@ subprojects {
     repositories {
         mavenCentral()
         google()
-        gradlePluginPortal()
+        jcenter {
+            content {
+                // https://youtrack.jetbrains.com/issue/IDEA-261387
+                includeModule("org.jetbrains.trove4j", "trove4j")
+            }
+        }
     }
 
     tasks.withType<Test>().configureEach {
