@@ -1,0 +1,30 @@
+public abstract interface annotation class com/juul/exercise/annotations/AsStub : java/lang/annotation/Annotation {
+	public abstract fun className ()Ljava/lang/String;
+	public abstract fun packageName ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/juul/exercise/annotations/Exercise : java/lang/annotation/Annotation {
+	public abstract fun params ()[Lcom/juul/exercise/annotations/ExerciseParameter;
+}
+
+public abstract interface annotation class com/juul/exercise/annotations/ExerciseParameter : java/lang/annotation/Annotation {
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun optional ()Z
+	public abstract fun parceler ()Ljava/lang/Class;
+	public abstract fun type ()Ljava/lang/Class;
+	public abstract fun typeArguments ()[Ljava/lang/Class;
+}
+
+public abstract interface annotation class com/juul/exercise/annotations/FromStub : java/lang/annotation/Annotation {
+	public abstract fun source ()Ljava/lang/Class;
+}
+
+public abstract interface annotation class com/juul/exercise/annotations/ResultContract : java/lang/annotation/Annotation {
+	public abstract fun kinds ()[Lcom/juul/exercise/annotations/ResultKind;
+}
+
+public abstract interface annotation class com/juul/exercise/annotations/ResultKind : java/lang/annotation/Annotation {
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun params ()[Lcom/juul/exercise/annotations/ExerciseParameter;
+}
+

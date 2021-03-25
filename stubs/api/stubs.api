@@ -1,0 +1,62 @@
+public abstract class android/app/Activity : android/content/Context {
+	public fun <init> ()V
+	public final fun getIntent ()Landroid/content/Intent;
+}
+
+public abstract class android/app/IntentService : android/app/Service {
+	public fun <init> (Ljava/lang/String;)V
+	public abstract fun onHandleIntent (Landroid/content/Intent;)V
+}
+
+public abstract class android/app/Service : android/content/Context {
+	public fun <init> ()V
+}
+
+public abstract class android/content/Context {
+	public fun <init> ()V
+	public final fun getPackageName ()Ljava/lang/String;
+}
+
+public class android/content/Intent {
+	public fun <init> ()V
+	public final fun getExtras ()Landroid/os/Bundle;
+	public final fun replaceExtras (Landroid/os/Bundle;)V
+	public final fun setClassName (Landroid/content/Context;Ljava/lang/String;)V
+	public final fun setClassName (Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public final class android/os/Bundle {
+	public fun <init> ()V
+	public final fun get (Ljava/lang/String;)Ljava/lang/Object;
+}
+
+public final class android/os/Parcel {
+	public fun <init> ()V
+	public final fun readString ()Ljava/lang/String;
+	public final fun writeString (Ljava/lang/String;)V
+}
+
+public final class androidx/core/os/BundleOfKt {
+	public static final fun bundleOf ([Lkotlin/Pair;)Landroid/os/Bundle;
+}
+
+public abstract class androidx/fragment/app/Fragment {
+	public fun <init> ()V
+	public final fun getArguments ()Landroid/os/Bundle;
+	public final fun setArguments (Landroid/os/Bundle;)V
+}
+
+public final class com/juul/exercise/runtime/ParcelerExtensionsKt {
+	public static final fun createFromMarshalledBytes (Lkotlinx/android/parcel/Parceler;[BII)Ljava/lang/Object;
+	public static synthetic fun createFromMarshalledBytes$default (Lkotlinx/android/parcel/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun createFromMarshalledBytesOrNull (Lkotlinx/android/parcel/Parceler;[BII)Ljava/lang/Object;
+	public static synthetic fun createFromMarshalledBytesOrNull$default (Lkotlinx/android/parcel/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun writeToMarshalledBytes (Lkotlinx/android/parcel/Parceler;Ljava/lang/Object;)[B
+	public static final fun writeToMarshalledBytesOrNull (Lkotlinx/android/parcel/Parceler;Ljava/lang/Object;)[B
+}
+
+public abstract interface class kotlinx/android/parcel/Parceler {
+	public abstract fun create (Landroid/os/Parcel;)Ljava/lang/Object;
+	public abstract fun write (Ljava/lang/Object;Landroid/os/Parcel;I)V
+}
+
