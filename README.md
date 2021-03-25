@@ -147,7 +147,7 @@ context.startService(intent)
 
 # Snapshots
 
-`SNAPSHOT` builds of `master` are available using the following Gradle configuration:
+`SNAPSHOT` builds of `main` are available using the following Gradle configuration:
 
 ```gradle
 repositories {
@@ -155,9 +155,9 @@ repositories {
 }
 
 dependencies {
-  implementation "com.juul.exercise:annotations:master-SNAPSHOT"
-  implementation "com.juul.exercise:runtime:master-SNAPSHOT"
-  ksp "com.juul.exercise:compile:master-SNAPSHOT"
+  implementation "com.juul.exercise:annotations:main-SNAPSHOT"
+  implementation "com.juul.exercise:runtime:main-SNAPSHOT"
+  ksp "com.juul.exercise:compile:main-SNAPSHOT"
 }
 ```
 
