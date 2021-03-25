@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm")
     id("org.jmailen.kotlinter")
@@ -11,10 +9,6 @@ apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 kotlin {
     explicitApi()
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }
 
 dependencies {

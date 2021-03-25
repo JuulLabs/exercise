@@ -36,25 +36,22 @@ internal fun KSClassDeclaration.findParameters(): List<Parameter> {
     return parent + direct
 }
 
-internal fun KSAnnotation.toParameter(): Parameter {
-    val parameter = Parameter(
-        name = this.getArgument(NAME) as String,
-        nonNullTypeName = run {
-            val targetClass = this.getArgument(TYPE) as KSType
-            val typeArguments = (this.getArgument(TYPE_ARGUMENTS) as List<*>).asSequence()
-                .filterIsInstance<KSType>()
-                .map { it.asTypeName() }
-                .toList()
-            if (typeArguments.isEmpty()) {
-                targetClass.asTypeName()
-            } else {
-                targetClass.asTypeName().parameterizedBy(typeArguments)
-            }
-        },
-        optional = this.getArgument(OPTIONAL) as? Boolean ?: OPTIONAL_DEFAULT,
-        parceler = (this.getArgument(PARCELER) as? KSType)
-            ?.asTypeName()
-            ?.takeUnless { it == Nothing::class.asTypeName() }
-    )
-    return parameter
-}
+internal fun KSAnnotation.toParameter(): Parameter = Parameter(
+    name = getArgument(NAME) as String,
+    nonNullTypeName = run {
+        val targetClass = getArgument(TYPE) as KSType
+        val typeArguments = (getArgument(TYPE_ARGUMENTS) as List<*>).asSequence()
+            .filterIsInstance<KSType>()
+            .map { it.asTypeName() }
+            .toList()
+        if (typeArguments.isEmpty()) {
+            targetClass.asTypeName()
+        } else {
+            targetClass.asTypeName().parameterizedBy(typeArguments)
+        }
+    },
+    optional = getArgument(OPTIONAL) as? Boolean ?: OPTIONAL_DEFAULT,
+    parceler = (getArgument(PARCELER) as? KSType)
+        ?.asTypeName()
+        ?.takeUnless { it == Nothing::class.asTypeName() }
+)

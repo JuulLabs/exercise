@@ -16,7 +16,7 @@ fun kotlinPoet(
 ) = "com.squareup:kotlinpoet:$version"
 
 fun kotlinSymbolProcessing(
-    version: String = "1.4.30-1.0.0-alpha05"
+    version: String = "1.4.31-1.0.0-alpha06"
 ) = "com.google.devtools.ksp:symbol-processing-api:$version"
 
 fun robolectric(
