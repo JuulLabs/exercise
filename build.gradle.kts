@@ -25,6 +25,9 @@ subprojects {
             content {
                 // https://youtrack.jetbrains.com/issue/IDEA-261387
                 includeModule("org.jetbrains.trove4j", "trove4j")
+
+                // https://github.com/Kotlin/kotlinx.html/issues/173
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
             }
         }
     }
