@@ -35,6 +35,14 @@ internal fun KSClassDeclaration.asReceiver(): Receiver {
             val className = asStubAnnotation.getArgument(CLASS_NAME) as String
             Receiver.Stub(ClassName(packageName, className))
         }
-        else -> throw IllegalArgumentException("@Exercise annotated class must be a subclass of Activity, Fragment, or Service; or, must also be annotated @AsStub.")
+        else -> {
+            val message = buildString {
+                append("@Exercise annotated class must be a subclass of Activity, Fragment, or Service; or, must also be annotated @AsStub. Found classes:")
+                for (superClass in superClasses) {
+                    append("\n  ", superClass)
+                }
+            }
+            error(message)
+        }
     }
 }

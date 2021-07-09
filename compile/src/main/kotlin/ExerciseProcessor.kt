@@ -1,7 +1,6 @@
 package com.juul.exercise.compile
 
 import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
@@ -13,44 +12,51 @@ import com.juul.exercise.compile.read.findParameters
 import com.juul.exercise.compile.write.ExerciseWriter
 import com.juul.tuulbox.logging.Log
 
-public class ExerciseProcessor : SymbolProcessor {
+internal class ExerciseProcessor(
+    private val codeGenerator: CodeGenerator
+) : SymbolProcessor {
 
-    private lateinit var codeGenerator: CodeGenerator
-
-    override fun init(
-        options: Map<String, String>,
-        kotlinVersion: KotlinVersion,
-        codeGenerator: CodeGenerator,
-        logger: KSPLogger
-    ) {
-        Log.dispatcher.install(KspTuulboxLogger(logger))
-        this.codeGenerator = codeGenerator
-    }
+    private var isFirstRound = true
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val symbols = resolver.getSymbolsWithAnnotation(checkNotNull(Exercise::class.qualifiedName))
-            .asSequence()
+        // FIXME: Hypothetically, somebody could write a KSP generator which outputs @Exercise annotated classes. This
+        //        won't work as long as we have this shortcut in place. That said, this shortcut works around a crasher
+        //        where we see `NoDescriptorForDeclarationException: Descriptor wasn't found for declaration CLASS`
+        if (!isFirstRound) return emptyList()
+
+        val symbols = resolver.getSymbolsWithAnnotation(Exercise::class.java.name)
             .filterIsInstance<KSClassDeclaration>()
-            .toList()
-        if (symbols.isNotEmpty()) {
+        if (symbols.any()) {
             Log.info { "Found @Exercise annotated classes: ${symbols.joinToString()}" }
             for (symbol in symbols) {
                 processClass(symbol)
             }
         }
+        isFirstRound = false
         return emptyList()
     }
 
     private fun processClass(symbol: KSClassDeclaration) {
-        val logSymbol = symbol.loggable()
-        Log.debug(logSymbol) { "Start processing file." }
+        Log.debug { metadata ->
+            metadata[Node] = symbol
+            "Start processing file."
+        }
         try {
             val dependencies = symbol.findDependencies()
-            Log.verbose(logSymbol) { "Found dependencies: ${dependencies.originatingFiles.joinToString()}" }
+            Log.verbose { metadata ->
+                metadata[Node] = symbol
+                "Found dependencies: ${dependencies.originatingFiles.joinToString()}"
+            }
             val parameters = symbol.findParameters()
-            Log.verbose(logSymbol) { "Found parameters: ${symbol.findParameters()}" }
+            Log.verbose { metadata ->
+                metadata[Node] = symbol
+                "Found parameters: ${symbol.findParameters()}"
+            }
             val receiver = symbol.asReceiver()
-            Log.verbose(logSymbol) { "Using receiver: $receiver" }
+            Log.verbose { metadata ->
+                metadata[Node] = symbol
+                "Using receiver: $receiver"
+            }
             val writer = ExerciseWriter(receiver, parameters)
             val fileSpec = writer.generateFileSpec()
             codeGenerator.createNewFile(dependencies, fileSpec.packageName, fileSpec.name).use { stream ->
@@ -59,8 +65,14 @@ public class ExerciseProcessor : SymbolProcessor {
                 }
             }
         } catch (t: Throwable) {
-            Log.error(t.withNode(symbol)) { "An exception was thrown during processing." }
+            Log.error { metadata ->
+                metadata[Node] = symbol
+                "An exception was thrown during processing."
+            }
         }
-        Log.debug(logSymbol) { "Finished processing file." }
+        Log.debug { metadata ->
+            metadata[Node] = symbol
+            "Finished processing file."
+        }
     }
 }

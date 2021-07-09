@@ -5,18 +5,18 @@ fun assertj(
 
 fun kotlinCompileTesting(
     submodule: String? = null,
-    version: String = "1.3.6"
+    version: String = "1.4.2"
 ) = when (submodule) {
     null -> "com.github.tschuchortdev:kotlin-compile-testing:$version"
     else -> "com.github.tschuchortdev:kotlin-compile-testing-$submodule:$version"
 }
 
 fun kotlinPoet(
-    version: String = "1.7.2"
+    version: String = "1.9.0"
 ) = "com.squareup:kotlinpoet:$version"
 
 fun kotlinSymbolProcessing(
-    version: String = "1.4.31-1.0.0-alpha06"
+    version: String = "1.5.10-1.0.0-beta01"
 ) = "com.google.devtools.ksp:symbol-processing-api:$version"
 
 fun robolectric(
@@ -25,5 +25,5 @@ fun robolectric(
 
 fun tuulbox(
     module: String,
-    version: String = "3.2.0"
+    version: String = "4.2.0"
 ) = "com.juul.tuulbox:$module:$version"
