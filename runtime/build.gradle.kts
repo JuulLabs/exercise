@@ -10,16 +10,15 @@ plugins {
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 android {
-    compileSdkVersion(AndroidSdk.Compile)
+    compileSdkVersion(libs.versions.android.compile.get())
 
     defaultConfig {
-        minSdkVersion(AndroidSdk.Minimum)
-        targetSdkVersion(AndroidSdk.Target)
+        minSdkVersion(libs.versions.android.min.get())
     }
 }
 
 dependencies {
-    testImplementation(assertj("core"))
+    testImplementation(libs.assertj)
     testImplementation(kotlin("test-junit"))
-    testImplementation(robolectric())
+    testImplementation(libs.robolectric)
 }
