@@ -2,7 +2,7 @@
 agp = "4.2.0"
 android-compile = "android-30"
 android-min = "21"
-kotlin = "1.5.10"
+kotlin = "1.6.10"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version = "3.21.0" }
@@ -10,7 +10,7 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.9.0" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.5.10-1.0.0-beta01" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.6" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.7.3" }
-tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "4.2.0" }
+tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "4.8.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -20,4 +20,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "3.4.5" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.18.0" }
 one-eight = { id = "net.mbonnin.one.eight", version = "0.2" }
-validator = { id = "binary-compatibility-validator", version = "0.6.0" }
+validator = { id = "binary-compatibility-validator", version = "0.8.0" }
