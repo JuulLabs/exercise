@@ -1,7 +1,7 @@
 package com.juul.exercise.runtime
 
 import android.os.Parcel
-import kotlinx.android.parcel.Parceler
+import kotlinx.parcelize.Parceler
 
 fun <T : Any> Parceler<T>.createFromMarshalledBytes(
     data: ByteArray,

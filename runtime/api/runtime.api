@@ -6,11 +6,11 @@ public final class com/juul/exercise/runtime/BuildConfig {
 }
 
 public final class com/juul/exercise/runtime/ParcelerExtensionsKt {
-	public static final fun createFromMarshalledBytes (Lkotlinx/android/parcel/Parceler;[BII)Ljava/lang/Object;
-	public static synthetic fun createFromMarshalledBytes$default (Lkotlinx/android/parcel/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun createFromMarshalledBytesOrNull (Lkotlinx/android/parcel/Parceler;[BII)Ljava/lang/Object;
-	public static synthetic fun createFromMarshalledBytesOrNull$default (Lkotlinx/android/parcel/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
-	public static final fun writeToMarshalledBytes (Lkotlinx/android/parcel/Parceler;Ljava/lang/Object;)[B
-	public static final fun writeToMarshalledBytesOrNull (Lkotlinx/android/parcel/Parceler;Ljava/lang/Object;)[B
+	public static final fun createFromMarshalledBytes (Lkotlinx/parcelize/Parceler;[BII)Ljava/lang/Object;
+	public static synthetic fun createFromMarshalledBytes$default (Lkotlinx/parcelize/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun createFromMarshalledBytesOrNull (Lkotlinx/parcelize/Parceler;[BII)Ljava/lang/Object;
+	public static synthetic fun createFromMarshalledBytesOrNull$default (Lkotlinx/parcelize/Parceler;[BIIILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun writeToMarshalledBytes (Lkotlinx/parcelize/Parceler;Ljava/lang/Object;)[B
+	public static final fun writeToMarshalledBytesOrNull (Lkotlinx/parcelize/Parceler;Ljava/lang/Object;)[B
 }
 
