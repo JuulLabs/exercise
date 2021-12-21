@@ -18,6 +18,7 @@ android {
 }
 
 dependencies {
+    api(libs.kotlin.parcelize.runtime)
     testImplementation(libs.assertj)
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.robolectric)

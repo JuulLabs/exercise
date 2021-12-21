@@ -1,7 +1,7 @@
 package com.juul.exercise.runtime
 
 import android.os.Parcel
-import kotlinx.android.parcel.Parceler
+import kotlinx.parcelize.Parceler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
