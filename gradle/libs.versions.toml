@@ -10,7 +10,7 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.10.2" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.6.10-1.0.2" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.7" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.7.3" }
-tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "4.8.0" }
+tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "5.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
