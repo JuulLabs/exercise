@@ -57,7 +57,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class NoExtrasServiceParams(
               private val instance: NoExtrasService,
-              private val intent: Intent
+              private val intent: Intent,
             )
             
             public fun NoExtrasService.extras(intent: Intent): NoExtrasServiceParams =
@@ -110,7 +110,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class SuperclassServiceParams(
               private val instance: SuperclassService,
-              private val intent: Intent
+              private val intent: Intent,
             ) {
               public val fromSuperclass: Int
                 get() = intent.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
@@ -136,7 +136,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             public fun bundleForSubclassService(
               context: Context,
               fromSuperclass: Int,
-              fromSubclass: String
+              fromSubclass: String,
             ): Bundle = bundleOf(
               "${"$"}{context.packageName}.fromSuperclass" to fromSuperclass,
               "${"$"}{context.packageName}.fromSubclass" to fromSubclass
@@ -145,7 +145,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             public fun bundleForSubclassService(
               packageName: String,
               fromSuperclass: Int,
-              fromSubclass: String
+              fromSubclass: String,
             ): Bundle = bundleOf(
               "${"$"}{packageName}.fromSuperclass" to fromSuperclass,
               "${"$"}{packageName}.fromSubclass" to fromSubclass
@@ -155,7 +155,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               public constructor(
                 context: Context,
                 fromSuperclass: Int,
-                fromSubclass: String
+                fromSubclass: String,
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.SubclassService")
                 replaceExtras(bundleForSubclassService(
@@ -168,7 +168,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               public constructor(
                 packageName: String,
                 fromSuperclass: Int,
-                fromSubclass: String
+                fromSubclass: String,
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.SubclassService")
                 replaceExtras(bundleForSubclassService(
@@ -181,7 +181,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class SubclassServiceParams(
               private val instance: SubclassService,
-              private val intent: Intent
+              private val intent: Intent,
             ) {
               public val fromSuperclass: Int
                 get() = intent.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
@@ -260,7 +260,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class ListServiceParams(
               private val instance: ListService,
-              private val intent: Intent
+              private val intent: Intent,
             ) {
               public val listOfInt: List<Int>
                 @Suppress("UNCHECKED_CAST")
@@ -335,7 +335,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class OptionalsServiceParams(
               private val instance: OptionalsService,
-              private val intent: Intent
+              private val intent: Intent,
             ) {
               public val optionalInt: Int?
                 get() = intent.extras?.get("${"$"}{instance.packageName}.optionalInt") as Int?
@@ -406,7 +406,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             public fun bundleForParcelerService(
               context: Context,
               requiredValue: ThirdPartyType,
-              optionalValue: ThirdPartyType? = null
+              optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
               "${"$"}{context.packageName}.requiredValue" to
                   ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
@@ -417,7 +417,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             public fun bundleForParcelerService(
               packageName: String,
               requiredValue: ThirdPartyType,
-              optionalValue: ThirdPartyType? = null
+              optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
               "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
               "${"$"}{packageName}.optionalValue" to
@@ -428,7 +428,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               public constructor(
                 context: Context,
                 requiredValue: ThirdPartyType,
-                optionalValue: ThirdPartyType? = null
+                optionalValue: ThirdPartyType? = null,
               ) : super() {
                 setClassName(context, "com.juul.exercise.tests.ParcelerService")
                 replaceExtras(bundleForParcelerService(
@@ -441,7 +441,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               public constructor(
                 packageName: String,
                 requiredValue: ThirdPartyType,
-                optionalValue: ThirdPartyType? = null
+                optionalValue: ThirdPartyType? = null,
               ) : super() {
                 setClassName(packageName, "com.juul.exercise.tests.ParcelerService")
                 replaceExtras(bundleForParcelerService(
@@ -454,7 +454,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public class ParcelerServiceParams(
               private val instance: ParcelerService,
-              private val intent: Intent
+              private val intent: Intent,
             ) {
               public val requiredValue: ThirdPartyType
                 get() {

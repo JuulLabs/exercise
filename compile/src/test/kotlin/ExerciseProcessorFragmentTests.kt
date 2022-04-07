@@ -44,7 +44,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             }
             
             public class NoArgumentsFragmentParams(
-              private val instance: NoArgumentsFragment
+              private val instance: NoArgumentsFragment,
             )
             
             public val NoArgumentsFragment.args: NoArgumentsFragmentParams
@@ -92,7 +92,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             import kotlin.Int
             
             public class SuperclassFragmentParams(
-              private val instance: SuperclassFragment
+              private val instance: SuperclassFragment,
             ) {
               public val fromSuperclass: Int
                 get() = instance.arguments?.get("fromSuperclass") as Int
@@ -128,7 +128,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             }
             
             public class SubclassFragmentParams(
-              private val instance: SubclassFragment
+              private val instance: SubclassFragment,
             ) {
               public val fromSuperclass: Int
                 get() = instance.arguments?.get("fromSuperclass") as Int
@@ -186,7 +186,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             }
             
             public class ListFragmentParams(
-              private val instance: ListFragment
+              private val instance: ListFragment,
             ) {
               public val listOfInt: List<Int>
                 @Suppress("UNCHECKED_CAST")
@@ -240,7 +240,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             }
             
             public class OptionalsFragmentParams(
-              private val instance: OptionalsFragment
+              private val instance: OptionalsFragment,
             ) {
               public val optionalInt: Int?
                 get() = instance.arguments?.get("optionalInt") as Int?
