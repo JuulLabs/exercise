@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     id("org.jmailen.kotlinter")
     jacoco
+    id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish")
 }
 

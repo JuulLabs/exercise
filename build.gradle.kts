@@ -10,12 +10,12 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.validator)
-    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.dokka)
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.one.eight)
 }
 
-subprojects {
+allprojects {
     repositories {
         mavenCentral()
         google()

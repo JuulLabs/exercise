@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("org.jmailen.kotlinter")
     jacoco
+    id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish")
 }
 
