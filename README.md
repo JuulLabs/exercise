@@ -145,22 +145,6 @@ Launching other `Service`s:
 context.startService(intent)
 ```
 
-# Snapshots
-
-`SNAPSHOT` builds of `main` are available using the following Gradle configuration:
-
-```gradle
-repositories {
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
-dependencies {
-  implementation "com.juul.exercise:annotations:main-SNAPSHOT"
-  implementation "com.juul.exercise:runtime:main-SNAPSHOT"
-  ksp "com.juul.exercise:compile:main-SNAPSHOT"
-}
-```
-
 # License
 
 ```
