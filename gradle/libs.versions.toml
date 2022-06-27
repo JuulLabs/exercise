@@ -2,15 +2,15 @@
 agp = "7.3.0-beta04"
 android-compile = "android-30"
 android-min = "21"
-kotlin = "1.6.21"
+kotlin = "1.7.0"
 
 [libraries]
-assertj = { module = "org.assertj:assertj-core", version = "3.22.0" }
-kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.11.0" }
+assertj = { module = "org.assertj:assertj-core", version = "3.23.1" }
+kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.12.0" }
 kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "kotlin" }
-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.6.20-1.0.5" }
-ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.8" }
-robolectric = { module = "org.robolectric:robolectric", version = "4.7.3" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.7.0-1.0.6" }
+ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.9" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.8.1" }
 tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.2.0" }
 
 [plugins]
@@ -19,6 +19,6 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 dokka = { id = "org.jetbrains.dokka", version = "1.6.20" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "3.10.0" }
-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.19.0" }
+maven-publish = { id = "com.vanniktech.maven.publish", version = "0.20.0" }
 one-eight = { id = "net.mbonnin.one.eight", version = "0.2" }
 validator = { id = "binary-compatibility-validator", version = "0.8.0" }
