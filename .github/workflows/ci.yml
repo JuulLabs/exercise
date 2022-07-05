@@ -30,9 +30,9 @@ jobs:
             ${{ runner.os }}-
 
       - run: ./gradlew check jacocoTestReport
-      - uses: EnricoMi/publish-unit-test-result-action@v1
+      - uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          files: '**/build/test-results/**/*.xml'
+          junit_files: '**/build/test-results/**/*.xml'
           report_individual_runs: 'true'
 
       - run: |
