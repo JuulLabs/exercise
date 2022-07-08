@@ -2,16 +2,16 @@
 agp = "7.2.1"
 android-compile = "android-30"
 android-min = "21"
-kotlin = "1.7.0"
+kotlin = "1.7.10"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version = "3.23.1" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.12.0" }
 kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "kotlin" }
-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.7.0-1.0.6" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.7.10-1.0.6" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.9" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.8.1" }
-tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.2.0" }
+tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.2.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
