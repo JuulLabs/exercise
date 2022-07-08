@@ -16,16 +16,18 @@ import com.squareup.kotlinpoet.TypeSpec
 
 internal class ParameterizedIntentClassCodeGenerator(
     private val receiver: Receiver,
-    private val params: List<Parameter>
+    private val params: List<Parameter>,
 ) {
 
     private val requiredParameterOptions = arrayOf(
         ParameterSpec("context", contextTypeName) to CodeBlock.of("context.packageName"),
-        ParameterSpec("packageName", stringTypeName) to CodeBlock.of("packageName")
+        ParameterSpec("packageName", stringTypeName) to CodeBlock.of("packageName"),
     )
 
     private val bundleCodeGenerator = BundleCodeGenerator(
-        receiver, params, *requiredParameterOptions
+        receiver,
+        params,
+        *requiredParameterOptions,
     )
 
     fun addTo(fileSpec: FileSpec.Builder) {
@@ -42,7 +44,7 @@ internal class ParameterizedIntentClassCodeGenerator(
     private fun TypeSpec.Builder.addIntentConstructor(
         packageNameArgument: String,
         packageNameArgumentType: TypeName,
-        argumentToPackageName: CodeBlock
+        argumentToPackageName: CodeBlock,
     ) = addConstructor {
         callSuperConstructor()
         addParameter(packageNameArgument, packageNameArgumentType)

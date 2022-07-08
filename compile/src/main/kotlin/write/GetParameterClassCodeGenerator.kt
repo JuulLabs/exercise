@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.TypeName
 
 internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
     private val receiver: R,
-    private val params: List<Parameter>
+    private val params: List<Parameter>,
 ) {
 
     abstract val extensionName: String
@@ -99,7 +99,7 @@ internal abstract class GetParameterClassCodeGenerator<R : Receiver>(
 
 internal class GetFragmentArgumentsClassCodeGenerator(
     receiver: Fragment,
-    params: List<Parameter>
+    params: List<Parameter>,
 ) : GetParameterClassCodeGenerator<Fragment>(receiver, params) {
     override val extensionName = "args"
     override val retriever = "instance.arguments?.get(%1S)"
@@ -108,7 +108,7 @@ internal class GetFragmentArgumentsClassCodeGenerator(
 
 internal class GetActivityExtrasClassCodeGenerator(
     receiver: Receiver,
-    params: List<Parameter>
+    params: List<Parameter>,
 ) : GetParameterClassCodeGenerator<Receiver>(receiver, params) {
     override val extensionName = "extras"
     override val retriever = "instance.intent?.extras?.get(\"\${instance.packageName}.%1L\")"
@@ -117,7 +117,7 @@ internal class GetActivityExtrasClassCodeGenerator(
 
 internal class GetServiceExtrasClassCodeGenerator(
     receiver: Service,
-    params: List<Parameter>
+    params: List<Parameter>,
 ) : GetParameterClassCodeGenerator<Service>(receiver, params) {
     override val extensionName = "extras"
     override val retriever = "intent.extras?.get(\"\${instance.packageName}.%1L\")"

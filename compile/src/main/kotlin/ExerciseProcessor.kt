@@ -13,7 +13,7 @@ import com.juul.exercise.compile.write.ExerciseWriter
 import com.juul.tuulbox.logging.Log
 
 internal class ExerciseProcessor(
-    private val codeGenerator: CodeGenerator
+    private val codeGenerator: CodeGenerator,
 ) : SymbolProcessor {
 
     private var isFirstRound = true

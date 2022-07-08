@@ -10,7 +10,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 
 internal fun List<Parameter>.asBundleOf(
-    prefix: CodeBlock? = null
+    prefix: CodeBlock? = null,
 ): CodeBlock = when {
     isEmpty() -> CodeBlock.of("%M()", bundleOfMemberName)
     else -> buildCodeBlock {

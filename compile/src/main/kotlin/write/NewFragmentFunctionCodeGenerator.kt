@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.FileSpec
 
 internal class NewFragmentFunctionCodeGenerator(
     private val receiver: Receiver.Fragment,
-    private val params: List<Parameter>
+    private val params: List<Parameter>,
 ) {
 
     private val bundleCodeGenerator = BundleCodeGenerator(receiver, params)

@@ -22,8 +22,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 
                 @Exercise
                 class NoExtrasActivity : Activity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -59,7 +59,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val NoExtrasActivity.extras: NoExtrasActivityParams
               get() = NoExtrasActivityParams(this)
-            """
+            """,
         )
     }
 
@@ -77,7 +77,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("fromSuperclass", Int::class))
                 abstract class SuperclassActivity : Activity()
-                """
+                """,
             ),
             kotlin(
                 "SubclassActivity.kt",
@@ -89,8 +89,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("fromSubclass", String::class))
                 class SubclassActivity : SuperclassActivity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -111,7 +111,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val SuperclassActivity.extras: SuperclassActivityParams
               get() = SuperclassActivityParams(this)
-            """
+            """,
         )
 
         val subclassFile = getGeneratedFile(compilation, "SubclassActivityExercise.kt")
@@ -185,7 +185,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val SubclassActivity.extras: SubclassActivityParams
               get() = SubclassActivityParams(this)
-            """
+            """,
         )
     }
 
@@ -203,8 +203,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("listOfInt", List::class, Int::class))
                 class ListActivity : Activity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -259,7 +259,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val ListActivity.extras: ListActivityParams
               get() = ListActivityParams(this)
-            """
+            """,
         )
     }
 
@@ -277,8 +277,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("optionalInt", Int::class, optional = true))
                 class OptionalsActivity : Activity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -335,7 +335,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val OptionalsActivity.extras: OptionalsActivityParams
               get() = OptionalsActivityParams(this)
-            """
+            """,
         )
     }
 
@@ -354,7 +354,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 @Exercise(Extra("stubbed", Int::class))
                 @AsStub("com.juul.exercise.tests", "StubbedActivity")
                 object StubbedActivityStub
-                """
+                """,
             ),
             kotlin(
                 "StubbedActivity.kt",
@@ -368,8 +368,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                 @Exercise
                 @FromStub(StubbedActivityStub::class)
                 class StubbedActivity : Activity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -418,7 +418,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               public val stubbed: Int
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.stubbed") as Int
             }
-            """
+            """,
         )
 
         val paramsFile = getGeneratedFile(compilation, "StubbedActivityExercise.kt")
@@ -428,7 +428,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val StubbedActivity.extras: StubbedActivityParams
               get() = StubbedActivityParams(this)
-            """
+            """,
         )
     }
 
@@ -461,8 +461,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
                     Extra("optionalValue", ThirdPartyType::class, optional = true, parceler = ThirdPartyTypeParceler::class)
                 )
                 class ParcelerActivity : Activity()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -555,7 +555,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             
             public val ParcelerActivity.extras: ParcelerActivityParams
               get() = ParcelerActivityParams(this)
-            """
+            """,
         )
     }
 }

@@ -25,8 +25,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 class NoExtrasService : IntentService("test") {
                     override fun onHandleIntent(intent: Intent?) { TODO() }
                 }
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -62,7 +62,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public fun NoExtrasService.extras(intent: Intent): NoExtrasServiceParams =
                 NoExtrasServiceParams(this, intent)
-            """
+            """,
         )
     }
 
@@ -80,7 +80,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("fromSuperclass", Int::class))
                 abstract class SuperclassService : IntentService("test")
-                """
+                """,
             ),
             kotlin(
                 "SubclassService.kt",
@@ -95,8 +95,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 class SubclassService : SuperclassService() {
                     override fun onHandleIntent(intent: Intent?) { TODO() }
                 }
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -118,7 +118,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public fun SuperclassService.extras(intent: Intent): SuperclassServiceParams =
                 SuperclassServiceParams(this, intent)
-            """
+            """,
         )
 
         val subclassFile = getGeneratedFile(compilation, "SubclassServiceExercise.kt")
@@ -192,7 +192,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public fun SubclassService.extras(intent: Intent): SubclassServiceParams =
                 SubclassServiceParams(this, intent)
-            """
+            """,
         )
     }
 
@@ -213,8 +213,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 class ListService : IntentService("test") {
                     override fun onHandleIntent(intent: Intent?) { TODO() }
                 }
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -268,7 +268,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             }
             
             public fun ListService.extras(intent: Intent): ListServiceParams = ListServiceParams(this, intent)
-            """
+            """,
         )
     }
 
@@ -289,8 +289,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 class OptionalsService : IntentService("test") {
                     override fun onHandleIntent(intent: Intent?) { TODO() }
                 }
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -346,7 +346,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public fun OptionalsService.extras(intent: Intent): OptionalsServiceParams =
                 OptionalsServiceParams(this, intent)
-            """
+            """,
         )
     }
 
@@ -382,8 +382,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 class ParcelerService : IntentService("test") {
                     override fun onHandleIntent(intent: Intent?) { TODO() }
                 }
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -476,7 +476,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
             
             public fun ParcelerService.extras(intent: Intent): ParcelerServiceParams =
                 ParcelerServiceParams(this, intent)
-            """
+            """,
         )
     }
 }

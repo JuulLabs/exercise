@@ -25,25 +25,25 @@ internal inline fun FileSpec.Builder.addProperty(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    builderActions: PropertySpec.Builder.() -> Unit
+    builderActions: PropertySpec.Builder.() -> Unit,
 ) = addProperty(PropertySpec.builder(name, type, *modifiers).apply(builderActions).build())
 
 internal inline fun FileSpec.Companion.build(
     packageName: String,
     fileName: String,
-    builderActions: FileSpec.Builder.() -> Unit
+    builderActions: FileSpec.Builder.() -> Unit,
 ) = builder(packageName, fileName).apply(builderActions).build()
 
 internal inline fun FunSpec.Builder.addAnnotation(
     type: ClassName,
-    builderActions: AnnotationSpec.Builder.() -> Unit
+    builderActions: AnnotationSpec.Builder.() -> Unit,
 ) = addAnnotation(AnnotationSpec.builder(type).apply(builderActions).build())
 
 internal inline fun FunSpec.Builder.addParameter(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    builderActions: ParameterSpec.Builder.() -> Unit
+    builderActions: ParameterSpec.Builder.() -> Unit,
 ) = addParameter(ParameterSpec.builder(name, type, *modifiers).apply(builderActions).build())
 
 internal inline fun FunSpec.Companion.build(name: String, builderActions: FunSpec.Builder.() -> Unit) =
@@ -52,7 +52,7 @@ internal inline fun FunSpec.Companion.build(name: String, builderActions: FunSpe
 internal inline fun ParameterSpec.Companion.build(
     name: String,
     type: TypeName,
-    builderActions: ParameterSpec.Builder.() -> Unit
+    builderActions: ParameterSpec.Builder.() -> Unit,
 ) = builder(name, type).apply(builderActions).build()
 
 internal inline fun PropertySpec.Builder.getter(builderActions: FunSpec.Builder.() -> Unit) =
@@ -62,7 +62,7 @@ internal inline fun PropertySpec.Companion.build(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    builderActions: PropertySpec.Builder.() -> Unit
+    builderActions: PropertySpec.Builder.() -> Unit,
 ) = builder(name, type, *modifiers).apply(builderActions).build()
 
 internal inline fun TypeSpec.Builder.addClass(name: String, builderActions: TypeSpec.Builder.() -> Unit) =
@@ -81,7 +81,7 @@ internal inline fun TypeSpec.Builder.addProperty(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    builderActions: PropertySpec.Builder.() -> Unit
+    builderActions: PropertySpec.Builder.() -> Unit,
 ) = addProperty(PropertySpec.builder(name, type, *modifiers).apply(builderActions).build())
 
 internal inline fun TypeSpec.Builder.primaryConstructor(builderActions: FunSpec.Builder.() -> Unit) =
