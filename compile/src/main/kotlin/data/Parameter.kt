@@ -8,7 +8,7 @@ internal data class Parameter(
     val name: String,
     val nonNullTypeName: TypeName,
     val optional: Boolean,
-    val parceler: TypeName?
+    val parceler: TypeName?,
 ) {
     val nullableTypeName = nonNullTypeName.asNullable
 

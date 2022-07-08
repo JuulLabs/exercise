@@ -22,8 +22,8 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
                 
                 @Exercise
                 class NoArgumentsFragment : Fragment()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -49,7 +49,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             public val NoArgumentsFragment.args: NoArgumentsFragmentParams
               get() = NoArgumentsFragmentParams(this)
-            """
+            """,
         )
     }
 
@@ -67,7 +67,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("fromSuperclass", Int::class))
                 abstract class SuperclassFragment : Fragment()
-                """
+                """,
             ),
             kotlin(
                 "SubclassFragment.kt",
@@ -79,8 +79,8 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("fromSubclass", String::class))
                 class SubclassFragment : SuperclassFragment()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -100,7 +100,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             public val SuperclassFragment.args: SuperclassFragmentParams
               get() = SuperclassFragmentParams(this)
-            """
+            """,
         )
 
         val subclassFile = getGeneratedFile(compilation, "SubclassFragmentExercise.kt")
@@ -139,7 +139,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             public val SubclassFragment.args: SubclassFragmentParams
               get() = SubclassFragmentParams(this)
-            """
+            """,
         )
     }
 
@@ -157,8 +157,8 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("listOfInt", List::class, Int::class))
                 class ListFragment : Fragment()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -195,7 +195,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             public val ListFragment.args: ListFragmentParams
               get() = ListFragmentParams(this)
-            """
+            """,
         )
     }
 
@@ -213,8 +213,8 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
                 
                 @Exercise(Extra("optionalInt", Int::class, optional = true))
                 class OptionalsFragment : Fragment()
-                """
-            )
+                """,
+            ),
         )
         assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -251,7 +251,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
             
             public val OptionalsFragment.args: OptionalsFragmentParams
               get() = OptionalsFragmentParams(this)
-            """
+            """,
         )
     }
 }

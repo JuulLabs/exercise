@@ -9,7 +9,7 @@ import com.juul.tuulbox.logging.ReadMetadata
 internal object Node : Key<KSNode>
 
 internal class KspTuulboxLogger(
-    private val backend: KSPLogger
+    private val backend: KSPLogger,
 ) : Logger {
 
     override fun verbose(tag: String, message: String, metadata: ReadMetadata, throwable: Throwable?) =
@@ -35,7 +35,7 @@ internal class KspTuulboxLogger(
         tag: String,
         message: String,
         metadata: ReadMetadata,
-        throwable: Throwable?
+        throwable: Throwable?,
     ) {
         val node = metadata[Node]
         backend.action("$tag: $message", node)

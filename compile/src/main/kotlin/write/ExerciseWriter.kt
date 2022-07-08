@@ -6,7 +6,7 @@ import com.squareup.kotlinpoet.FileSpec
 
 internal class ExerciseWriter(
     private val receiver: Receiver,
-    private val parameters: List<Parameter>
+    private val parameters: List<Parameter>,
 ) {
 
     fun generateFileSpec(): FileSpec {
@@ -15,7 +15,7 @@ internal class ExerciseWriter(
             fileName = when (receiver) {
                 is Receiver.Stub -> "${receiver.name.simpleName}ExerciseStubs"
                 else -> "${receiver.name.simpleName}Exercise"
-            }
+            },
         )
         when (receiver) {
             is Receiver.Activity -> generateActivity(builder)
