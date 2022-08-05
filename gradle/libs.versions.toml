@@ -1,5 +1,5 @@
 [versions]
-agp = "7.2.1"
+agp = "7.2.2"
 android-compile = "android-30"
 android-min = "21"
 kotlin = "1.7.10"
@@ -11,7 +11,7 @@ kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-run
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.7.10-1.0.6" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.4.9" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.8.1" }
-tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.2.1" }
+tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.3.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
