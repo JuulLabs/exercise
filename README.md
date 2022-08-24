@@ -77,7 +77,7 @@ OptionalsActivityIntent(context, anyString = null)
 
 ## Parcelers
 
-Exercise works with KotlinX [`Parceler`](https://kotlinlang.org/docs/reference/compiler-plugins.html#custom-parcelers) The following example assumes you are consuming some external code:
+Exercise works with KotlinX [`Parceler`](https://developer.android.com/kotlin/parcelize) The following example assumes you are consuming some external code:
 
 ```kotlin
 data class ThirdPartyType(val value: String)
