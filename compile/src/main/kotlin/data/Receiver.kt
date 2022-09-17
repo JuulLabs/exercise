@@ -8,20 +8,20 @@ internal sealed class Receiver {
     data class Activity(
         override val name: ClassName,
         val fromStub: Boolean,
-        val isAbstract: Boolean
+        val isAbstract: Boolean,
     ) : Receiver()
 
     data class Fragment(
         override val name: ClassName,
-        val isAbstract: Boolean
+        val isAbstract: Boolean,
     ) : Receiver()
 
     data class Service(
         override val name: ClassName,
-        val isAbstract: Boolean
+        val isAbstract: Boolean,
     ) : Receiver()
 
     data class Stub(
-        override val name: ClassName
+        override val name: ClassName,
     ) : Receiver()
 }

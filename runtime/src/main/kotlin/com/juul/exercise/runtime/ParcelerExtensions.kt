@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parceler
 fun <T : Any> Parceler<T>.createFromMarshalledBytes(
     data: ByteArray,
     offset: Int = 0,
-    length: Int = data.size - offset
+    length: Int = data.size - offset,
 ): T {
     val parcel = Parcel.obtain()
     parcel.unmarshall(data, offset, length)
@@ -19,11 +19,11 @@ fun <T : Any> Parceler<T>.createFromMarshalledBytes(
 fun <T : Any> Parceler<T>.createFromMarshalledBytesOrNull(
     data: ByteArray?,
     offset: Int = 0,
-    length: Int = (data ?: ByteArray(0)).size - offset
+    length: Int = (data ?: ByteArray(0)).size - offset,
 ): T? = data?.run { createFromMarshalledBytes(data, offset, length) }
 
 fun <T : Any> Parceler<T>.writeToMarshalledBytes(
-    value: T
+    value: T,
 ): ByteArray {
     val parcel = Parcel.obtain()
     value.write(parcel, 0)
@@ -33,5 +33,5 @@ fun <T : Any> Parceler<T>.writeToMarshalledBytes(
 }
 
 fun <T : Any> Parceler<T>.writeToMarshalledBytesOrNull(
-    value: T?
+    value: T?,
 ): ByteArray? = value?.run(::writeToMarshalledBytes)

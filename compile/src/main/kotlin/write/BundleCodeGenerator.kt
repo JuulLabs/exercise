@@ -12,7 +12,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 internal class BundleCodeGenerator(
     private val receiver: Receiver,
     private val params: List<Parameter>,
-    vararg parameterToPrefix: Pair<ParameterSpec, CodeBlock>
+    vararg parameterToPrefix: Pair<ParameterSpec, CodeBlock>,
 ) {
 
     private val parameterToPrefix = parameterToPrefix.takeUnless { it.isEmpty() } ?: arrayOf(null to null)

@@ -53,5 +53,5 @@ internal fun KSAnnotation.toParameter(): Parameter = Parameter(
     optional = getArgument(OPTIONAL) as? Boolean ?: OPTIONAL_DEFAULT,
     parceler = (getArgument(PARCELER) as? KSType)
         ?.asTypeName()
-        ?.takeUnless { it == Nothing::class.asTypeName() }
+        ?.takeUnless { it == Nothing::class.asTypeName() },
 )
