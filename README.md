@@ -163,7 +163,7 @@ subprojects {
 }
 ```
 
-_See [Make IDE aware of generated code] for further details._
+_See [Make IDE aware of generated code] for more details._
 
 # License
 
