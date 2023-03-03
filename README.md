@@ -11,17 +11,46 @@ Exercise makes it possible to pass intent extras easily and correctly.
 
 First, add it to gradle.
 
-```gradle
+<details open>
+<summary>Kotlin multiplatform</summary>
+
+```kotlin
+repositories {
+  mavenCentral()
+}
+
+kotlin {
+  android()
+
+  val androidMain by getting {
+    dependencies {
+      implementation("com.juul.exercise:annotations:$version")
+      implementation("com.juul.exercise:runtime:$version")
+    }
+  }
+}
+
+dependencies {
+  add("kspAndroid", "com.juul.exercise:compile:$version")
+}
+```
+</details>
+
+<details>
+<summary>Android project</summary>
+
+```kotlin
 repositories {
   mavenCentral()
 }
 
 dependencies {
-  implementation "com.juul.exercise:annotations:$version"
-  implementation "com.juul.exercise:runtime:$version"
-  ksp "com.juul.exercise:compile:$version"
+  implementation("com.juul.exercise:annotations:$version")
+  implementation("com.juul.exercise:runtime:$version")
+  ksp("com.juul.exercise:compile:$version")
 }
 ```
+</details>
 
 Then, create your activity.
 
