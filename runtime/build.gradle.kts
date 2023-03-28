@@ -16,6 +16,8 @@ android {
     defaultConfig {
         minSdkVersion(libs.versions.android.min.get())
     }
+
+    namespace = "com.juul.exercise.runtime"
 }
 
 dependencies {
