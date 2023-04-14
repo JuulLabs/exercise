@@ -10,7 +10,7 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.13.0" }
 kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "kotlin" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.8.20-1.0.10" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.5.0" }
-robolectric = { module = "org.robolectric:robolectric", version = "4.9.2" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.10" }
 tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.4.0" }
 
 [plugins]
