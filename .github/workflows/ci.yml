@@ -33,9 +33,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: |
-            -PVERSION_NAME="unspecified"
-            -PsigningInMemoryKey="${{ secrets.SIGNING_KEY }}"
-            -PsigningInMemoryKeyPassword="${{ secrets.SIGNING_PASSWORD }}"
+            -PVERSION_NAME=unspecified
+            -PsigningInMemoryKey=${{ secrets.SIGNING_KEY }}
+            -PsigningInMemoryKeyPassword=${{ secrets.SIGNING_PASSWORD }}
             publishToMavenLocal
 
       - uses: codecov/codecov-action@v3
