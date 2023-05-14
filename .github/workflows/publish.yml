@@ -24,7 +24,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: |
-            -PVERSION_NAME="${GITHUB_REF/refs\/tags\//}"
+            -PVERSION_NAME=${GITHUB_REF/refs\/tags\//}
             -PsigningInMemoryKey=${{ secrets.SIGNING_KEY }}
             -PsigningInMemoryKeyPassword=${{ secrets.SIGNING_PASSWORD }}
             -PmavenCentralUsername=${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}
