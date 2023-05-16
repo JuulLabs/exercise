@@ -7,3 +7,7 @@ plugins {
 }
 
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
+
+kotlin {
+    jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
+}
