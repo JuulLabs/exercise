@@ -12,7 +12,6 @@ plugins {
     alias(libs.plugins.validator)
     alias(libs.plugins.dokka)
     alias(libs.plugins.maven.publish) apply false
-    alias(libs.plugins.one.eight)
 }
 
 allprojects {
