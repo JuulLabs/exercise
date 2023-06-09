@@ -17,7 +17,7 @@ tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "6.4.1" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-dokka = { id = "org.jetbrains.dokka", version = "1.8.10" }
+dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "3.14.0" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.25.2" }
