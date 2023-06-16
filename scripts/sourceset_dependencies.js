@@ -1,1 +1,1 @@
-sourceset_dependencies = '{":annotations:dokkaHtmlPartial/main":[],":runtime:dokkaHtmlPartial/androidTestRelease":[],":runtime:dokkaHtmlPartial/debug":[],":runtime:dokkaHtmlPartial/main":[],":runtime:dokkaHtmlPartial/release":[],":runtime:dokkaHtmlPartial/testFixtures":[],":runtime:dokkaHtmlPartial/testFixturesDebug":[],":runtime:dokkaHtmlPartial/testFixturesRelease":[]}'
+sourceset_dependencies = '{":annotations:dokkaHtmlPartial/main":[],":runtime:dokkaHtmlPartial/debug":[],":runtime:dokkaHtmlPartial/main":[],":runtime:dokkaHtmlPartial/release":[]}'
