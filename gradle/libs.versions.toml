@@ -3,7 +3,7 @@ agp = "8.0.2"
 android-compile = "android-30"
 android-min = "21"
 jvm-toolchain = "11"
-kotlin = "1.8.22"
+kotlin = "1.9.0"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version = "3.24.2" }
