@@ -1,6 +1,6 @@
 [versions]
-agp = "8.0.2"
-android-compile = "android-30"
+agp = "8.1.0"
+android-compile = "30"
 android-min = "21"
 jvm-toolchain = "11"
 kotlin = "1.9.0"
