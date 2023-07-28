@@ -15,12 +15,8 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(libs.versions.android.compile.get())
-
-    defaultConfig {
-        minSdkVersion(libs.versions.android.min.get())
-    }
-
+    compileSdk = libs.versions.android.compile.get().toInt()
+    defaultConfig.minSdk = libs.versions.android.min.get().toInt()
     namespace = "com.juul.exercise.runtime"
 }
 
