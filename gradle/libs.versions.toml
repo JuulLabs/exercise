@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.0"
+agp = "8.1.1"
 android-compile = "30"
 android-min = "21"
 jvm-toolchain = "11"
