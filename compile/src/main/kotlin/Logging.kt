@@ -46,5 +46,6 @@ internal class KspTuulboxLogger(
     }
 
     override fun hashCode(): Int = backend.hashCode()
+
     override fun equals(other: Any?): Boolean = other is KspTuulboxLogger && backend == other.backend
 }
