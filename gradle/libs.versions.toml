@@ -19,6 +19,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.10" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinter = { id = "org.jmailen.kotlinter", version = "4.0.0" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "4.1.0" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.25.3" }
 validator = { id = "binary-compatibility-validator", version = "0.13.0" }
