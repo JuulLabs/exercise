@@ -6,7 +6,7 @@
   ],
   "packageRules": [
     {
-      "groupName": "Kotlin, KSP and Compose",
+      "groupName": "Kotlin and KSP",
       "matchPackagePrefixes": [
         "org.jetbrains.kotlin:",
         "org.jetbrains.kotlin.",
