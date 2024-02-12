@@ -6,13 +6,13 @@ jvm-toolchain = "11"
 kotlin = "1.9.22"
 
 [libraries]
-assertj = { module = "org.assertj:assertj-core", version = "3.25.2" }
+assertj = { module = "org.assertj:assertj-core", version = "3.25.3" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version = "1.16.0" }
 kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "kotlin" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version = "1.9.22-1.0.17" }
 ksp-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.5.0" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.11.1" }
-tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "7.0.1" }
+tuulbox-logging = { module = "com.juul.tuulbox:logging", version = "7.2.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
