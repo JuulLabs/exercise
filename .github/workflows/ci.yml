@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/wrapper-validation-action@v2
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -38,4 +38,4 @@ jobs:
             -PsigningInMemoryKeyPassword=${{ secrets.SIGNING_PASSWORD }}
             publishToMavenLocal
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
