@@ -13,11 +13,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      - uses: gradle/actions/setup-gradle@v3
 
-      - name: dokkaHtmlMultiModule
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: dokkaHtmlMultiModule
+      - run: ./gradlew dokkaHtmlMultiModule
 
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
