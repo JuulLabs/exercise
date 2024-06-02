@@ -2,13 +2,13 @@ package com.juul.exercise.compile
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSNode
-import com.juul.tuulbox.logging.Key
-import com.juul.tuulbox.logging.Logger
-import com.juul.tuulbox.logging.ReadMetadata
+import com.juul.khronicle.Key
+import com.juul.khronicle.Logger
+import com.juul.khronicle.ReadMetadata
 
 internal object Node : Key<KSNode>
 
-internal class KspTuulboxLogger(
+internal class KspKhronicleLogger(
     private val backend: KSPLogger,
 ) : Logger {
 
@@ -47,5 +47,5 @@ internal class KspTuulboxLogger(
 
     override fun hashCode(): Int = backend.hashCode()
 
-    override fun equals(other: Any?): Boolean = other is KspTuulboxLogger && backend == other.backend
+    override fun equals(other: Any?): Boolean = other is KspKhronicleLogger && backend == other.backend
 }
