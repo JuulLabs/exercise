@@ -10,6 +10,9 @@ apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 kotlin {
     explicitApi()
     jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
+    sourceSets.all {
+        languageSettings.optIn("org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+    }
 }
 
 dependencies {
