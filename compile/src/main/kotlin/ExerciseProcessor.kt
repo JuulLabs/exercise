@@ -10,7 +10,7 @@ import com.juul.exercise.compile.read.asReceiver
 import com.juul.exercise.compile.read.findDependencies
 import com.juul.exercise.compile.read.findParameters
 import com.juul.exercise.compile.write.ExerciseWriter
-import com.juul.tuulbox.logging.Log
+import com.juul.khronicle.Log
 
 internal class ExerciseProcessor(
     private val codeGenerator: CodeGenerator,

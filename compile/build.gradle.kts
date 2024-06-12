@@ -16,11 +16,11 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":annotations"))
-    implementation(project(":stubs"))
+    implementation(libs.khronicle)
     implementation(libs.kotlinpoet)
     implementation(libs.ksp.api)
-    implementation(libs.tuulbox.logging)
+    implementation(project(":annotations"))
+    implementation(project(":stubs"))
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.assertj)
     testImplementation(libs.ksp.testing)
