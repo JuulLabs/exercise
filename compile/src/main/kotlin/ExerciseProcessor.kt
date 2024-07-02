@@ -24,7 +24,8 @@ internal class ExerciseProcessor(
         //        where we see `NoDescriptorForDeclarationException: Descriptor wasn't found for declaration CLASS`
         if (!isFirstRound) return emptyList()
 
-        val symbols = resolver.getSymbolsWithAnnotation(Exercise::class.java.name)
+        val symbols = resolver
+            .getSymbolsWithAnnotation(Exercise::class.java.name)
             .filterIsInstance<KSClassDeclaration>()
         if (symbols.any()) {
             Log.info { "Found @Exercise annotated classes: ${symbols.joinToString()}" }

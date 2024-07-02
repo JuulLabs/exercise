@@ -9,7 +9,9 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.Config.NONE
 
-data class Sample(val value: String)
+data class Sample(
+    val value: String,
+)
 
 object SampleParceler : Parceler<Sample> {
     override fun create(parcel: Parcel): Sample = Sample(checkNotNull(parcel.readString()))
