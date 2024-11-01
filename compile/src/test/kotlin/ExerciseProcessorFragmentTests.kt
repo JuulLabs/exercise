@@ -245,8 +245,7 @@ public class ExerciseProcessorFragmentTests : ExerciseProcessorTests() {
               public val optionalInt: Int?
                 get() = instance.arguments?.get("optionalInt") as Int?
             
-              public fun optionalInt(default: Int): Int = (instance.arguments?.get("optionalInt") as? Int?) ?:
-                  default
+              public fun optionalInt(default: Int): Int = (instance.arguments?.get("optionalInt") as? Int?) ?: default
             }
             
             public val OptionalsFragment.args: OptionalsFragmentParams

@@ -295,13 +295,11 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
             import kotlin.Int
             import kotlin.String
             
-            public fun bundleForOptionalsActivity(context: Context, optionalInt: Int? = null): Bundle =
-                bundleOf(
+            public fun bundleForOptionalsActivity(context: Context, optionalInt: Int? = null): Bundle = bundleOf(
               "${"$"}{context.packageName}.optionalInt" to optionalInt
             )
             
-            public fun bundleForOptionalsActivity(packageName: String, optionalInt: Int? = null): Bundle =
-                bundleOf(
+            public fun bundleForOptionalsActivity(packageName: String, optionalInt: Int? = null): Bundle = bundleOf(
               "${"${'$'}"}{packageName}.optionalInt" to optionalInt
             )
             
@@ -329,8 +327,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               public val optionalInt: Int?
                 get() = instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as Int?
             
-              public fun optionalInt(default: Int): Int =
-                  (instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as? Int?) ?: default
+              public fun optionalInt(default: Int): Int = (instance.intent?.extras?.get("${"$"}{instance.packageName}.optionalInt") as? Int?) ?: default
             }
             
             public val OptionalsActivity.extras: OptionalsActivityParams
@@ -488,10 +485,8 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               requiredValue: ThirdPartyType,
               optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
-              "${"$"}{context.packageName}.requiredValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-              "${"$"}{context.packageName}.optionalValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+              "${"$"}{context.packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{context.packageName}.optionalValue" to ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
             
             public fun bundleForParcelerActivity(
@@ -500,8 +495,7 @@ public class ExerciseProcessorActivityTests : ExerciseProcessorTests() {
               optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
               "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-              "${"$"}{packageName}.optionalValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+              "${"$"}{packageName}.optionalValue" to ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
 
             public class ParcelerActivityIntent : Intent {
