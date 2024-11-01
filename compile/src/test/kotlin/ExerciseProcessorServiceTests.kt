@@ -60,8 +60,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               private val intent: Intent,
             )
             
-            public fun NoExtrasService.extras(intent: Intent): NoExtrasServiceParams =
-                NoExtrasServiceParams(this, intent)
+            public fun NoExtrasService.extras(intent: Intent): NoExtrasServiceParams = NoExtrasServiceParams(this, intent)
             """,
         )
     }
@@ -116,8 +115,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 get() = intent.extras?.get("${"$"}{instance.packageName}.fromSuperclass") as Int
             }
             
-            public fun SuperclassService.extras(intent: Intent): SuperclassServiceParams =
-                SuperclassServiceParams(this, intent)
+            public fun SuperclassService.extras(intent: Intent): SuperclassServiceParams = SuperclassServiceParams(this, intent)
             """,
         )
 
@@ -190,8 +188,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
                 get() = intent.extras?.get("${"$"}{instance.packageName}.fromSubclass") as String
             }
             
-            public fun SubclassService.extras(intent: Intent): SubclassServiceParams =
-                SubclassServiceParams(this, intent)
+            public fun SubclassService.extras(intent: Intent): SubclassServiceParams = SubclassServiceParams(this, intent)
             """,
         )
     }
@@ -310,8 +307,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               "${"$"}{context.packageName}.optionalInt" to optionalInt
             )
             
-            public fun bundleForOptionalsService(packageName: String, optionalInt: Int? = null): Bundle =
-                bundleOf(
+            public fun bundleForOptionalsService(packageName: String, optionalInt: Int? = null): Bundle = bundleOf(
               "${"$"}{packageName}.optionalInt" to optionalInt
             )
             
@@ -340,12 +336,10 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               public val optionalInt: Int?
                 get() = intent.extras?.get("${"$"}{instance.packageName}.optionalInt") as Int?
             
-              public fun optionalInt(default: Int): Int =
-                  (intent.extras?.get("${"$"}{instance.packageName}.optionalInt") as? Int?) ?: default
+              public fun optionalInt(default: Int): Int = (intent.extras?.get("${"$"}{instance.packageName}.optionalInt") as? Int?) ?: default
             }
             
-            public fun OptionalsService.extras(intent: Intent): OptionalsServiceParams =
-                OptionalsServiceParams(this, intent)
+            public fun OptionalsService.extras(intent: Intent): OptionalsServiceParams = OptionalsServiceParams(this, intent)
             """,
         )
     }
@@ -408,10 +402,8 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               requiredValue: ThirdPartyType,
               optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
-              "${"$"}{context.packageName}.requiredValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-              "${"$"}{context.packageName}.optionalValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+              "${"$"}{context.packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
+              "${"$"}{context.packageName}.optionalValue" to ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
             
             public fun bundleForParcelerService(
@@ -420,8 +412,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               optionalValue: ThirdPartyType? = null,
             ): Bundle = bundleOf(
               "${"$"}{packageName}.requiredValue" to ThirdPartyTypeParceler.writeToMarshalledBytes(requiredValue),
-              "${"$"}{packageName}.optionalValue" to
-                  ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
+              "${"$"}{packageName}.optionalValue" to ThirdPartyTypeParceler.writeToMarshalledBytesOrNull(optionalValue)
             )
 
             public class ParcelerServiceIntent : Intent {
@@ -474,8 +465,7 @@ public class ExerciseProcessorServiceTests : ExerciseProcessorTests() {
               }
             }
             
-            public fun ParcelerService.extras(intent: Intent): ParcelerServiceParams =
-                ParcelerServiceParams(this, intent)
+            public fun ParcelerService.extras(intent: Intent): ParcelerServiceParams = ParcelerServiceParams(this, intent)
             """,
         )
     }
