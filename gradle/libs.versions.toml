@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.2"
+agp = "8.7.3"
 android-compile = "30"
 android-min = "21"
 jvm-toolchain = "11"
@@ -20,5 +20,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 api = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.16.3" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinter = { id = "org.jmailen.kotlinter", version = "4.5.0" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "5.0.1" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.30.0" }
