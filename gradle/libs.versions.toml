@@ -6,7 +6,7 @@ jvm-toolchain = "11"
 kotlin = "2.1.0"
 
 [libraries]
-assertj = { module = "org.assertj:assertj-core", version = "3.26.3" }
+assertj = { module = "org.assertj:assertj-core", version = "3.27.0" }
 khronicle = { module = "com.juul.khronicle:khronicle-core", version = "0.5.0" }
 kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "kotlin" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version = "2.0.0" }
