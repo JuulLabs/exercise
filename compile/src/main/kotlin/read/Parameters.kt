@@ -40,7 +40,8 @@ internal fun KSAnnotation.toParameter(): Parameter = Parameter(
     name = getArgument(NAME) as String,
     nonNullTypeName = run {
         val targetClass = getArgument(TYPE) as KSType
-        val typeArguments = (getArgument(TYPE_ARGUMENTS) as List<*>)
+        val typeArguments = (getArgument(TYPE_ARGUMENTS) as List<*>?)
+            .orEmpty()
             .asSequence()
             .filterIsInstance<KSType>()
             .map { it.asTypeName() }
