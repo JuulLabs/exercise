@@ -17,7 +17,7 @@ robolectric = { module = "org.robolectric:robolectric", version = "4.15.1" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-api = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.17.0" }
+api = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.0" }
 dokka = { id = "org.jetbrains.dokka", version = "2.0.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "5.1.1" }
